@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+__MACOSX/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.Trash-*
+*~
+
+# Common backup or temp files
+*.swp
+*.swo
+*.tmp
+*.bak
+*.old
+*.orig
+*.log
+
+# IDEs and editors
+.vscode/
+.idea/
+*.code-workspace
