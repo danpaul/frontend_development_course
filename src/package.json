@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate_presentations": "node build_presentations.js"
+    "generate_presentations": "node generate_presentations.js"
   },
   "author": "",
   "license": "ISC",
