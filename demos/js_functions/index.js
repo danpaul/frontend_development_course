@@ -129,6 +129,19 @@
 // const foo = require("./fruit");
 // foo();
 
-import Fruit, { fruitType, printFruit } from "./fruit.js";
-const apple = new Fruit({ type: fruitType, name: "apple" });
-printFruit(apple);
+// import Fruit, { fruitType, printFruit } from "./fruit.js";
+// const apple = new Fruit({ type: fruitType, name: "apple" });
+// printFruit(apple);
+
+const person = {
+  name: "Alice",
+  greet: function () {
+    console.log(`Hello, I'm ${this.name}`);
+  },
+  greetArrow: () => {
+    console.log(`Hello, I'm ${this.name}`);
+  },
+};
+
+person.greet(); // What will this output?
+person.greetArrow(); // What will this output?
