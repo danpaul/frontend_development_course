@@ -1,0 +1,3 @@
+- Course format
+  - 4 weeks TS/React
+  - 3 weeks React Native
