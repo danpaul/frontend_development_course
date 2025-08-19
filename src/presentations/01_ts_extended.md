@@ -13,7 +13,7 @@ _A friendly guide for JavaScript developers_
 
 ---
 
-## 🧐 What is TypeScript?
+## �� What is TypeScript?
 
 - A **superset of JavaScript**
 - Adds **static types** ✅
@@ -23,7 +23,7 @@ _A friendly guide for JavaScript developers_
 
 ---
 
-## 💡 Why Use TypeScript?
+## �� Why Use TypeScript?
 
 - **Type safety**: Find bugs before runtime
 - **Better IDE support**: Autocomplete & refactoring
@@ -32,13 +32,7 @@ _A friendly guide for JavaScript developers_
 
 ---
 
-## 🧰 Basic Types
-
-<style scoped>
-  section {
-    font-size: 22px;
-  }
-</style>
+## �� Basic Types
 
 ```ts
 let isDone: boolean = false;
@@ -61,12 +55,6 @@ let neverValue: never; // function that never returns
 - `never` → values that never occur
 
 ---
-
-<style scoped>
-  section {
-    font-size: 26px;
-  }
-</style>
 
 ## ⚙️ Functions with Types
 
@@ -93,13 +81,7 @@ console.log(add(10, 20));
 
 ---
 
-<style scoped>
-  section {
-    font-size: 20px;
-  }
-</style>
-
-## 📦 Interfaces
+## �� Interfaces
 
 ```ts
 interface Person {
@@ -131,13 +113,7 @@ let employee: Employee = {
 
 ---
 
-<style scoped>
-  section {
-    font-size: 26px;
-  }
-</style>
-
-## Type Aliases
+## ��️ Type Aliases
 
 ```ts
 type Point = {
@@ -163,12 +139,6 @@ let coords: Coordinates = { x: 10, y: 20, z: 30 };
 ---
 
 ## ✨ Optional & Default Parameters
-
-<style scoped>
-  section {
-    font-size: 26px;
-  }
-</style>
 
 ```ts
 function greet(name: string, age?: number, greeting: string = "Hello") {
@@ -212,12 +182,6 @@ names.forEach((name) => console.log(name.toUpperCase())); // name inferred as st
 
 ## 🥪 Generics
 
-<style scoped>
-  section {
-    font-size: 16px;
-  }
-</style>
-
 ```ts
 // Generic function
 function identity<T>(arg: T): T {
@@ -255,15 +219,13 @@ console.log(stringStack.pop()); // "world"
 
 ---
 
-<style scoped>
-  section {
-    font-size: 18px;
-  }
-</style>
-
 ## 🔒 Type Guards & Narrowing
 
 ```ts
+function isString(value: unknown): value is string {
+  return typeof value === "string";
+}
+
 function processValue(value: string | number) {
   if (typeof value === "string") {
     console.log(value.toUpperCase()); // TypeScript knows it's a string
@@ -290,12 +252,6 @@ function isUser(obj: unknown): obj is User {
 - **Custom type guards** with `is` keyword
 
 ---
-
-<style scoped>
-  section {
-    font-size: 22px;
-  }
-</style>
 
 ## 🎭 Enums
 
@@ -324,12 +280,6 @@ console.log(Status.Approved); // 1 (auto-incremented)
 - **Numeric enums** with auto-increment
 
 ---
-
-<style scoped>
-  section {
-    font-size: 17px;
-  }
-</style>
 
 ## 🏗️ Classes
 
@@ -368,13 +318,7 @@ dog.move(10); // Rex runs 10m.
 
 ---
 
-<style scoped>
-  section {
-    font-size: 16px;
-  }
-</style>
-
-## 🔨 Utility Types
+## �� Utility Types
 
 ```ts
 interface User {
@@ -411,13 +355,44 @@ type GreetReturn = ReturnType<typeof greet>;
 
 ---
 
+## 🎨 Advanced Types
+
+```ts
+// Conditional types
+type NonNullable<T> = T extends null | undefined ? never : T;
+
+// Mapped types
+type Readonly<T> = {
+  readonly [P in keyof T]: T[P];
+};
+
+// Template literal types
+type EmailLocale = "en" | "es" | "fr";
+type EmailTemplate = `welcome_${EmailLocale}`;
+
+// Index access types
+type UserName = User["name"];
+type UserKeys = keyof User;
+
+// Conditional types with inference
+type ArrayElement<T> = T extends (infer U)[] ? U : never;
+type StringArrayElement = ArrayElement<string[]>; // string
+```
+
+- **Conditional types** with `extends`
+- **Mapped types** with `in`
+- **Template literal types**
+- **Index access types**
+
+---
+
 ## ⚔️ TypeScript vs JavaScript
 
 | Feature                  | JavaScript | TypeScript |
 | ------------------------ | ---------- | ---------- |
 | Static Types             | ❌         | ✅         |
 | Compile-time checks      | ❌         | ✅         |
-| Object-oriented features | Limited    | ✅         |
+| Object-oriented features | ❌         | ✅         |
 | IDE Autocomplete         | Limited    | Excellent  |
 | Generics                 | ❌         | ✅         |
 | Interfaces               | ❌         | ✅         |
@@ -426,7 +401,7 @@ type GreetReturn = ReturnType<typeof greet>;
 
 ---
 
-## 🏁 Getting Started
+## �� Getting Started
 
 1. Install Node.js (includes npm)
 2. Install TypeScript:
@@ -435,13 +410,19 @@ type GreetReturn = ReturnType<typeof greet>;
 npm install -g typescript
 ```
 
-3. Compile a file:
+3. Create tsconfig.json:
+
+```bash
+tsc --init
+```
+
+4. Compile a file:
 
 ```bash
 tsc app.ts
 ```
 
-4. Run JavaScript:
+5. Run JavaScript:
 
 ```bash
 node app.js
@@ -449,17 +430,64 @@ node app.js
 
 ---
 
-## 📚 Resources
+## 📁 tsconfig.json Essentials
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
+```
+
+- **target**: JavaScript version to compile to
+- **strict**: Enable all strict type checking options
+- **outDir**: Output directory for compiled files
+- **include/exclude**: Files to include/exclude
+
+---
+
+## 🚀 Best Practices
+
+- **Use strict mode** for better type safety
+- **Prefer interfaces** over type aliases for objects
+- **Use generics** for reusable components
+- **Leverage type inference** when types are obvious
+- **Use utility types** for type transformations
+- **Write custom type guards** for complex validation
+- **Use enums** for related constants
+- **Document complex types** with comments
+
+---
+
+## �� Resources
 
 - [TypeScript Docs](https://www.typescriptlang.org/docs/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
 - [TypeScript Playground](https://www.typescriptlang.org/play)
+- [TypeScript Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html)
+- [TypeScript Design Patterns](https://refactoring.guru/design-patterns/typescript)
 
 ---
 
 # 🎉 Summary
 
-- TypeScript = JavaScript + Types
-- Catch errors early ✅
-- Interfaces & type annotations improve readability
-- Compile TypeScript → JavaScript
+- TypeScript = JavaScript + Types ✅
+- **Interfaces & Type Aliases** for object shapes
+- **Generics** for reusable components
+- **Type Guards** for runtime safety
+- **Utility Types** for type transformations
+- **Classes & Enums** for OOP features
+- **Advanced Types** for complex scenarios
+- **Strict mode** for maximum type safety
+
+**Happy typing! 🎯**
