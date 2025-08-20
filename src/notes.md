@@ -1,17 +1,17 @@
 ## Outline
 
+- Class intro
 - Week 1
-  - Class intro
-    - Title
-      - course name
-      - instructor
-    - what are we learning?
-    - how are we assessed?
-    - hackathon!
-    - class format
-      - flipped!
-      - read/study/work at home
-      - review/work/share in class
+  - Title
+    - course name
+    - instructor
+  - what are we learning?
+  - how are we assessed?
+  - hackathon!
+  - class format
+    - flipped!
+    - read/study/work at home
+    - review/work/share in class
   - Tooling
     - Node (current version)
     - NPM (current version)
@@ -49,9 +49,38 @@
 - React Official Guide: https://react.dev/learn
 - [TypeScript for Java/C# Programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-oop.html)
 
+## React lecture
+
+- what is react?
+  - history
+- why use react
+- Where to use React?
+  - Web FE only?
+  - Backend
+  - Mobile desktop
+- JSX
+  - syntax
+- Components
+  - styles
+  - main parts of components
+  - nesting components
+  - passing data (props)
+  - storing data (state)
+  - handling events callbacks
+- Rendering
+  - mounting/unmounting
+  - Lifecycle methods
+
 ## Emails
 
 - week 0
   - local setup (see tooling in 01_intro.md)
-  - initial reading
+  - initial reading (presentations)
   - hackathon idea selection
+
+## Tooling
+
+- MD
+- MARP
+- Mermaid
+- SurveyJS?
