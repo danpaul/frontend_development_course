@@ -70,6 +70,11 @@
 - Rendering
   - mounting/unmounting
   - Lifecycle methods
+- thinking in a component based way
+  - looking at UI
+  - breaking into small pieces
+- tieing everything together
+- getting started
 
 ## Emails
 
