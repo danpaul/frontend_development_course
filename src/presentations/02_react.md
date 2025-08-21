@@ -5,7 +5,7 @@ theme: default
 
 <!-- class: invert -->
 
-# React Essentials
+# Introduction to React
 
 _A modern JavaScript library for building user interfaces_
 
@@ -13,7 +13,48 @@ _A modern JavaScript library for building user interfaces_
 
 <!-- class: lead -->
 
-<!-- ![bg right:40% ](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExaHd5YXFnbml6MjU0NWl0Y3l2bngyNXE1YXN5emQ5cGt2bmo3OHAwZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3oEduQAsYcJKQH2XsI/giphy.webp) -->
+## Why Use React?
+
+### 🚀 **Performance**
+
+- Virtual DOM for efficient updates
+- Optimized rendering algorithms
+- Minimal DOM manipulation
+
+### 🧩 **Component Reusability**
+
+- Build once, use everywhere
+- Composable architecture
+- Easy to maintain and test
+
+---
+
+## Why Use React?
+
+### 🌐 **Ecosystem**
+
+- Massive community support
+- Rich library ecosystem
+- Excellent developer tools
+
+### 📱 **Cross-Platform**
+
+- Web applications
+- Mobile apps (React Native)
+- Desktop apps (Electron)
+
+---
+
+## Who uses React? (everyone)
+
+| **Social Media** | **Entertainment** | **E-commerce** | **Productivity** |
+| ---------------- | ----------------- | -------------- | ---------------- |
+| Facebook         | Netflix           | Shopify        | Notion           |
+| Instagram        | Discord           | Airbnb         | Figma            |
+| Twitter 🤫       | Twitch            | Uber           | Slack            |
+| LinkedIn         | Spotify           | Amazon         | Trello           |
+
+---
 
 ## Welcome to React!
 
@@ -25,8 +66,8 @@ _A modern JavaScript library for building user interfaces_
 - **JSX** - What is JSX and how do we write JSX code?
 - **Components** - What is a component and how do we use it?
   - **Props & State** - How is data managed within a component?
-  - **Hooks** - How are events
-  - **Event Handling** - User interactions
+  - **Hooks** - How do we add dynamical functionality to our components?
+  - **Event Handling** - How are user interactions and other events handled?
 
 ---
 
@@ -76,7 +117,7 @@ By the end of this session, you will be able to:
 
 ---
 
-## Motivation
+## Pre-React Facebook
 
 Before React, Facebook developed its user interfaces using an MVC and lower level JS that directly manipulated the DOM.
 
@@ -324,375 +365,47 @@ The following slides shows a simplified version of this process visually.
 
 ---
 
-## Declarative Programming
+## React Architectural Motivation - Summary
 
-React uses a declarative programming model. We declare how the UI should look, we _don't manually specify how it gets updated_.
+### 🎯 **Problems React Solves**
 
-```jsx
-import { useState } from "react";
-
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  // Declarative: we declare what the UI should look like
-  // We don't specify how the DOM should get updated
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increase</button>
-    </div>
-  );
-}
-
-export default Counter;
-```
-
----
-
-## Virtual DOM
+| **Traditional DOM Manipulation**    | **React's Solution**                  |
+| ----------------------------------- | ------------------------------------- |
+| **1000 DOM updates** for 1000 items | **Single re-render** with Virtual DOM |
+| **Data mixed with presentation**    | **Component-based** architecture      |
+| **Manual DOM manipulation**         | **Declarative** programming model     |
+| **Complex state management**        | **Built-in state** with hooks         |
+| **Performance bottlenecks**         | **Efficient diffing** and updates     |
 
 ---
 
 <style scoped>
   section {
-    font-size: 24px;
+    font-size: 26px;
   }
 </style>
 
-<!-- ![bg right:50% ](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmgyMDQ3cGVia2l0aDl5aXQwNXd0cmtrYjJvam1xcHhnbnk4am5rdyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/0Vv0Ne2CnOClIExIuL/giphy.webp) -->
+### 🏗️ **Key Architectural Decisions**
 
-## Why React?
+1. **Virtual DOM** - In-memory representation for efficient updates
+2. **Component-Based** - Encapsulated, reusable UI pieces
+3. **Declarative** - Describe what you want, not how to do it
+4. **Unidirectional Data Flow** - Predictable state management (more on this later)
+5. **JSX** - Familiar HTML-like syntax with JavaScript power (more on this later)
 
-### 🚀 **Industry Standard**
+### 💡 **Why This Matters**
 
-- **Most popular** frontend framework
-- **High demand** in job market
-- **Large ecosystem** of modules and tooling
-- **Strong community** support
-
-### 🎯 **Developer Friendliness**
-
-- **Declarative** programming model
-- **Component-based** architecture
-- **Excellent documentation**
-- **Rich learning resources**
-- **Cross Platform and cross device**
-
----
-
-## Getting Started
-
-```bash
-# Create a new React project
-npx create-react-app my-app
-cd my-app
-npm install
-npm start
-```
+- **Performance**: Only update what changed
+- **Maintainability**: Clear separation of concerns
+- **Developer Experience**: Intuitive, familiar patterns
+- **Scalability**: Components can be composed and reused
+- **Reliability**: Predictable rendering and state updates
 
 ---
 
 <!-- class: invert -->
 
-## React Essentials
-
----
-
-<!-- class: lead -->
-
-## What is React?
-
-React is a **declarative, efficient, and flexible** JavaScript library for building user interfaces.
-
-### Core Concepts:
-
-- **Component-Based**: Build encapsulated components that manage their own state
-- **Virtual DOM**: Efficient rendering through a lightweight representation of the actual DOM
-- **Declarative**: Describe what you want, React handles the DOM updates
-- **Learn Once, Write Anywhere**: Use React for web, mobile, and desktop
-
-<!-- ---
-
-## React Architecture
-
-React use
-
-| Traditional DOM Manipulation in JS | React Virtual DOM   |
-| ---------------------------------- | ------------------- |
-| Direct DOM manipulation            | Virtual DOM diffing |
-| Slow updates                       | Efficient updates   |
-| Complex state management           | Component state     | -->
-
----
-
-## Why Use React?
-
-### 🚀 **Performance**
-
-- Virtual DOM for efficient updates
-- Optimized rendering algorithms
-- Minimal DOM manipulation
-
-### 🧩 **Component Reusability**
-
-- Build once, use everywhere
-- Composable architecture
-- Easy to maintain and test
-
-### 🌐 **Ecosystem**
-
-- Massive community support
-- Rich library ecosystem
-- Excellent developer tools
-
-### 📱 **Cross-Platform**
-
-- Web applications
-- Mobile apps (React Native)
-- Desktop apps (Electron)
-
----
-
-## React vs Other Frameworks
-
-| Feature            | React        | Vue          | Angular |
-| ------------------ | ------------ | ------------ | ------- |
-| **Learning Curve** | Moderate     | Easy         | Steep   |
-| **Performance**    | Excellent    | Good         | Good    |
-| **Ecosystem**      | Massive      | Growing      | Large   |
-| **Mobile**         | React Native | NativeScript | Ionic   |
-| **Backing**        | Meta         | Community    | Google  |
-
-### React Advantages:
-
-- **Flexibility**: Minimal opinions, maximum freedom
-- **Community**: Largest JavaScript ecosystem
-- **Jobs**: High demand in job market
-- **Future-proof**: Continuous innovation
-
----
-
-## React Use Cases
-
-### 🌐 **Web Applications**
-
-- **Single Page Applications (SPAs)**
-- **Progressive Web Apps (PWAs)**
-- **E-commerce platforms**
-- **Social media applications**
-
-### 📱 **Mobile Applications**
-
-- **React Native** for iOS and Android
-- **Cross-platform development**
-- **Native performance**
-
-### 🖥️ **Desktop Applications**
-
-- **Electron** with React
-- **Cross-platform desktop apps**
-- **Native-like experience**
-
-### 🎯 **Specialized Use Cases**
-
-- **Static sites** (Next.js, Gatsby)
-- **Backend services** (Next.js API routes)
-- **Real-time applications**
-- **Data visualization dashboards**
-
----
-
-## Popular React Applications
-
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
-  <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-    <h4>Social Media</h4>
-    <ul>
-      <li>Facebook</li>
-      <li>Instagram</li>
-      <li>Twitter (X)</li>
-      <li>LinkedIn</li>
-    </ul>
-  </div>
-  <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-    <h4>Entertainment</h4>
-    <ul>
-      <li>Netflix</li>
-      <li>Discord</li>
-      <li>Twitch</li>
-      <li>Spotify</li>
-    </ul>
-  </div>
-  <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-    <h4>E-commerce</h4>
-    <ul>
-      <li>Shopify</li>
-      <li>Airbnb</li>
-      <li>Uber</li>
-      <li>Amazon</li>
-    </ul>
-  </div>
-  <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-    <h4>Productivity</h4>
-    <ul>
-      <li>Notion</li>
-      <li>Figma</li>
-      <li>Slack</li>
-      <li>Trello</li>
-    </ul>
-  </div>
-</div>
-
----
-
-## React Development Tools
-
-### 🛠️ **Essential Tools**
-
-- **Create React App** - Quick project setup
-- **React Developer Tools** - Browser extension
-- **ESLint** - Code quality
-- **Prettier** - Code formatting
-
-### 📦 **Build Tools**
-
-- **Webpack** - Module bundling
-- **Vite** - Fast development server
-- **Babel** - JavaScript transpilation
-- **TypeScript** - Type safety
-
-### 🧪 **Testing**
-
-- **Jest** - Unit testing
-- **React Testing Library** - Component testing
-- **Cypress** - End-to-end testing
-
----
-
-## Simple React Example
-
-<div id="simple-react-demo"></div>
-
-<script type="text/babel">
-  const { useState } = React;
-
-  function SimpleCounter() {
-    const [count, setCount] = useState(0);
-
-    return (
-      <div style={{ 
-        textAlign: 'center', 
-        padding: '20px', 
-        border: '2px solid #4CAF50', 
-        borderRadius: '8px',
-        backgroundColor: '#f0f8f0'
-      }}>
-        <h3>Simple React Component</h3>
-        <p>Count: <strong>{count}</strong></p>
-        <button 
-          onClick={() => setCount(count + 1)}
-          style={{
-            padding: '10px 20px',
-            margin: '5px',
-            backgroundColor: '#4CAF50',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          Increment
-        </button>
-        <button 
-          onClick={() => setCount(count - 1)}
-          style={{
-            padding: '10px 20px',
-            margin: '5px',
-            backgroundColor: '#f44336',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          Decrement
-        </button>
-      </div>
-    );
-  }
-
-  ReactDOM.createRoot(document.getElementById('simple-react-demo')).render(<SimpleCounter />);
-</script>
-
-<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
----
-
-## Component Architecture
-
-<div style="display: flex; justify-content: space-between; align-items: center; height: 400px;">
-  <div style="flex: 1; text-align: center;">
-    <h3>Component Tree</h3>
-    <div style="font-family: monospace; text-align: left; margin: 20px;">
-      <div style="color: #2196F3;">App</div>
-      <div style="margin-left: 20px; color: #4CAF50;">├── Header</div>
-      <div style="margin-left: 20px; color: #4CAF50;">├── Sidebar</div>
-      <div style="margin-left: 20px; color: #4CAF50;">└── Main</div>
-      <div style="margin-left: 40px; color: #FF9800;">    ├── Card</div>
-      <div style="margin-left: 40px; color: #FF9800;">    ├── Card</div>
-      <div style="margin-left: 40px; color: #FF9800;">    └── Card</div>
-    </div>
-  </div>
-  <div style="flex: 1; text-align: center;">
-    <h3>Data Flow</h3>
-    <div style="font-family: monospace; text-align: left; margin: 20px;">
-      <div>Parent → Props → Child</div>
-      <div>Child → Events → Parent</div>
-      <div style="margin-top: 20px;">
-        <div>State Management:</div>
-        <div>• useState (local)</div>
-        <div>• useContext (shared)</div>
-        <div>• Redux (global)</div>
-      </div>
-    </div>
-  </div>
-</div>
-
----
-
-## React Learning Path
-
-### 📚 **Beginner Level**
-
-1. **JSX Syntax** - Writing React elements
-2. **Components** - Building reusable UI pieces
-3. **Props** - Passing data between components
-4. **State** - Managing component data
-5. **Event Handling** - User interactions
-
-### 🚀 **Intermediate Level**
-
-1. **Hooks** - useState, useEffect, useContext
-2. **Conditional Rendering** - Dynamic UI
-3. **Lists & Keys** - Rendering collections
-4. **Forms** - Controlled components
-5. **Lifecycle** - Component phases
-
-### 🎯 **Advanced Level**
-
-1. **Performance** - Optimization techniques
-2. **Testing** - Unit and integration tests
-3. **State Management** - Redux, Zustand
-4. **Routing** - React Router
-5. **Server Integration** - APIs, SSR
-
----
-
-<!-- class: invert -->
-
-## JSX (JavaScript XML)
+## React Fundamentals - JSX
 
 ---
 
@@ -700,16 +413,11 @@ React use
 
 ## JSX
 
-JSX is a syntax extension for JavaScript that looks like HTML but compiles down to JavaScript.
+JSX is a **syntax extension** for JavaScript that looks **like HTML but compiles down to JavaScript**.
 
-It's used with React to describe the UI in a more readable and declarative way.
+It allows us to add **code and logic directly inside our markup**.
 
----
-
-## Why use JSX
-
-- Easier to visualize UI compared to React.createElement().
-- Makes component code more intuitive and closer to HTML, which web developers already know.
+It's used with React to describe the UI in a **more readable and declarative way**.
 
 ---
 
@@ -756,15 +464,21 @@ const formattedGreeting = <h1>Hello, {formatName(user)}!</h1>;
 
 ---
 
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+
 ## JSX as an expression
 
 JSX can be stored in variables, passed to functions, passed to other components and returned from functions.
 
 ```jsx
-// Store in variables
+// Stored in a variable
 const element = <h1>Hello, world!</h1>;
 
-// Use in conditionals
+// returned by a function
 function getGreeting(user) {
   if (user) {
     return <h1>Hello, {formatName(user)}!</h1>;
@@ -784,9 +498,15 @@ function NumberList(props) {
 
 ---
 
+<style scoped>
+  section {
+    font-size: 23px;
+  }
+</style>
+
 ## Conditional Rendering in JSX
 
-JSX supports conditional rendering using JavaScript expressions.
+JSX supports conditional rendering using JavaScript expressions. _if/else_ statements are not possible directly in JSX. Ternary and logical operators are the most common ways to handle conditional logic in JSX.
 
 ```jsx
 // Using ternary operator
@@ -811,9 +531,18 @@ function Mailbox({ unreadMessages }) {
 
 ---
 
-## Looping in JSX
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
 
-You can render lists of elements using JavaScript's `map()` function.
+## Rendering lists in JSX
+
+You can render lists in JSX using JavaScript's `map()` function.
+After changes, when diffing virtual DOM, React requires a unique key on each element.
+
+It is a good idea to use the array index as the key?
 
 ```jsx
 // Basic list rendering
@@ -832,7 +561,23 @@ function NumberList({ numbers }) {
     </ul>
   );
 }
+```
 
+---
+
+<style scoped>
+  section {
+    font-size: 27px;
+  }
+</style>
+
+## Array method chaining when rendering lists
+
+Chainable JS array methods like `filter()` are useful for making nice concise JSX expressions.
+
+You should _not_ use array indexes as keys since an array may change even if it's length does not.
+
+```jsx
 // With filtering
 function TodoList({ todos }) {
   return (
@@ -849,12 +594,18 @@ function TodoList({ todos }) {
 
 ---
 
+<style scoped>
+  section {
+    font-size: 26px;
+  }
+</style>
+
 ## Event Handling in JSX
 
-JSX uses camelCase for event names and passes functions as event handlers.
+JSX uses camelCase for most things including event names. You can pass named on anonymous function to event handlers.
 
 ```jsx
-// Basic event handling
+// Event handling with a named function
 function Button() {
   function handleClick() {
     alert("Button clicked!");
@@ -863,7 +614,7 @@ function Button() {
   return <button onClick={handleClick}>Click me</button>;
 }
 
-// With parameters
+// Event handling with an anonymous function and a parameter
 function Button({ id, text }) {
   function handleClick(id) {
     console.log(`Button ${id} clicked`);
@@ -871,7 +622,13 @@ function Button({ id, text }) {
 
   return <button onClick={() => handleClick(id)}>{text}</button>;
 }
+```
 
+---
+
+## Handling data, change and submit events in a form
+
+```jsx
 // Form handling
 function NameForm() {
   const [value, setValue] = useState("");
@@ -896,13 +653,57 @@ function NameForm() {
 
 ---
 
-## JSX Rules
+## Common JSX Rules
+
+There are subtile differences between writing
 
 - **Single Parent Element**: JSX must have exactly one parent element
 - **Use `className` instead of `class`**: HTML attributes use camelCase
 - **Self-closing tags are required**: `<input />` not `<input>`
 - **Use `htmlFor` instead of `for`**: For label elements
 - **Use `onClick` instead of `onclick`**: Event handlers use camelCase
+
+---
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+</style>
+
+## JSX vs HTML Differences
+
+| HTML                      | JSX                      |
+| ------------------------- | ------------------------ |
+| `class="container"`       | `className="container"`  |
+| `<input>`                 | `<input />`              |
+| `for="name"`              | `htmlFor="name"`         |
+| `onclick="handleClick()"` | `onClick={handleClick}`  |
+| `style="color: red"`      | `style={{color: 'red'}}` |
+
+```jsx
+// HTML style
+<div class="container" onclick="handleClick()">
+  <label for="name">Name:</label>
+  <input type="text" id="name">
+</div>
+
+// JSX style
+<div className="container" onClick={handleClick}>
+  <label htmlFor="name">Name:</label>
+  <input type="text" id="name" />
+</div>
+```
+
+---
+
+<style scoped>
+  section {
+    font-size: 26px;
+  }
+</style>
+
+## Single JSX root, including fragment
 
 ```jsx
 // ❌ Wrong - multiple parent elements
@@ -936,259 +737,15 @@ function BetterComponent() {
 
 ---
 
-## JSX vs HTML Differences
+<!-- class: lead -->
 
-| HTML                      | JSX                      |
-| ------------------------- | ------------------------ |
-| `class="container"`       | `className="container"`  |
-| `<input>`                 | `<input />`              |
-| `for="name"`              | `htmlFor="name"`         |
-| `onclick="handleClick()"` | `onClick={handleClick}`  |
-| `style="color: red"`      | `style={{color: 'red'}}` |
+## Getting Started
 
-```jsx
-// HTML style
-<div class="container" onclick="handleClick()">
-  <label for="name">Name:</label>
-  <input type="text" id="name">
-</div>
-
-// JSX style
-<div className="container" onClick={handleClick}>
-  <label htmlFor="name">Name:</label>
-  <input type="text" id="name" />
-</div>
-```
-
----
-
-## Interactive JSX Demo
-
-<div id="jsx-demo"></div>
-
-<script type="text/babel">
-  const { useState } = React;
-
-  function JSXDemo() {
-    const [name, setName] = useState("World");
-    const [items, setItems] = useState(['React', 'JSX', 'Components']);
-    const [newItem, setNewItem] = useState('');
-
-    const addItem = () => {
-      if (newItem.trim()) {
-        setItems([...items, newItem]);
-        setNewItem('');
-      }
-    };
-
-    return (
-      <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
-        <h3>Interactive JSX Example</h3>
-        
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="name-input">Your name: </label>
-          <input
-            id="name-input"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
-            style={{ marginLeft: '10px', padding: '5px' }}
-          />
-          <p>Hello, <strong>{name}</strong>!</p>
-        </div>
-
-        <div style={{ marginBottom: '15px' }}>
-          <h4>Dynamic List:</h4>
-          <ul>
-            {items.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-          
-          <div>
-            <input
-              value={newItem}
-              onChange={(e) => setNewItem(e.target.value)}
-              placeholder="Add new item"
-              style={{ marginRight: '10px', padding: '5px' }}
-            />
-            <button onClick={addItem}>Add Item</button>
-          </div>
-        </div>
-
-        <div>
-          <h4>Conditional Rendering:</h4>
-          {items.length > 3 ? (
-            <p style={{ color: 'green' }}>You have many items!</p>
-          ) : (
-            <p style={{ color: 'orange' }}>Add more items!</p>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  ReactDOM.createRoot(document.getElementById('jsx-demo')).render(<JSXDemo />);
-</script>
-
-<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
----
-
-## JSX Best Practices
-
-### ✅ Do's
-
-- **Use meaningful component names** (PascalCase)
-- **Always include keys** when rendering lists
-- **Use fragments** to avoid unnecessary wrapper divs
-- **Extract complex logic** into separate functions
-- **Use proper event handling** (prevent default, stop propagation)
-
-### ❌ Don'ts
-
-- **Don't use array index as key** (unless list is static)
-- **Don't put too much logic in JSX**
-- **Don't forget to handle loading/error states**
-- **Don't use inline styles for complex styling**
-
-```jsx
-// ✅ Good
-function UserList({ users }) {
-  return (
-    <ul>
-      {users.map((user) => (
-        <li key={user.id}>{user.name}</li>
-      ))}
-    </ul>
-  );
-}
-
-// ❌ Bad
-function UserList({ users }) {
-  return (
-    <ul>
-      {users.map((user, index) => (
-        <li key={index}>{user.name}</li>
-      ))}
-    </ul>
-  );
-}
-```
-
----
-
-## Common JSX Patterns
-
-### 1. Conditional Rendering
-
-```jsx
-{
-  isLoading ? <Spinner /> : <Content />;
-}
-```
-
-### 2. List Rendering
-
-```jsx
-{
-  items.map((item) => <Item key={item.id} {...item} />);
-}
-```
-
-### 3. Fragment Usage
-
-```jsx
-<>
-  <Header />
-  <Main />
-  <Footer />
-</>
-```
-
-### 4. Spread Operator
-
-```jsx
-const buttonProps = { type: "submit", disabled: false };
-<button {...buttonProps}>Submit</button>;
-```
-
-### 5. Children Prop
-
-```jsx
-function Card({ children, title }) {
-  return (
-    <div className="card">
-      <h3>{title}</h3>
-      {children}
-    </div>
-  );
-}
-```
-
----
-
-## JSX Performance Tips
-
-- **Use React.memo()** for expensive components
-- **Avoid creating objects/functions in render**
-- **Use useCallback for event handlers**
-- **Use useMemo for expensive calculations**
-
-```jsx
-// ✅ Good - memoized component
-const ExpensiveComponent = React.memo(({ data }) => {
-  return <div>{/* expensive rendering */}</div>;
-});
-
-// ✅ Good - memoized callback
-function Parent() {
-  const handleClick = useCallback(() => {
-    // handle click
-  }, []);
-
-  return <Child onClick={handleClick} />;
-}
-```
-
----
-
-## Next Steps
-
-- **Components**: Building reusable UI pieces
-- **Props**: Passing data between components
-- **State**: Managing component data
-- **Hooks**: Using React's built-in hooks
-- **Event Handling**: Responding to user interactions
-
----
-
-<!-- class: invert -->
-
-## Questions & Practice
-
-Try building a simple component using JSX!
-
-```jsx
-function TodoItem({ todo, onToggle }) {
-  return (
-    <div
-      style={{
-        textDecoration: todo.completed ? "line-through" : "none",
-        cursor: "pointer",
-      }}
-    >
-      <input
-        type="checkbox"
-        checked={todo.completed}
-        onChange={() => onToggle(todo.id)}
-      />
-      {todo.text}
-    </div>
-  );
-}
+```bash
+# Create a new React project
+npx create-react-app my-app
+cd my-app
+npm start
 ```
 
 ---
@@ -1205,6 +762,8 @@ function TodoItem({ todo, onToggle }) {
 
 Components are the building blocks of React applications. They let you split the UI into independent, reusable pieces.
 
+Components can be exported, imported, saved to variables, nested inside other components and _even passed to other components as data (props)_.
+
 ---
 
 ## What are Components?
@@ -1214,6 +773,36 @@ Components are **functions or classes** that return JSX. They can be:
 - **Reusable** - Use the same component multiple times
 - **Composable** - Combine components to build complex UIs
 - **Isolated** - Each component manages its own logic and styling
+
+---
+
+## Class Based Components
+
+There are two main types of components in React, functional and class based. In class based components, the `render()` method is called when the component renders and must always return JSX.
+
+_Class based was the original way to create components in React but this style is deprecated._
+
+```jsx
+import { Component } from "react";
+
+class Greeting extends Component {
+  render() {
+    return <h1>Hello, {this.props.name}!</h1>;
+  }
+}
+```
+
+---
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+</style>
+
+## Function Components
+
+Function components are the preferred way to write components in React. Instead of a `render()` method, the function itself is called during rendering and the return JSX is rendered.
 
 ```jsx
 // Function Component
@@ -1240,9 +829,62 @@ function App() {
 
 ---
 
-## Component Styles
+## Component hierarchies
 
-### 1. Inline Styles
+Components in a React application create a complex component tree. There is a parent/child relationship where the parent component renders child components inside it. The parent component can render additional JSX content inside the child.
+
+---
+
+## Component hierarchies example
+
+```jsx
+// card is the child (normally in a separate file)
+// `children` is an automatic property that contains any JSX inside its
+//  open/close tags
+function Card({ heading, children }) {
+  return (
+    <div>
+      <h3>{heading}</h3>
+      <p>{children}</p>
+    </div>
+  );
+}
+
+// wrapper is the parent
+function Wrapper() {
+  return (
+    <div>
+      <h2>Wrapper Component</h2>
+      <Card heading="First Card">
+        {/* this content becomes `children` in `Card` */}
+        {/* here the contents are a simple string but any valid JSX is acceptable */}
+        This is the content of the first card, passed as children.
+      </Card>
+      <Card heading="Second Card">
+        This is the content of the second card, also passed as children.
+      </Card>
+    </div>
+  );
+}
+
+export default Wrapper;
+```
+
+---
+
+<style scoped>
+  section {
+    font-size: 25px;
+  }
+</style>
+
+## Styling Components
+
+There are a couple options for styling React components.
+
+How are styles being handled in this example? Styles as data, what are the implications of that?
+
+Here we see inline styles 😱! Is this a problem? Why or why not? (It's complicated.)
 
 ```jsx
 function StyledComponent() {
@@ -1262,7 +904,27 @@ function StyledComponent() {
 }
 ```
 
-### 2. CSS Classes
+---
+
+## Styling components analysis
+
+Styles in React are handled differently than we may be used to in traditional web development. Since everything is component based, we have less concern about duplicating styles (we simply reuse the component and the styles are bundled with it).
+
+That said, there are various style frameworks and approaches that are used. We will explore some of those layers.
+
+Treating styles as data simplifies dynamic styles. Based on the app's current state, we can easily update the styles to reflect that state.
+
+---
+
+<style scoped>
+  section {
+    font-size: 23px;
+  }
+</style>
+
+## Classes in React
+
+To add classes in our components, we must use `className`.
 
 ```jsx
 // Component
@@ -1274,480 +936,35 @@ function StyledComponent() {
     </div>
   );
 }
-
-// CSS
-.card {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
 ```
 
-### 3. CSS Modules
+We can use braces for our `className` attributed values to add expressions and make our styles more dynamic.
 
 ```jsx
-// Component.module.css
-.container {
-  background: linear-gradient(45deg, #667eea, #764ba2);
-  padding: 20px;
-  border-radius: 10px;
-}
-
-// Component
-import styles from './Component.module.css';
-
-function StyledComponent() {
+function Button({ primary }) {
   return (
-    <div className={styles.container}>
-      Styled with CSS Modules
-    </div>
-  );
-}
-```
-
----
-
-## Props (Properties)
-
-Props are how components receive data from their parent components.
-
-### Basic Props
-
-```jsx
-function Greeting(props) {
-  return <h1>Hello, {props.name}!</h1>;
-}
-
-// Using the component
-<Greeting name="John" />
-<Greeting name="Jane" />
-```
-
-### Destructuring Props
-
-```jsx
-function Greeting({ name, age, city }) {
-  return (
-    <div>
-      <h1>Hello, {name}!</h1>
-      <p>Age: {age}</p>
-      <p>City: {city}</p>
-    </div>
-  );
-}
-
-// Using the component
-<Greeting name="John" age={25} city="New York" />;
-```
-
-### Default Props
-
-```jsx
-function Button({ text, color = "blue", size = "medium" }) {
-  return (
-    <button style={{ backgroundColor: color, fontSize: size }}>
-      {text}
-    </button>
-  );
-}
-
-// Using with defaults
-<Button text="Click me" />
-<Button text="Submit" color="green" size="large" />
-```
-
----
-
-## Props Example
-
-<div id="props-demo"></div>
-
-<script type="text/babel">
-  const { useState } = React;
-
-  function UserCard({ name, email, role, avatar }) {
-    return (
-      <div style={{
-        border: '1px solid #ddd',
-        borderRadius: '8px',
-        padding: '20px',
-        margin: '10px',
-        maxWidth: '300px',
-        backgroundColor: '#f9f9f9'
-      }}>
-        <img 
-          src={avatar} 
-          alt={name}
-          style={{
-            width: '60px',
-            height: '60px',
-            borderRadius: '50%',
-            marginBottom: '10px'
-          }}
-        />
-        <h3>{name}</h3>
-        <p><strong>Email:</strong> {email}</p>
-        <p><strong>Role:</strong> {role}</p>
-      </div>
-    );
-  }
-
-  function PropsDemo() {
-    const [users] = useState([
-      {
-        name: "John Doe",
-        email: "john@example.com",
-        role: "Developer",
-        avatar: "https://via.placeholder.com/60/4CAF50/FFFFFF?text=JD"
-      },
-      {
-        name: "Jane Smith",
-        email: "jane@example.com",
-        role: "Designer",
-        avatar: "https://via.placeholder.com/60/2196F3/FFFFFF?text=JS"
-      }
-    ]);
-
-    return (
-      <div>
-        <h3>Props Demo - User Cards</h3>
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          {users.map((user, index) => (
-            <UserCard
-              key={index}
-              name={user.name}
-              email={user.email}
-              role={user.role}
-              avatar={user.avatar}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  ReactDOM.createRoot(document.getElementById('props-demo')).render(<PropsDemo />);
-</script>
-
----
-
-## State
-
-State allows components to manage their own data that can change over time.
-
-### useState Hook
-
-```jsx
-import { useState } from "react";
-
-function Counter() {
-  const [count, setCount] = useState(0);
-  const [name, setName] = useState("");
-
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-
-      <input
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Enter your name"
-      />
-      <p>Hello, {name}!</p>
-    </div>
-  );
-}
-```
-
-### Object State
-
-```jsx
-function UserForm() {
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    age: 0,
-  });
-
-  const updateUser = (field, value) => {
-    setUser((prevUser) => ({
-      ...prevUser,
-      [field]: value,
-    }));
-  };
-
-  return (
-    <form>
-      <input
-        value={user.name}
-        onChange={(e) => updateUser("name", e.target.value)}
-        placeholder="Name"
-      />
-      <input
-        value={user.email}
-        onChange={(e) => updateUser("email", e.target.value)}
-        placeholder="Email"
-      />
-      <input
-        type="number"
-        value={user.age}
-        onChange={(e) => updateUser("age", parseInt(e.target.value))}
-        placeholder="Age"
-      />
-    </form>
-  );
-}
-```
-
----
-
-## State Example
-
-<div id="state-demo"></div>
-
-<script type="text/babel">
-  const { useState } = React;
-
-  function TodoList() {
-    const [todos, setTodos] = useState([
-      { id: 1, text: 'Learn React', completed: false },
-      { id: 2, text: 'Build a project', completed: false },
-      { id: 3, text: 'Deploy to production', completed: false }
-    ]);
-    const [newTodo, setNewTodo] = useState('');
-
-    const addTodo = () => {
-      if (newTodo.trim()) {
-        setTodos(prevTodos => [
-          ...prevTodos,
-          { id: Date.now(), text: newTodo, completed: false }
-        ]);
-        setNewTodo('');
-      }
-    };
-
-    const toggleTodo = (id) => {
-      setTodos(prevTodos =>
-        prevTodos.map(todo =>
-          todo.id === id ? { ...todo, completed: !todo.completed } : todo
-        )
-      );
-    };
-
-    return (
-      <div style={{ maxWidth: '400px', margin: '0 auto' }}>
-        <h3>Todo List with State</h3>
-        
-        <div style={{ marginBottom: '20px' }}>
-          <input
-            value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)}
-            placeholder="Add new todo"
-            style={{ marginRight: '10px', padding: '5px' }}
-          />
-          <button onClick={addTodo}>Add</button>
-        </div>
-
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {todos.map(todo => (
-            <li
-              key={todo.id}
-              onClick={() => toggleTodo(todo.id)}
-              style={{
-                padding: '10px',
-                margin: '5px 0',
-                backgroundColor: todo.completed ? '#e8f5e8' : '#f5f5f5',
-                textDecoration: todo.completed ? 'line-through' : 'none',
-                cursor: 'pointer',
-                borderRadius: '4px'
-              }}
-            >
-              {todo.text}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-
-  ReactDOM.createRoot(document.getElementById('state-demo')).render(<TodoList />);
-</script>
-
----
-
-## Hooks
-
-Hooks are functions that let you "hook into" React state and lifecycle features from function components.
-
-### useState Hook
-
-```jsx
-import { useState } from "react";
-
-function Example() {
-  // Declare a state variable
-  const [count, setCount] = useState(0);
-
-  return (
-    <div>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-    </div>
-  );
-}
-```
-
-### useEffect Hook
-
-```jsx
-import { useState, useEffect } from "react";
-
-function Example() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Runs after component mounts
-    fetch("https://api.example.com/data")
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      });
-  }, []); // Empty dependency array = run once
-
-  if (loading) return <div>Loading...</div>;
-  return <div>{JSON.stringify(data)}</div>;
-}
-```
-
----
-
-## More Hooks
-
-### useContext Hook
-
-```jsx
-import { createContext, useContext, useState } from "react";
-
-// Create a context
-const ThemeContext = createContext();
-
-// Provider component
-function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("light");
-
-  return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
-}
-
-// Consumer component
-function ThemedButton() {
-  const { theme, setTheme } = useContext(ThemeContext);
-
-  return (
-    <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-      Current theme: {theme}
+    <button className={`btn ${primary ? "btn-primary" : "btn-secondary"}`}>
+      Click Me
     </button>
   );
 }
 ```
 
-### useRef Hook
-
-```jsx
-import { useRef, useEffect } from "react";
-
-function TextInputWithFocusButton() {
-  const inputRef = useRef(null);
-
-  const focusInput = () => {
-    inputRef.current.focus();
-  };
-
-  return (
-    <>
-      <input ref={inputRef} type="text" />
-      <button onClick={focusInput}>Focus the input</button>
-    </>
-  );
-}
-```
-
 ---
 
-## Hooks Example
-
-<div id="hooks-demo"></div>
-
-<script type="text/babel">
-  const { useState, useEffect, useRef } = React;
-
-  function HooksDemo() {
-    const [count, setCount] = useState(0);
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-    const inputRef = useRef(null);
-
-    // useEffect for window resize
-    useEffect(() => {
-      const handleResize = () => setWindowWidth(window.innerWidth);
-      window.addEventListener('resize', handleResize);
-      
-      // Cleanup function
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    // useEffect for document title
-    useEffect(() => {
-      document.title = `Count: ${count}`;
-    }, [count]);
-
-    const focusInput = () => {
-      inputRef.current.focus();
-    };
-
-    return (
-      <div style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-        <h3>Hooks Demo</h3>
-        
-        <div style={{ marginBottom: '15px' }}>
-          <p>Count: {count}</p>
-          <button onClick={() => setCount(count + 1)}>Increment</button>
-        </div>
-
-        <div style={{ marginBottom: '15px' }}>
-          <p>Window width: {windowWidth}px</p>
-          <p>Try resizing your browser window!</p>
-        </div>
-
-        <div>
-          <input
-            ref={inputRef}
-            placeholder="Click button to focus me"
-            style={{ marginRight: '10px', padding: '5px' }}
-          />
-          <button onClick={focusInput}>Focus Input</button>
-        </div>
-      </div>
-    );
+<style scoped>
+  section {
+    font-size: 24px;
   }
-
-  ReactDOM.createRoot(document.getElementById('hooks-demo')).render(<HooksDemo />);
-</script>
-
----
+</style>
 
 ## Event Handling
 
-React events are named using camelCase and pass functions as event handlers.
+As we know, functions in JavaScript are first-class citizens. That means, we can pass them around like any other piece of data.
 
-### Basic Event Handling
+This is how we handle events in React, by passing functions as data (callbacks) which get evoked when an event occurs.
+
+Take this example:
 
 ```jsx
 function Button() {
@@ -1759,7 +976,11 @@ function Button() {
 }
 ```
 
-### Event with Parameters
+The `button` is accepting our `handleClick` callback. This looks like how we pass data as props. That's because _it is_. _Functions are data_ and event handlers are really just props where the value is a function.
+
+---
+
+### Event with parameters and closures
 
 ```jsx
 function Button({ id, text }) {
@@ -1772,43 +993,349 @@ function Button({ id, text }) {
 }
 ```
 
-### Form Handling
+In this example we are passing an anonymous function into an event handler. **This function is a closure**. A closure maintains its scope when it is invoked. Because of this this, when the anonymous function is invoked, it still has access to all data and functions in scope (`handleClick`, `id`, `text`).
+
+This closure pattern is heavily used in React development.
+
+---
+
+## The event object and propagation
+
+For native (not custom) events, an event object is emitted. If you are handling an event on a native element (button, form, link, etc.), the event object will be the first argument passed to the the callback.
+
+Events "bubble up". Event if you handle an event there are may be other affects that the event triggers. `preventDefault()` and `stopPropagation()` can be called to prevent default actions and for the event to reach parent components.
+
+---
+
+## The event object and propagation example
 
 ```jsx
 function Form() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-  });
-
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
+    e.preventDefault(); // stop form from refreshing the page
+    e.stopPropagation(); // stop event bubbling up
+    alert("Form submitted!");
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" placeholder="Type here" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default Form;
+```
+
+---
+
+## Component lifecycle
+
+Components
+
+---
+
+## Hooks
+
+In function components, React uses hooks to add additional functionality (i.e. managing state) to our components.
+
+There are many types of hooks that are provided that you can read about in [the documentation](https://react.dev/reference/react/hooks). We will discuss two of the most common, `useState` and `useAffect`.
+
+You can also define your own hooks. We will take a look at that too.
+
+---
+
+<style scoped>
+  section {
+    font-size: 25px;
+  }
+</style>
+
+## `useState`
+
+`useState` allows us to maintain data between component render cycles. We saw an example of this with the counter example:
+
+```jsx
+import { useState } from "react";
+
+function Counter() {
+  // `count` is the bound data (when changed UI will re-render)
+  // `setCount` is a callback function which we use to update the count
+  // the argument passed to `useState` (0) is the initial value
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>{count}</p>
+      {/* using the callback here to update the count */}
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+---
+
+## Component Lifecycle
+
+In React, the component lifecycle describes how a component is created, updated, and removed from the DOM.
+
+- Mounting → when the component is first added to the DOM.
+- Updating → when props or state change, React re-renders the component and runs side effects again if dependencies changed.
+- Unmounting → when the component is removed, React cleans up
+
+Sometimes it is necessary to perform an action during a particular part of the component's lifecycle. In class based React components, lifecycle methods were defined on the class component.
+
+For function component, lifecycle methods are typically handled with the `useEffect` lifecycle method.
+
+---
+
+## `useEffect`
+
+Depending on how the `useEffect` hook is called, we can use it to run a callback function when:
+
+- the component is mounted
+- when the component is unmounted
+- whenever the component updates
+- whenever data (prop or state) changes
+
+This can best be seen by example.
+
+---
+
+## `useEffect` example
+
+```jsx
+import { useState, useEffect } from "react";
+
+function Timer() {
+  const [seconds, setSeconds] = useState(0);
+
+  // Runs on mount + every update
+  useEffect(() => {
+    console.log("Component rendered or updated");
+  });
+
+  // Runs only once on mount
+  useEffect(() => {
+    console.log("Component mounted");
+    // Runs only once on unmount
+    return () => {
+      console.log("Cleanup before re-run or unmount");
+    };
+  }, []);
+
+  // Runs only when `seconds` changes
+  useEffect(() => {
+    console.log(`Seconds changed: ${seconds}`);
+  }, [seconds]);
+
+  return (
+    <div>
+      <p>Time: {seconds}s</p>
+      <button onClick={() => setSeconds(seconds + 1)}>Tick</button>
+    </div>
+  );
+}
+```
+
+---
+
+## Defining a custom hook (on window resize)
+
+```jsx
+import { useState, useEffect } from "react";
+
+// Custom hook (normally in a separate file)
+function useWindowWidth() {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+
+    window.addEventListener("resize", handleResize);
+    // always remove listeners on unmount!!!
+    return () => window.removeEventListener("resize", handleResize); // cleanup
+  }, []);
+
+  return width;
+}
+
+// ✅ Using the custom hook
+function App() {
+  // width is bound data. Whenever the user resizes, this component will re-render.
+  const width = useWindowWidth();
+
+  return <p>Window width: {width}px</p>;
+}
+
+export default App;
+```
+
+---
+
+<!-- class: invert -->
+
+## TypeScript with React
+
+---
+
+<!-- class: lead -->
+
+## Why TypeScript with React?
+
+TypeScript adds **static type checking** to JavaScript, making React development more **reliable and maintainable**.
+
+### 🎯 **Benefits**
+
+- **Catch errors early** - Type errors at compile time, not runtime
+- **Better IDE support** - Autocomplete, refactoring, and IntelliSense
+- **Self-documenting code** - Types serve as documentation
+- **Safer refactoring** - Confidence when changing code
+- **Team collaboration** - Clear interfaces and contracts
+
+---
+
+## TypeScript React Setup
+
+### Creating a TypeScript React Project
+
+```bash
+# Create React app with TypeScript template
+npx create-react-app my-app --template typescript
+
+# Or add TypeScript to existing project
+npm install --save-dev typescript @types/react @types/react-dom
+```
+
+### File Extensions
+
+```bash
+# TypeScript React files
+.tsx    # React components with TypeScript
+.ts     # TypeScript files (utilities, hooks, etc.)
+.d.ts   # Type declaration files
+```
+
+---
+
+## TypeScript React Components
+
+### Basic Component with Props
+
+```tsx
+interface UserCardProps {
+  name: string;
+  age: number;
+  email?: string; // Optional prop
+  onDelete: (id: number) => void;
+}
+
+function UserCard({ name, age, email, onDelete }: UserCardProps) {
+  return (
+    <div>
+      <h3>{name}</h3>
+      <p>Age: {age}</p>
+      {email && <p>Email: {email}</p>}
+      <button onClick={() => onDelete(1)}>Delete</button>
+    </div>
+  );
+}
+
+// Usage
+<UserCard
+  name="John Doe"
+  age={25}
+  email="john@example.com"
+  onDelete={(id) => console.log(`Deleting user ${id}`)}
+/>;
+```
+
+---
+
+## TypeScript with React Hooks
+
+### useState with Types
+
+```tsx
+import { useState } from "react";
+
+// TypeScript infers the type from initial value
+const [count, setCount] = useState(0); // number
+
+// Explicit typing for complex state
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+const [user, setUser] = useState<User | null>(null);
+const [users, setUsers] = useState<User[]>([]);
+
+// Custom hook with TypeScript
+function useCounter(initialValue: number = 0) {
+  const [count, setCount] = useState(initialValue);
+
+  const increment = () => setCount(count + 1);
+  const decrement = () => setCount(count - 1);
+  const reset = () => setCount(initialValue);
+
+  return { count, increment, decrement, reset };
+}
+```
+
+---
+
+## TypeScript Event Handling
+
+### Typed Event Handlers
+
+```tsx
+import { ChangeEvent, FormEvent, MouseEvent } from "react";
+
+function Form() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  // Typed event handlers
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log({ name, email });
+  };
+
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    console.log("Button clicked at:", e.clientX, e.clientY);
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
+        type="text"
+        value={name}
+        onChange={handleNameChange}
         placeholder="Name"
       />
       <input
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
+        type="email"
+        value={email}
+        onChange={handleEmailChange}
         placeholder="Email"
       />
-      <button type="submit">Submit</button>
+      <button type="submit" onClick={handleClick}>
+        Submit
+      </button>
     </form>
   );
 }
@@ -1816,335 +1343,19 @@ function Form() {
 
 ---
 
-## Event Handling Example
+## TypeScript Best Practices
 
-<div id="events-demo"></div>
+### ✅ **Do's**
 
-<script type="text/babel">
-  const { useState } = React;
+- **Use interfaces for props** - Clear component contracts
+- **Type your state** - Explicit typing for complex state
+- **Use generic types** - Reusable component types
+- **Type event handlers** - Proper event typing
+- **Use union types** - Handle multiple possible values
 
-  function EventsDemo() {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const [keyPressed, setKeyPressed] = useState('');
-    const [formData, setFormData] = useState({ name: '', email: '' });
+### ❌ **Don'ts**
 
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    const handleKeyPress = (e) => {
-      setKeyPressed(e.key);
-    };
-
-    const handleFormChange = (e) => {
-      const { name, value } = e.target;
-      setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      alert(`Form submitted: ${JSON.stringify(formData)}`);
-    };
-
-    return (
-      <div 
-        onMouseMove={handleMouseMove}
-        onKeyPress={handleKeyPress}
-        tabIndex={0}
-        style={{ 
-          padding: '20px', 
-          border: '1px solid #ddd', 
-          borderRadius: '8px',
-          minHeight: '300px'
-        }}
-      >
-        <h3>Event Handling Demo</h3>
-        
-        <div style={{ marginBottom: '15px' }}>
-          <h4>Mouse Position:</h4>
-          <p>X: {mousePosition.x}, Y: {mousePosition.y}</p>
-          <p>Move your mouse over this area!</p>
-        </div>
-
-        <div style={{ marginBottom: '15px' }}>
-          <h4>Key Press:</h4>
-          <p>Last key pressed: <strong>{keyPressed || 'None'}</strong></p>
-          <p>Click here and press any key!</p>
-        </div>
-
-        <div>
-          <h4>Form Handling:</h4>
-          <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: '10px' }}>
-              <input
-                name="name"
-                value={formData.name}
-                onChange={handleFormChange}
-                placeholder="Name"
-                style={{ marginRight: '10px', padding: '5px' }}
-              />
-            </div>
-            <div style={{ marginBottom: '10px' }}>
-              <input
-                name="email"
-                value={formData.email}
-                onChange={handleFormChange}
-                placeholder="Email"
-                style={{ marginRight: '10px', padding: '5px' }}
-              />
-            </div>
-            <button type="submit">Submit Form</button>
-          </form>
-        </div>
-      </div>
-    );
-  }
-
-  ReactDOM.createRoot(document.getElementById('events-demo')).render(<EventsDemo />);
-</script>
-
----
-
-## Component Best Practices
-
-### ✅ Do's
-
-- **Use descriptive component names** (PascalCase)
-- **Keep components small and focused**
-- **Extract reusable logic into custom hooks**
-- **Use proper prop validation**
-- **Handle loading and error states**
-
-### ❌ Don'ts
-
-- **Don't create components that are too large**
-- **Don't put business logic in components**
-- **Don't forget to clean up effects**
-- **Don't mutate state directly**
-
-```jsx
-// ✅ Good - Small, focused component
-function UserAvatar({ user, size = "medium" }) {
-  return (
-    <img
-      src={user.avatar}
-      alt={user.name}
-      className={`avatar avatar--${size}`}
-    />
-  );
-}
-
-// ❌ Bad - Component doing too much
-function UserProfile({ user }) {
-  // Too much logic and rendering in one component
-  return <div>{/* 100+ lines of JSX */}</div>;
-}
-```
-
----
-
-## Component Composition
-
-### Children Prop
-
-```jsx
-function Card({ children, title }) {
-  return (
-    <div className="card">
-      <h3>{title}</h3>
-      {children}
-    </div>
-  );
-}
-
-// Usage
-<Card title="User Profile">
-  <p>This content goes inside the card</p>
-  <button>Action</button>
-</Card>;
-```
-
-### Render Props
-
-```jsx
-function DataFetcher({ url, children }) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      });
-  }, [url]);
-
-  return children({ data, loading });
-}
-
-// Usage
-<DataFetcher url="/api/users">
-  {({ data, loading }) =>
-    loading ? <div>Loading...</div> : <UserList users={data} />
-  }
-</DataFetcher>;
-```
-
----
-
-## Next Steps
-
-- **Advanced Hooks**: useMemo, useCallback, useReducer
-- **Context API**: Global state management
-- **Performance**: React.memo, optimization techniques
-- **Testing**: Unit and integration testing
-- **Routing**: React Router for navigation
-
----
-
-<!-- class: invert -->
-
-## Practice Exercise
-
-Build a simple component that combines all concepts:
-
-```jsx
-function ProductCard({ product, onAddToCart }) {
-  const [quantity, setQuantity] = useState(1);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleAddToCart = () => {
-    onAddToCart(product, quantity);
-    setQuantity(1);
-  };
-
-  return (
-    <div
-      className="product-card"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <img src={product.image} alt={product.name} />
-      <h3>{product.name}</h3>
-      <p>${product.price}</p>
-      <input
-        type="number"
-        value={quantity}
-        onChange={(e) => setQuantity(parseInt(e.target.value))}
-        min="1"
-      />
-      <button onClick={handleAddToCart}>Add to Cart</button>
-    </div>
-  );
-}
-
----
-
-<!-- class: invert -->
-
-## Summary
-
-### 🎯 **What We've Covered**
-
-#### **React Fundamentals**
-- ✅ Component-based architecture
-- ✅ Virtual DOM and performance
-- ✅ Declarative programming model
-- ✅ Cross-platform development
-
-#### **JSX & Components**
-- ✅ JSX syntax and expressions
-- ✅ Component creation and composition
-- ✅ Props and state management
-- ✅ Event handling patterns
-
-#### **Modern React Patterns**
-- ✅ Functional components with hooks
-- ✅ useState and useEffect
-- ✅ Component styling approaches
-- ✅ Best practices and optimization
-
----
-
-## Key Takeaways
-
-### 🧩 **Component-Based Architecture**
-- **Reusable** components for maintainable code
-- **Composable** design for complex UIs
-- **Isolated** state and logic management
-
-### 🎨 **JSX Benefits**
-- **Declarative** UI description
-- **JavaScript power** in markup
-- **Component composition** made easy
-
-### ⚡ **Modern React**
-- **Hooks** for functional components
-- **Performance** optimization techniques
-- **Developer experience** improvements
-
----
-
-## Next Steps
-
-### 📚 **Continue Learning**
-- **Advanced Hooks** - useMemo, useCallback, useReducer
-- **Context API** - Global state management
-- **React Router** - Navigation and routing
-- **Testing** - Unit and integration tests
-- **Performance** - Optimization techniques
-
-### 🛠️ **Practice Projects**
-- **Todo App** - State management practice
-- **Weather App** - API integration
-- **E-commerce Site** - Complex component structure
-- **Social Media Clone** - Full-stack application
-
-### 🌐 **Resources**
-- **Official Docs** - react.dev
-- **Community** - React Discord, Reddit
-- **Courses** - Udemy, Pluralsight, Frontend Masters
-- **Practice** - CodeSandbox, CodePen, GitHub
-
----
-
-## Q&A Session
-
-### 🤔 **Common Questions**
-- How does React compare to Vue/Angular?
-- When should I use class vs functional components?
-- What's the best way to manage global state?
-- How do I optimize React performance?
-
-### 💡 **Tips for Success**
-- **Start small** - Build simple components first
-- **Practice regularly** - Code daily if possible
-- **Read the docs** - React documentation is excellent
-- **Join communities** - Learn from others
-- **Build projects** - Apply what you learn
-
----
-
-![bg](https://media4.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3NXk0azVlc3M1ZjA1NWZlOG5rZGtnODc2bGVicGRwMHFud3Vrd3VleiZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/4ZZB0ARXQC1t6/giphy.webp)
-
----
-
-<!-- class: lead -->
-
-## Thank You!
-
-### 🎉 **Congratulations!**
-You've completed the React Essentials course!
-
-### 📞 **Stay Connected**
-- **Slack/Discord** - Join our community
-- **GitHub** - Share your projects
-- **LinkedIn** - Connect professionally
-- **Portfolio** - Showcase your work
-
-### 🚀 **Keep Building**
-Remember: The best way to learn React is to build with React!
-
-**Happy coding!** 🎯
-```
+- **Don't use `any`** - Defeats the purpose of TypeScript
+- **Don't ignore type errors** - Fix them, don't suppress them
+- **Don't over-type** - Let TypeScript infer when possible
+- **Don't forget to type external libraries** - Install `@types` packages

@@ -79,6 +79,7 @@
 ### Revision
 
 - organization:
+
   - react/react history
     - include motivation
   - motivation
@@ -89,16 +90,28 @@
         - no real architecture
   - Archicteure
   - react fundamentals
+
     - JSX
     - Components
+
       - class based vs functional components
+
     - Hooks
       - In React, a hook is essentially a special function that lets you “hook into” React features from a function component.
     - State
     - Events
     - Context
+
   - thinking in react
+  - react w/TS
+    - https://react.dev/learn/typescript
+    - (maybe introduce more fully w/TS)
   - getting started
+    - creat-react app
+    - tooling
+      - eslint
+      - prettier
+      - format on save
 
 ## Emails
 
