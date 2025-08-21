@@ -17,13 +17,15 @@ _A modern JavaScript library for building user interfaces_
 
 ## Welcome to React!
 
-### What you'll learn today:
+### What questions will we answer today?
 
-- **React Fundamentals** - Core concepts and architecture
-- **JSX** - Writing React elements
-- **Components** - Building reusable UI pieces
-  - **Props & State** - Data flow in React
-  - **Hooks** - Modern React patterns
+- **Definition & History** - What is React? What was the motivation for its development?
+- **Motivation** - Why should we learn and use React?
+- **Architecture** - What architecture does React use and why?
+- **JSX** - What is JSX and how do we write JSX code?
+- **Components** - What is a component and how do we use it?
+  - **Props & State** - How is data managed within a component?
+  - **Hooks** - How are events
   - **Event Handling** - User interactions
 
 ---
@@ -35,9 +37,60 @@ By the end of this session, you will be able to:
 - Understand React's component-based architecture
 - Write JSX to describe UI elements
 - Create reusable React components
-- Manage component state and props
-- Use React hooks for modern development
-- Handle user events and form interactions
+- Manage component data with state and props
+- Use React hooks to add dynamic functionality to your components
+- Handle user events in components
+
+---
+
+<!-- class: invert -->
+
+## React History
+
+---
+
+<!-- class: lead -->
+
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+
+## React's Evolution
+
+| Year     | Milestone           | Key Features                     |
+| -------- | ------------------- | -------------------------------- |
+| **2011** | Created at Facebook | Internal use for Facebook Ads    |
+| **2013** | Open-sourced        | Released to public               |
+| **2015** | React Native        | Mobile development               |
+| **2016** | React Fiber         | New reconciliation algorithm     |
+| **2018** | React Hooks         | Functional components with state |
+| **2020** | React 18            | Concurrent features, Suspense    |
+
+### Key Contributors:
+
+- **Jordan Walke** - Original creator
+- **Facebook/Meta** - Primary maintainer
+- **Open Source Community** - Ecosystem growth
+
+---
+
+## Motivation
+
+Before React, Facebook developed its user interfaces using an MVC and lower level JS that directly manipulated the DOM.
+
+What potential issues do you think this development pattern could created?
+
+---
+
+## Motivation
+
+Traditional direct DOM manipulation posed several problems for Facebook including:
+
+- **Inefficiency** - directly manipulating the DOM can cause inefficient re-rendering in the browser which results in a poor user experience.
+- **Messy Code** - without a well defined architecture, control flow and data storage can become disorganized.
+- **Difficult to manage complexity** - without a well defined architecture, data and logic become mixed, concerns are not clearly separated and code produces unintended side affects. Over time this complexity becomes unmanageable.
 
 ---
 
@@ -47,7 +100,266 @@ By the end of this session, you will be able to:
   }
 </style>
 
-![bg right:50% ](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmgyMDQ3cGVia2l0aDl5aXQwNXd0cmtrYjJvam1xcHhnbnk4am5rdyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/0Vv0Ne2CnOClIExIuL/giphy.webp)
+## Problems with low-level JS DOM manipulation 1/2
+
+Do you see any issues with this code?
+
+_Hint: how many times does the DOM get updated?_
+
+```html
+<ul id="item-list"></ul>
+
+<script>
+  const items = [];
+
+  // Simulate adding 1000 items one by one
+  for (let i = 1; i <= 1000; i++) {
+    items.push(`Item ${i}`);
+  }
+
+  const ul = document.getElementById("item-list");
+
+  for (let i = 0; i < items.length; i++) {
+    const li = document.createElement("li");
+    li.textContent = items[i];
+    ul.appendChild(li);
+  }
+</script>
+```
+
+---
+
+<style scoped>
+  section {
+    font-size: 20px;
+  }
+</style>
+
+## Problems with low-level JS DOM manipulation 2/2
+
+Any problems with this code?
+
+_Hint: Global data stored in the presentation layer anyone?_
+
+```html
+<button id="btn1">Click me</button>
+<button id="btn2">Click me</button>
+
+<script>
+  document.getElementById("btn1").setAttribute("data-count", 0);
+  document.getElementById("btn2").setAttribute("data-count", 0);
+
+  function handleClick(event) {
+    const btn = event.target;
+    let count = parseInt(btn.getAttribute("data-count"));
+    count++;
+    btn.setAttribute("data-count", count);
+    btn.textContent = `Clicked ${count} times`;
+  }
+
+  // Adding event listeners
+  document.getElementById("btn1").addEventListener("click", handleClick);
+  document.getElementById("btn2").addEventListener("click", handleClick);
+</script>
+```
+
+---
+
+## React Motivation
+
+Although React wasn't the first frontend JS framework, programming complex user interactions using direct DOM manipulation via JQuery was a common approach before React.
+
+React introduced a few key architectural decision that improved code organization and efficiency significantly. These include:
+
+- **declarative programming** - Define what should happen not how.
+- **component based architecture** - Encapsulate data, logic and presentation in a single reusable element.
+- **use of a virtual DOM** - Maintain an in memory representation of the DOM to avoid
+
+To understand these concepts, lets start with our first React example (a counter).
+
+---
+
+<!-- this works in the generated HTML slide -->
+
+<div id="simple-react-demo"></div>
+
+<script type="text/babel">
+  const { useState } = React;
+
+  function SimpleCounter() {
+    const [count, setCount] = useState(0);
+
+    return (
+      <div style={{ 
+        textAlign: 'center', 
+        padding: '20px', 
+        border: '2px solid #4CAF50', 
+        borderRadius: '8px',
+        backgroundColor: '#f0f8f0'
+      }}>
+        <h3>Simple React Counter</h3>
+        <p>Count: <strong>{count}</strong></p>
+        <button 
+          onClick={() => setCount(count + 1)}
+          style={{
+            padding: '10px 20px',
+            margin: '5px',
+            backgroundColor: '#4CAF50',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Increment
+        </button>
+        <button 
+          onClick={() => setCount(count - 1)}
+          style={{
+            padding: '10px 20px',
+            margin: '5px',
+            backgroundColor: '#f44336',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Decrement
+        </button>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('simple-react-demo')).render(<SimpleCounter />);
+</script>
+
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+---
+
+## Counter Component
+
+<style scoped>
+  section {
+    font-size: 26px;
+  }
+</style>
+
+```jsx
+import React, { useState } from "react";
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <h2>Counter</h2>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+      <button onClick={() => setCount(count - 1)}>Decrease</button>
+    </div>
+  );
+}
+```
+
+What is happening in this component?
+How is the component declarative?
+Does the component contain, data, logic and presentation code?
+
+---
+
+## Counter Component Analysis 1/2
+
+### What is happening in this component?
+
+1. **State Management**: `useState(0)` creates a state variable `count` starting at 0
+2. **Event Handling**: Button clicks trigger `setCount()` to update the state
+3. **Re-rendering**: When state changes, React automatically re-renders the component
+4. **UI Updates**: The new count value is displayed in the paragraph
+
+---
+
+<style scoped>
+  section {
+    font-size: 23px;
+  }
+</style>
+
+## Counter Component Analysis 2/2
+
+### How is the component declarative?
+
+- **We describe WHAT we want**: "Show the count value" and "Update count when button is clicked"
+- **We don't specify HOW**: No manual DOM manipulation, no `document.getElementById()`, no `innerHTML`
+- **React handles the details**: React figures out what DOM changes are needed and applies them efficiently
+
+### Does the component contain data, logic, and presentation code?
+
+**Yes! All three are encapsulated in one component:**
+
+- **Data**: `count` state variable
+- **Logic**: `setCount(count + 1)` and `setCount(count - 1)` functions
+- **Presentation**: JSX that renders the UI elements
+
+This is the **component-based architecture** - each component is self-contained with its own data, logic, and presentation.
+
+---
+
+## Virtual DOM
+
+React use a virtual DOM instead of directly manipulating the DOM. The virtual DOM is diffed against the actual DOM after a rendering cycle is complete and only the changed areas in the actual DOM are updated.
+
+This results in more efficient UI updates.
+
+The following slides shows a simplified version of this process visually.
+
+![bg right:40% contain](./assets/virtual_dom_process.png)
+
+---
+
+![bg contain](./assets/virtual_dom_update.png)
+
+---
+
+## Declarative Programming
+
+React uses a declarative programming model. We declare how the UI should look, we _don't manually specify how it gets updated_.
+
+```jsx
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  // Declarative: we declare what the UI should look like
+  // We don't specify how the DOM should get updated
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+---
+
+## Virtual DOM
+
+---
+
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+
+<!-- ![bg right:50% ](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmgyMDQ3cGVia2l0aDl5aXQwNXd0cmtrYjJvam1xcHhnbnk4am5rdyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/0Vv0Ne2CnOClIExIuL/giphy.webp) -->
 
 ## Why React?
 
@@ -55,7 +367,7 @@ By the end of this session, you will be able to:
 
 - **Most popular** frontend framework
 - **High demand** in job market
-- **Large ecosystem** of libraries and tools
+- **Large ecosystem** of modules and tooling
 - **Strong community** support
 
 ### 🎯 **Developer Friendliness**
@@ -99,49 +411,17 @@ React is a **declarative, efficient, and flexible** JavaScript library for build
 - **Declarative**: Describe what you want, React handles the DOM updates
 - **Learn Once, Write Anywhere**: Use React for web, mobile, and desktop
 
----
+<!-- ---
 
 ## React Architecture
 
-<div style="display: flex; justify-content: space-between; align-items: center; height: 400px;">
-  <div style="flex: 1; text-align: center;">
-    <h3>Traditional DOM</h3>
-    <div style="border: 2px solid #ccc; padding: 20px; margin: 10px; border-radius: 8px;">
-      <p>Direct DOM manipulation</p>
-      <p>Slow updates</p>
-      <p>Complex state management</p>
-    </div>
-  </div>
-  <div style="flex: 1; text-align: center;">
-    <h3>React Virtual DOM</h3>
-    <div style="border: 2px solid #4CAF50; padding: 20px; margin: 10px; border-radius: 8px; background-color: #f0f8f0;">
-      <p>Virtual DOM diffing</p>
-      <p>Efficient updates</p>
-      <p>Component state</p>
-    </div>
-  </div>
-</div>
+React use
 
----
-
-## History
-
-### React's Evolution
-
-| Year     | Milestone           | Key Features                     |
-| -------- | ------------------- | -------------------------------- |
-| **2011** | Created at Facebook | Internal use for Facebook Ads    |
-| **2013** | Open-sourced        | Released to public               |
-| **2015** | React Native        | Mobile development               |
-| **2016** | React Fiber         | New reconciliation algorithm     |
-| **2018** | React Hooks         | Functional components with state |
-| **2020** | React 18            | Concurrent features, Suspense    |
-
-### Key Contributors:
-
-- **Jordan Walke** - Original creator
-- **Facebook/Meta** - Primary maintainer
-- **Open Source Community** - Ecosystem growth
+| Traditional DOM Manipulation in JS | React Virtual DOM   |
+| ---------------------------------- | ------------------- |
+| Direct DOM manipulation            | Virtual DOM diffing |
+| Slow updates                       | Efficient updates   |
+| Complex state management           | Component state     | -->
 
 ---
 

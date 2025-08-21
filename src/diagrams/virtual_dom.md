@@ -171,3 +171,4 @@ sequenceDiagram
 | **Debugging**      | Difficult                | Easy (React DevTools)     |
 
 This Virtual DOM approach is what makes React so efficient and why it's become the standard for modern web development.
+

@@ -76,6 +76,30 @@
 - tieing everything together
 - getting started
 
+### Revision
+
+- organization:
+  - react/react history
+    - include motivation
+  - motivation
+    - what pain points does React help solve?
+      - direct DOM manipulation (raw JS, JQuery)
+        - spaghetti code
+        - storing data in UI
+        - no real architecture
+  - Archicteure
+  - react fundamentals
+    - JSX
+    - Components
+      - class based vs functional components
+    - Hooks
+      - In React, a hook is essentially a special function that lets you “hook into” React features from a function component.
+    - State
+    - Events
+    - Context
+  - thinking in react
+  - getting started
+
 ## Emails
 
 - week 0
