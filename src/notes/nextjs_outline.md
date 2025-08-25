@@ -1,3 +1,14 @@
+- pages routing
+- rendering
+  - traditional
+    - getStaticProps
+    - getServerProps
+- app router
+  - layouts (nested)
+  - props (params)
+
+---
+
 ## 1. Introduction to Next.js
 
 - What Next.js is: a React framework for production-ready apps.
