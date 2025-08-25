@@ -23,7 +23,7 @@ _A modern JavaScript library for building fullstack React applications_
 
 ---
 
-## 2. Key Features
+## Key Features
 
 - **File-based routing** (pages directory, app directory in Next.js 13+).
 - **Pre-rendering** (SSG – Static Site Generation, SSR – Server-Side Rendering).
