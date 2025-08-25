@@ -13,7 +13,7 @@ _A modern JavaScript library for building user interfaces_
 
 <!-- class: lead -->
 
-## Why Use React?
+## Why Use React? 1/2
 
 ### 🚀 **Performance**
 
@@ -29,7 +29,7 @@ _A modern JavaScript library for building user interfaces_
 
 ---
 
-## Why Use React?
+## Why Use React? 2/2
 
 ### 🌐 **Ecosystem**
 
@@ -60,7 +60,7 @@ _A modern JavaScript library for building user interfaces_
 
 ### What questions will we answer today?
 
-- **Definition & History** - What is React? What was the motivation for its development?
+- **Definition & History** - What is React? When and why was it developed?
 - **Motivation** - Why should we learn and use React?
 - **Architecture** - What architecture does React use and why?
 - **JSX** - What is JSX and how do we write JSX code?
@@ -121,17 +121,7 @@ By the end of this session, you will be able to:
 
 Before React, Facebook developed its user interfaces using an MVC and lower level JS that directly manipulated the DOM.
 
-What potential issues do you think this development pattern could created?
-
----
-
-## Motivation
-
-Traditional direct DOM manipulation posed several problems for Facebook including:
-
-- **Inefficiency** - directly manipulating the DOM can cause inefficient re-rendering in the browser which results in a poor user experience.
-- **Messy Code** - without a well defined architecture, control flow and data storage can become disorganized.
-- **Difficult to manage complexity** - without a well defined architecture, data and logic become mixed, concerns are not clearly separated and code produces unintended side affects. Over time this complexity becomes unmanageable.
+What potential issues do you see with using JS to directly manipulate the DOM?
 
 ---
 
@@ -203,6 +193,16 @@ _Hint: Global data stored in the presentation layer anyone?_
   document.getElementById("btn2").addEventListener("click", handleClick);
 </script>
 ```
+
+---
+
+## Issues with direct DOM manipulation in JS
+
+Traditional direct DOM manipulation posed several problems for Facebook including:
+
+- **Inefficiency** - directly manipulating the DOM can cause inefficient re-rendering in the browser which results in a poor user experience.
+- **Messy Code** - without a well defined architecture, control flow and data storage can become disorganized.
+- **Difficult to manage complexity** - without a well defined architecture, data and logic become mixed, concerns are not clearly separated and code produces unintended side affects. Over time this complexity becomes unmanageable.
 
 ---
 
