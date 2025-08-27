@@ -10,6 +10,8 @@ paginate: true
 
 _A modern JavaScript library for building user interfaces_
 
+![bg right:50%](./assets/lazer_cat.webp)
+
 ---
 
 <!-- class: lead -->

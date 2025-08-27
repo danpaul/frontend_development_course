@@ -4,6 +4,15 @@ theme: default
 paginate: true
 ---
 
+<style scoped>
+@media screen {
+  /* Hide not current fragments */
+  [data-marpit-fragment]:not([data-marpit-fragment]:current) {
+    display: none;
+  }
+}
+</style>
+
 <!-- class: invert -->
 
 # Introduction to Next.js
@@ -561,6 +570,119 @@ export default function Home() {
   );
 }
 ```
+
+<!-- class: inverted -->
+
+## Next API
+
+---
+
+<!-- class: lead -->
+
+## Next API
+
+<!-- asdf -->
+
+You can add API routes directly to your Next application.
+
+This allows Next to work as a true full stack framework. Not only can we render our React components on the server, we can also enable true REST API routes to support dynamic data in our application.
+
+This combined with some of Next's deployment options (described later) allow us to build true fullstack applications within a single codebase with minimal manual management of infrastructure. This is great for developer experience and can allow smaller teams to work cross-stack in an efficient way (which is great for the client's bottom line).
+
+API development can be handy not only to provide data for your Next web application but to served data to other client's (i.e. a React Native mobile application 😉).
+
+However, if only your app need the data, you may not need an API (you can simply use server components).
+
+---
+
+## Next API - Usage
+
+API development in Next works slightly differently between Pages Router and App Router. We will only discuss the most updated routing option, _App Router_.
+
+To add a route, simply add a new route file under the `/app/api` directory. This file should be called `route.ts` (for TS projects). I.e. `/app/api/users/route.ts` to get all users.
+
+Dynamic routes can also be handled by placing the dynamic route portions inside square brackets: `/app/api/user/[id]/route.ts`.
+
+To create a Next API route with the _App Router_, simply add a new route file under the
+
+---
+
+## Next API - Example Get Users
+
+Here we have a get all users route (`/app/api/users/route.ts`).
+
+If we want to add a route to this file that creates a user, how would the function signature change?
+
+<div data-marpit-fragment>
+
+_We would simply export a function with the `POST` to handle a `POST` request to the `/users` endpoint._
+
+</div>
+
+Assuming we are using this returned data in our Next application, what sort of typing improvements can we make?
+
+<div data-marpit-fragment>
+
+_We could type our return type and move it to a `/DTO` folder. This would allow our response type to be imported and used easily by the client._
+
+</div>
+
+```jsx
+export async function GET(request: Request) {
+  // For example, fetch data from your DB here
+  const users = [
+    { id: 1, name: "Alice" },
+    { id: 2, name: "Bob" },
+  ];
+  return new Response(JSON.stringify(users), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+```
+
+Next provides types for their request objects (see `import` in example).
+
+What's the deal with the <> brackets in `NextApiResponse`?
+Given we are see that `NextApiResponse` is using the type `ResponseData`
+
+<div data-marpit-fragment>
+
+_`NextApiResponse` is a generic type. We need to specify the type that is being returned._
+
+We see that `NextApiResponse` is using the type `ResponseData`
+
+</div>
+
+```typescript
+import type { NextApiRequest, NextApiResponse } from "next";
+
+type ResponseData = {
+  message: string;
+};
+
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseData>
+) {
+  res.status(200).json({ message: "Hello from Next.js!" });
+}
+```
+
+---
+
+## Going further
+
+We have really just scratched the surface of API development in Next. If you would like to learn more, how to handle query parameters, adding auth middleware and more, here are some additional resources:
+
+- [Route Handlers and Middleware](https://nextjs.org/docs/app/getting-started/route-handlers-and-middleware)
+- [Building APIs with Next.js](https://nextjs.org/blog/building-apis-with-nextjs)
+
+---
+
+<!-- class: inverted -->
+
+## Building and Deploying
 
 ---
 
