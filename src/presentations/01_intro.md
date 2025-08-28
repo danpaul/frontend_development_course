@@ -14,18 +14,9 @@ paginate: true
 
 <!-- class: lead -->
 
-## In this presentation
-
-- Today's class
-- Class structure and assessment
-- Main topics covered
-- Class format
-- Hackathon!
-- Tooling
-
----
-
 ## Today's class
+
+![bg contain right:50%](./assets/baldi.gif)
 
 - Class overview
 - JS highlights and toolings
@@ -48,42 +39,49 @@ paginate: true
 
 ## Main Topics Covered
 
+![bg contain right:50%](./assets/jabbascript.webp)
+
 - Frontend development using React, TypeScript, React Native
 - Technologies used
-  - React / React Native
+  - JS/ES6
+  - React
   - TypeScript
   - Next.js
   - TanStack Query
   - Redux
-  - Node
-  - NPM
-  - Vite
+  - React Native
 
 ---
 
 ## Class format
 
 - At home:
-  - Reading assignments to introduce theory topics
-  - Hackathon project work (reinforce learning and get some practice before starting project)
+  - Reviewing upcoming week's presentation material (before class)
+  - Digging into documentation (as needed) to build out your hackathon project
 - In class:
-  - Reinforce theory (lecture)
+  - Review presentations (lecture), ask questions and clarify
   - Project work, discussion, feedback
 
 ---
 
 ## Hackathon
 
+![bg contain right:50%](./assets/console_cowboys.webp)
+
+Can _you_ jam with the console cowboys in cyberspace?
+
 - Goals
   - Find a small project that motivates you
-  - Practice and implement the theory topics we are covering in class
+  - Practice the theory topics we are covering in class
   - Prepare for implementation portion of course
   - GitHub portfolio, resume material
-  - Cash prizes, fame, etc
+  - Cash prizes, fame, etc.
 
 ---
 
 ## Tooling
+
+![bg left:40%](./assets/useless_hammer.jpg)
 
 - Node (current version)
 - NPM (current version)
@@ -92,3 +90,13 @@ paginate: true
   - Prettier extension
 - React Developer Tools (Chrome extension)
   - We recommend standardizing on Chrome as a development browser
+
+---
+
+## On your marks, get set...
+
+![bg right:40%](./assets/run.webp)
+
+You have the tools you need. You know the stack we're using. You know how to read docs. You have everything you need. Now go build!
+
+You don't need to wait until we officially cover something in class to start using it. It's a good idea to start reading and working through the documentation as you start building your project before we get to it.

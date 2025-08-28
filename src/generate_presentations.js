@@ -3,9 +3,9 @@ import * as path from "path";
 import { marpCli } from "@marp-team/marp-cli";
 import { readdir, lstat, unlink, cp } from "fs/promises";
 
-const DATA_DIRECTORY = process.cwd() + "/presentations";
-// const OUTPUT_DIRECTORY = process.cwd() + "\\..\\presentations";
-const OUTPUT_DIRECTORY = process.cwd() + "/../presentations";
+const DATA_DIRECTORY = path.join(process.cwd(), "presentations");
+const OUTPUT_DIRECTORY = path.join(process.cwd(), "..", "presentations");
+const GENERATE_PDFS = false;
 
 async function getFiles() {
   const fileMap = {};
@@ -48,21 +48,23 @@ async function copyDir(src, dest) {
     if (name[0] === "_") {
       continue;
     }
-    await marpCli([
+
+    const getMarpArgs = (fileType) => [
       filePath,
-      "--pdf",
+      `--${fileType}`,
       "--allow-local-files",
       "-o",
-      `${OUTPUT_DIRECTORY}/${name}.pdf`,
-    ]);
+      `${OUTPUT_DIRECTORY}/${name}.${fileType}`,
+    ];
+
+    // export as PDF
+    if (GENERATE_PDFS) {
+      await marpCli(getMarpArgs("pdf"));
+    }
+
     // export as HTML
-    await marpCli([
-      filePath,
-      "--html",
-      "--allow-local-files",
-      "-o",
-      `${OUTPUT_DIRECTORY}/${name}.html`,
-    ]);
+    await marpCli(getMarpArgs("html"));
+
     // copy asset directory
     copyDir(`${DATA_DIRECTORY}/assets`, `${OUTPUT_DIRECTORY}/assets`);
   }
