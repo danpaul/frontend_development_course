@@ -29,7 +29,7 @@ VSCode with the MARP and Mermaid extensions.
 ##Normal Slide
 ```
 
-### Trasitions withing slides
+### Transitions within slides
 
 ### Slide with content hidden on load (transitions)
 
@@ -67,4 +67,20 @@ marp: true
 ### Answer three
 
 </div>
+```
+
+## Resizing text is slide
+
+```markdown
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+```
+
+## Sized, positioned and contained background image
+
+```markdown
+![bg contain right:40%](https://i.imgflip.com/a4ebef.jpg)
 ```
