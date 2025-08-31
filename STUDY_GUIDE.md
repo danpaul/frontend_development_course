@@ -18,7 +18,7 @@ During this portion, we will also be working individually on a small hackathon p
 
 ### React Native (weeks 5 - 7)
 
-During weeks 5 - 7, you will receive lectures and work on a final React Native project. You will be assessed on the React Native project at after week 7.
+During weeks 5 - 7, you will receive lectures and work on a final React Native project. You will be assessed on the React Native project after week 7.
 
 ## Weekly Schedule
 
