@@ -13,26 +13,27 @@ _A friendly guide for JavaScript developers_
 
 ---
 
-## �� What is TypeScript?
+## What is TypeScript?
 
 - A **superset of JavaScript**
-- Adds **static types** ✅
+- Adds **static types**
 - Developed by **Microsoft**
-- Compiles to **plain JavaScript**
-- Catches **errors early**
+- Transpiles to **plain JavaScript**
+- Catches **errors early** at transpile time
 
 ---
 
-## �� Why Use TypeScript?
+## Why Use TypeScript?
 
 - **Type safety**: Find bugs before runtime
 - **Better IDE support**: Autocomplete & refactoring
 - **Readable & maintainable code**
 - Popular in **large projects**
+- Very nice for fullstack TS development (i.e. in Next). Front and backend easily share types
 
 ---
 
-## �� Basic Types
+## Basic Types
 
 ```ts
 let isDone: boolean = false;
@@ -41,7 +42,7 @@ let name: string = "Alice";
 let numbers: number[] = [1, 2, 3];
 let tuple: [string, number] = ["Alice", 30];
 let anyValue: any = "can be anything";
-let unknownValue: unknown = "safer than any";
+let unknownValue: unknown = "safer than any"; // why?
 let neverValue: never; // function that never returns
 ```
 
