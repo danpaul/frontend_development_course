@@ -118,6 +118,8 @@ By the end of this session, you will be able to:
 - **Facebook/Meta** - Primary maintainer
 - **Open Source Community** - Ecosystem growth
 
+Read: [The History of React.js on a Timeline](https://blog.risingstack.com/the-history-of-react-js-on-a-timeline/)
+
 ---
 
 ## Pre-React Facebook

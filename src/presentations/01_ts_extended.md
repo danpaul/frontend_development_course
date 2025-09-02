@@ -29,11 +29,134 @@ _A friendly guide for JavaScript developers_
 - **Better IDE support**: Autocomplete & refactoring
 - **Readable & maintainable code**
 - Popular in **large projects**
-- Very nice for fullstack TS development (i.e. in Next). Front and backend easily share types
+- Very nice for fullstack TS development (i.e. in Next). Front and backend easily share types.
 
 ---
 
-## Basic Types
+## Presentation Overview
+
+1. **TS Big Picture** - Big picture differences between TypeScript typing and other typings systems (i.e. C#) you may have used.
+2. **TS Nuts and Bolts** - A whirlwind tour of TS syntax and features.
+
+---
+
+<!-- class: invert-->
+
+## TS Big Picture
+
+---
+
+<!-- class: lead-->
+
+## Nominal vs Structural Typing
+
+One important difference between TS and C# typing is that of nominal vs structural typing. With nominal typing type is determined by an interface or class, not by the _structure_ of the object. In TS, as long as the structure of the object conforms to what is required by the type, no error will be thrown (even if the objects are of different classes.).
+
+---
+
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+
+## Nominal vs Structural Typing Compared
+
+| Feature                    | Nominal Typing                                              | Structural Typing                                        |
+| -------------------------- | ----------------------------------------------------------- | -------------------------------------------------------- |
+| **Definition**             | Type compatibility based on _explicit declarations_ (name). | Type compatibility based on _structure_ (shape of data). |
+| **Type Equivalence**       | Types are equal if they have the _same name_.               | Types are equal if they have the _same structure_.       |
+| **Common Languages**       | Java, C++, C#, Swift                                        | TypeScript, Go                                           |
+| **Type Declaration Focus** | Emphasizes _explicit naming_ and declarations.              | Emphasizes _data shape_ and compatibility.               |
+| **Flexibility**            | Less flexible – more rigid type rules.                      | More flexible – allows implicit compatibility.           |
+| **Refactoring Safety**     | High – name changes break code, revealing issues.           | Lower – structural compatibility may hide issues.        |
+
+---
+
+## C# Nominal Typing Example
+
+```csharp
+public interface IDuck {
+    string Name { get; set; }
+    void Quack();
+}
+
+public class Mallard : IDuck {
+    public string Name { get; set; }
+    public void Quack() => Console.WriteLine($"{Name} quacks!");
+}
+
+public class Person {
+    public string Name { get; set; }
+    public void Quack() => Console.WriteLine($"{Name} tries to quack...");
+}
+
+void Speak(IDuck duck) => duck.Quack();
+
+Speak(new Mallard { Name = "Donald" }); // ✅
+Speak(new Person { Name = "Bob" });     // ❌ Error (must implement IDuck)
+
+```
+
+---
+
+## TS Structural Typing Example
+
+```typescript
+interface Duck {
+  name: string;
+  quack(): void;
+}
+
+class Mallard {
+  constructor(public name: string) {}
+  quack() {
+    console.log(`${this.name} quacks!`);
+  }
+}
+
+class Person {
+  constructor(public name: string) {}
+  quack() {
+    console.log(`${this.name} tries to quack...`);
+  }
+}
+
+function speak(duck: Duck) {
+  duck.quack();
+}
+
+speak(new Mallard("Donald")); // ✅
+speak(new Person("Bob")); // ✅ Works: same shape
+```
+
+---
+
+## Structural Typing Benefits
+
+The importance of structural typing give TS a lot of **flexibility**. We can develop with greater **speed**. As data flows through our application we can transform, merge and otherwise modify it without being slowed down by a strict nominal typing system.
+
+We will see that this structures is **well suited for component based development**. As we dive into React we will see that the flexibility of a structural typing system allow us to quickly and safely define component data dependencies and pass data between components.
+
+---
+
+<!-- class: invert-->
+
+## TS Big Picture
+
+---
+
+<!-- class: lead-->
+
+## Some Basic Types
+
+![bg right:40% contain](./assets/yawn.gif)
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+</style>
 
 ```ts
 let isDone: boolean = false;
@@ -41,7 +164,7 @@ let age: number = 25;
 let name: string = "Alice";
 let numbers: number[] = [1, 2, 3];
 let tuple: [string, number] = ["Alice", 30];
-let anyValue: any = "can be anything";
+let anyValue: any = "can be anything"; // Avoid using any!!!
 let unknownValue: unknown = "safer than any"; // why?
 let neverValue: never; // function that never returns
 ```
@@ -58,6 +181,12 @@ let neverValue: never; // function that never returns
 ---
 
 ## ⚙️ Functions with Types
+
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
 
 ```ts
 function greet(name: string): string {
@@ -82,7 +211,28 @@ console.log(add(10, 20));
 
 ---
 
-## �� Interfaces
+## Async functions
+
+Typing async functions as our apps start to rely on asynchronous operations and data sources.
+
+```ts
+type AsyncFn = (a: number, b: string) => Promise<boolean>;
+
+// Example use:
+const myFn: AsyncFn = async (x, y) => {
+  return y.length > x;
+};
+```
+
+---
+
+## Interfaces
+
+<style scoped>
+  section {
+    font-size: 20px;
+  }
+</style>
 
 ```ts
 interface Person {
@@ -114,7 +264,13 @@ let employee: Employee = {
 
 ---
 
-## ��️ Type Aliases
+## Type Aliases
+
+<style scoped>
+  section {
+    font-size: 26px;
+  }
+</style>
 
 ```ts
 type Point = {
@@ -140,6 +296,12 @@ let coords: Coordinates = { x: 10, y: 20, z: 30 };
 ---
 
 ## ✨ Optional & Default Parameters
+
+<style scoped>
+  section {
+    font-size: 28px;
+  }
+</style>
 
 ```ts
 function greet(name: string, age?: number, greeting: string = "Hello") {
@@ -254,7 +416,13 @@ function isUser(obj: unknown): obj is User {
 
 ---
 
-## 🎭 Enums
+## Enums
+
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
 
 ```ts
 enum Color {
@@ -282,7 +450,7 @@ console.log(Status.Approved); // 1 (auto-incremented)
 
 ---
 
-## 🏗️ Classes
+## 🏗️ Classes 1/2
 
 ```ts
 class Animal {
@@ -313,13 +481,23 @@ dog.bark(); // Rex barks!
 dog.move(10); // Rex runs 10m.
 ```
 
-- **Classes** with access modifiers
+---
+
+## 🏗️ Classes 2/2
+
+- **Classes** can use access modifiers
 - **Inheritance** with `extends`
-- **Method overriding** and `super`
+- **Method overriding** and access to parent class with `super`
 
 ---
 
-## �� Utility Types
+## Utility Types 1/2
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+</style>
 
 ```ts
 interface User {
@@ -348,13 +526,17 @@ type UserMap = Record<string, User>;
 type GreetReturn = ReturnType<typeof greet>;
 ```
 
+---
+
+## Utility Types 2/2
+
 - **Utility types** for type transformations
 - `Partial<T>` → make all properties optional
 - `Required<T>` → make all properties required
 - `Pick<T, K>` → select specific properties
 - `Omit<T, K>` → exclude specific properties
 
----
+<!-- ---
 
 ## 🎨 Advanced Types
 
@@ -383,7 +565,7 @@ type StringArrayElement = ArrayElement<string[]>; // string
 - **Conditional types** with `extends`
 - **Mapped types** with `in`
 - **Template literal types**
-- **Index access types**
+- **Index access types** -->
 
 ---
 
@@ -393,7 +575,7 @@ type StringArrayElement = ArrayElement<string[]>; // string
 | ------------------------ | ---------- | ---------- |
 | Static Types             | ❌         | ✅         |
 | Compile-time checks      | ❌         | ✅         |
-| Object-oriented features | ❌         | ✅         |
+| Object-oriented features | Limited    | ✅         |
 | IDE Autocomplete         | Limited    | Excellent  |
 | Generics                 | ❌         | ✅         |
 | Interfaces               | ❌         | ✅         |
@@ -402,7 +584,11 @@ type StringArrayElement = ArrayElement<string[]>; // string
 
 ---
 
-## �� Getting Started
+## Getting Started
+
+For this class, we will use TS primarily within Next so, we can simply enable the TS option when creating a new Next project.
+
+<!-- ---
 
 1. Install Node.js (includes npm)
 2. Install TypeScript:
@@ -427,9 +613,9 @@ tsc app.ts
 
 ```bash
 node app.js
-```
+``` -->
 
----
+<!-- ---
 
 ## 📁 tsconfig.json Essentials
 
@@ -468,17 +654,20 @@ node app.js
 - **Use enums** for related constants
 - **Document complex types** with comments
 
----
+--- -->
 
-## �� Resources
+## Resources
 
 - [TypeScript Docs](https://www.typescriptlang.org/docs/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
-- [TypeScript Playground](https://www.typescriptlang.org/play)
-- [TypeScript Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html)
-- [TypeScript Design Patterns](https://refactoring.guru/design-patterns/typescript)
 
----
+**Read: [TypeScript for Java/C# Programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-oop.html)**
+
+<!-- - [TypeScript Playground](https://www.typescriptlang.org/play)
+- [TypeScript Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html)
+- [TypeScript Design Patterns](https://refactoring.guru/design-patterns/typescript) -->
+
+<!-- ---
 
 # 🎉 Summary
 
@@ -491,4 +680,4 @@ node app.js
 - **Advanced Types** for complex scenarios
 - **Strict mode** for maximum type safety
 
-**Happy typing! 🎯**
+**Happy typing! 🎯** -->

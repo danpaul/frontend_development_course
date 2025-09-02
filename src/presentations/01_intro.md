@@ -4,6 +4,16 @@ theme: default
 paginate: true
 ---
 
+<!-- only include once in document -->
+<style scoped>
+@media screen {
+  /* Hide not current fragments */
+  [data-marpit-fragment]:not([data-marpit-fragment]:current) {
+    display: none;
+  }
+}
+</style>
+
 <!-- class: invert -->
 
 # Frontend Development - Course Overview
@@ -19,6 +29,8 @@ paginate: true
 ![bg contain right:50%](./assets/baldi.gif)
 
 - Class overview
+- Hackathon planning
+- Tooling setup
 - JS highlights and toolings
 - TypeScript
 
@@ -34,6 +46,52 @@ paginate: true
   - Final React Native _project_.
   - 50% of grade
 - To pass the course, both assessments must receive a minimum passing grade of 55.
+
+---
+
+## Class Materials and Info Activity
+
+The material for this portion of the course is in the class repo. Lets take a minute to get familiar with that now!
+
+- Clone it: [https://github.com/danpaul/frontend_development_course](https://github.com/danpaul/frontend_development_course)
+- Read the [README](../README.md)
+- Read the [study guide](../STUDY_GUIDE.md)
+
+---
+
+## Quiz Time!
+
+Should you read the presentation materials for upcoming class before class (read week 2 presentations before week 2)?
+
+<div data-marpit-fragment>
+
+**Yes!**
+
+</div>
+
+<div data-marpit-fragment>
+
+The course contains only one assessment.
+
+</div>
+
+<div data-marpit-fragment>
+
+**False!** _There is a theory exam for weeks 1-4 and a practical project for weeks 5-7._
+
+</div>
+
+<div data-marpit-fragment>
+
+During this portion of the course, you should be reading presentations, reading referenced materials and working on your hackathon project.
+
+</div>
+
+<div data-marpit-fragment>
+
+**True!**
+
+</div>
 
 ---
 
@@ -56,8 +114,9 @@ paginate: true
 ## Class format
 
 - At home:
-  - Reviewing upcoming week's presentation material (before class)
-  - Digging into documentation (as needed) to build out your hackathon project
+  - Review upcoming week's presentation material (before class)
+  - Read/watch supplementary materials referenced in the presentations
+  - Build your hackathon project and reading documentation
 - In class:
   - Review presentations (lecture), ask questions and clarify
   - Project work, discussion, feedback
@@ -79,6 +138,14 @@ Can _you_ jam with the console cowboys in cyberspace?
 
 ---
 
+## Hackathon Planning Activity
+
+1. Form groups of 2-3
+2. Brainstorm some ideas, select your best 2-3 (5 minutes)
+3. Discuss, get feedback (10 minutes)
+
+---
+
 ## Tooling
 
 ![bg left:40%](./assets/useless_hammer.jpg)
@@ -86,10 +153,10 @@ Can _you_ jam with the console cowboys in cyberspace?
 - Node (current version)
 - NPM (current version)
 - VS Code
-  - TS/React/Next Extension
+  - TS/React/Next Extensions
   - Prettier extension
 - React Developer Tools (Chrome extension)
-  - We recommend standardizing on Chrome as a development browser
+  - _We recommend standardizing on Chrome as a primary development browser_
 
 ---
 
@@ -100,3 +167,31 @@ Can _you_ jam with the console cowboys in cyberspace?
 You have the tools you need. You know the stack we're using. You know how to read docs. You have everything you need. Now go build!
 
 You don't need to wait until we officially cover something in class to start using it. It's a good idea to start reading and working through the documentation as you start building your project before we get to it.
+
+---
+
+## Activity: Get Started
+
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+
+Create a Next App!
+
+[https://nextjs.org/docs/app/getting-started/installation](https://nextjs.org/docs/app/getting-started/installation)
+
+Install a current version Node and npx (if not already installed)
+
+run `npx create-next-app@latest my-hackathon-app`
+
+Use these options:
+
+![](./assets/next_defaults.png)
+
+Look at the `package.json`
+
+Explore the project files.
+
+Run `npm run dev`
