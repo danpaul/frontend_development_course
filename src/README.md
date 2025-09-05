@@ -69,7 +69,7 @@ marp: true
 </div>
 ```
 
-## Resizing text is slide
+## Resizing text for an individual slide
 
 ```markdown
 <style scoped>
