@@ -82,5 +82,5 @@ marp: true
 ## Sized, positioned and contained background image
 
 ```markdown
-![bg contain right:40%](https://i.imgflip.com/a4ebef.jpg)
+![bg contain right:40%](./assets/prop_drilling.png)
 ```

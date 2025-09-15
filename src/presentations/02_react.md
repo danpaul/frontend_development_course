@@ -59,21 +59,6 @@ _A modern JavaScript library for building user interfaces_
 
 ---
 
-## Welcome to React!
-
-### What questions will we answer today?
-
-- **Definition & History** - What is React? When and why was it developed?
-- **Motivation** - Why should we learn and use React?
-- **Architecture** - What architecture does React use and why?
-- **JSX** - What is JSX and how do we write JSX code?
-- **Components** - What is a component and how do we use it?
-  - **Props & State** - How is data managed within a component?
-  - **Hooks** - How do we add dynamical functionality to our components?
-  - **Event Handling** - How are user interactions and other events handled?
-
----
-
 ## 🎯 **Learning Objectives**
 
 By the end of this session, you will be able to:
@@ -118,7 +103,7 @@ By the end of this session, you will be able to:
 - **Facebook/Meta** - Primary maintainer
 - **Open Source Community** - Ecosystem growth
 
-Read: [The History of React.js on a Timeline](https://blog.risingstack.com/the-history-of-react-js-on-a-timeline/)
+<!-- Read: [The History of React.js on a Timeline](https://blog.risingstack.com/the-history-of-react-js-on-a-timeline/) -->
 
 ---
 
@@ -294,11 +279,11 @@ To understand these concepts, lets start with our first React example (a counter
   }
 </style>
 
-```jsx
+```tsx
 import React, { useState } from "react";
 
-export default function Counter() {
-  const [count, setCount] = useState(0);
+export default function Counter(): JSX.Element {
+  const [count, setCount] = useState<number>(0);
 
   return (
     <div>
@@ -432,39 +417,14 @@ JSX looks like HTML but compiles to JS.
 
 Example JSX:
 
-```jsx
+```tsx
 const element = <h1>Hello, world!</h1>;
 ```
 
 Compiles to:
 
-```js
+```ts
 const element = React.createElement("h1", null, "Hello, world!");
-```
-
----
-
-## JSX Embedding Expressions
-
-You can embed any JavaScript expression in JSX by wrapping it in curly braces `{}`.
-
-```jsx
-const name = "John Doe";
-const element = <h1>Hello, {name}!</h1>;
-
-// You can also use expressions
-const user = { firstName: "John", lastName: "Doe" };
-const greeting = (
-  <h1>
-    Hello, {user.firstName} {user.lastName}!
-  </h1>
-);
-
-// Function calls work too
-function formatName(user) {
-  return user.firstName + " " + user.lastName;
-}
-const formattedGreeting = <h1>Hello, {formatName(user)}!</h1>;
 ```
 
 ---
@@ -475,16 +435,59 @@ const formattedGreeting = <h1>Hello, {formatName(user)}!</h1>;
   }
 </style>
 
+## JSX Embedding Expressions
+
+You can embed any JavaScript expression in JSX by wrapping it in curly braces `{}`.
+
+```tsx
+const name = "John Doe";
+const element = <h1>Hello, {name}!</h1>;
+
+// You can also use expressions
+interface User {
+  firstName: string;
+  lastName: string;
+}
+
+const user: User = { firstName: "John", lastName: "Doe" };
+const greeting = (
+  <h1>
+    Hello, {user.firstName} {user.lastName}!
+  </h1>
+);
+
+// Function calls work too
+function formatName(user: User): string {
+  return user.firstName + " " + user.lastName;
+}
+const formattedGreeting = <h1>Hello, {formatName(user)}!</h1>;
+```
+
+---
+
+<style scoped>
+  section {
+    font-size: 20px;
+  }
+</style>
+
 ## JSX as an expression
 
 JSX can be stored in variables, passed to functions, passed to other components and returned from functions.
 
-```jsx
+```tsx
 // Stored in a variable
 const element = <h1>Hello, world!</h1>;
 
 // returned by a function
-function getGreeting(user) {
+interface User {
+  firstName: string;
+  lastName: string;
+}
+function formatName(user: User): string {
+  return `${user.firstName} ${user.lastName}`;
+}
+function getGreeting(user?: User) {
   if (user) {
     return <h1>Hello, {formatName(user)}!</h1>;
   }
@@ -492,9 +495,9 @@ function getGreeting(user) {
 }
 
 // Use in loops
-function NumberList(props) {
-  const numbers = props.numbers;
-  const listItems = numbers.map((number) => (
+function NumberList(props: { numbers: number[] }) {
+  const numbers: number[] = props.numbers;
+  const listItems = numbers.map((number: number) => (
     <li key={number.toString()}>{number}</li>
   ));
   return <ul>{listItems}</ul>;
@@ -513,16 +516,16 @@ function NumberList(props) {
 
 JSX supports conditional rendering using JavaScript expressions. _if/else_ statements are not possible directly in JSX. Ternary and logical operators are the most common ways to handle conditional logic in JSX.
 
-```jsx
+```tsx
 // Using ternary operator
-function Greeting({ isLoggedIn }) {
+function Greeting({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <div>{isLoggedIn ? <h1>Welcome back!</h1> : <h1>Please sign up.</h1>}</div>
   );
 }
 
 // Using logical AND operator
-function Mailbox({ unreadMessages }) {
+function Mailbox({ unreadMessages }: { unreadMessages: string[] }) {
   return (
     <div>
       <h1>Hello!</h1>
@@ -549,18 +552,18 @@ After changes, when diffing virtual DOM, React requires a unique key on each ele
 
 It is a good idea to use the array index as the key?
 
-```jsx
+```tsx
 // Basic list rendering
-const numbers = [1, 2, 3, 4, 5];
-const listItems = numbers.map((number) => (
+const numbers: number[] = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number: number) => (
   <li key={number.toString()}>{number}</li>
 ));
 
 // In a component
-function NumberList({ numbers }) {
+function NumberList({ numbers }: { numbers: number[] }) {
   return (
     <ul>
-      {numbers.map((number) => (
+      {numbers.map((number: number) => (
         <li key={number.toString()}>{number}</li>
       ))}
     </ul>
@@ -572,7 +575,7 @@ function NumberList({ numbers }) {
 
 <style scoped>
   section {
-    font-size: 27px;
+    font-size: 24px;
   }
 </style>
 
@@ -582,14 +585,20 @@ Chainable JS array methods like `filter()` are useful for making nice concise JS
 
 You should _not_ use array indexes as keys since an array may change even if it's length does not.
 
-```jsx
+```tsx
 // With filtering
-function TodoList({ todos }) {
+interface Todo {
+  id: string | number;
+  text: string;
+  completed: boolean;
+}
+
+function TodoList({ todos }: { todos: Todo[] }) {
   return (
     <ul>
       {todos
-        .filter((todo) => !todo.completed)
-        .map((todo) => (
+        .filter((todo: Todo) => !todo.completed)
+        .map((todo: Todo) => (
           <li key={todo.id}>{todo.text}</li>
         ))}
     </ul>
@@ -607,9 +616,9 @@ function TodoList({ todos }) {
 
 ## Event Handling in JSX
 
-JSX uses camelCase for most things including event names. You can pass named on anonymous function to event handlers.
+JSX uses camelCase for most things including event names. You can pass named or anonymous function to event handlers.
 
-```jsx
+```tsx
 // Event handling with a named function
 function Button() {
   function handleClick() {
@@ -620,8 +629,8 @@ function Button() {
 }
 
 // Event handling with an anonymous function and a parameter
-function Button({ id, text }) {
-  function handleClick(id) {
+function Button({ id, text }: { id: number | string; text: string }) {
+  function handleClick(id: number | string) {
     console.log(`Button ${id} clicked`);
   }
 
@@ -633,13 +642,13 @@ function Button({ id, text }) {
 
 ## Handling data, change and submit events in a form
 
-```jsx
+```tsx
 // Form handling
 function NameForm() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<string>("");
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault(); // prevents propagation
     alert("A name was submitted: " + value);
   }
 
@@ -648,7 +657,9 @@ function NameForm() {
       <input
         type="text"
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setValue(e.target.value)
+        }
       />
       <button type="submit">Submit</button>
     </form>
@@ -710,9 +721,9 @@ There are subtile differences between writing
 
 ## Single JSX root, including fragment
 
-```jsx
+```tsx
 // ❌ Wrong - multiple parent elements
-function WrongComponent() {
+function WrongComponent(): JSX.Element {
   return (
     <h1>Title</h1>
     <p>Paragraph</p>
@@ -720,7 +731,7 @@ function WrongComponent() {
 }
 
 // ✅ Correct - single parent element
-function CorrectComponent() {
+function CorrectComponent(): JSX.Element {
   return (
     <div>
       <h1>Title</h1>
@@ -730,7 +741,7 @@ function CorrectComponent() {
 }
 
 // ✅ Better - using React Fragment
-function BetterComponent() {
+function BetterComponent(): JSX.Element {
   return (
     <>
       <h1>Title</h1>
@@ -748,7 +759,7 @@ function BetterComponent() {
 
 ```bash
 # Create a new React project
-npx create-react-app my-app
+npx create-react-app my-app --template typescript
 cd my-app
 npm start
 ```
@@ -783,15 +794,25 @@ Components are **functions or classes** that return JSX. They can be:
 
 ## Class Based Components
 
+<style scoped>
+  section {
+    font-size: 26px;
+  }
+</style>
+
 There are two main types of components in React, functional and class based. In class based components, the `render()` method is called when the component renders and must always return JSX.
 
-_Class based was the original way to create components in React but this style is deprecated._
+_Class based was the original way to create components in React but this style is no longer preffered._
 
-```jsx
+```tsx
 import { Component } from "react";
 
-class Greeting extends Component {
-  render() {
+interface GreetingProps {
+  name: string;
+}
+
+class Greeting extends Component<GreetingProps> {
+  render(): JSX.Element {
     return <h1>Hello, {this.props.name}!</h1>;
   }
 }
@@ -809,19 +830,19 @@ class Greeting extends Component {
 
 Function components are the preferred way to write components in React. Instead of a `render()` method, the function itself is called during rendering and the return JSX is rendered.
 
-```jsx
+```tsx
 // Function Component
-function Welcome() {
+function Welcome(): JSX.Element {
   return <h1>Hello, World!</h1>;
 }
 
 // Arrow Function Component
-const Welcome = () => {
+const Welcome = (): JSX.Element => {
   return <h1>Hello, World!</h1>;
 };
 
 // Using the component
-function App() {
+function App(): JSX.Element {
   return (
     <div>
       <Welcome />
@@ -842,11 +863,17 @@ Components in a React application create a complex component tree. There is a pa
 
 ## Component hierarchies example
 
-```jsx
+```tsx
 // card is the child (normally in a separate file)
 // `children` is an automatic property that contains any JSX inside its
 //  open/close tags
-function Card({ heading, children }) {
+function Card({
+  heading,
+  children,
+}: {
+  heading: string;
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <h3>{heading}</h3>
@@ -856,7 +883,7 @@ function Card({ heading, children }) {
 }
 
 // wrapper is the parent
-function Wrapper() {
+function Wrapper(): JSX.Element {
   return (
     <div>
       <h2>Wrapper Component</h2>
@@ -891,7 +918,7 @@ How are styles being handled in this example? Styles as data, what are the impli
 
 Here we see inline styles 😱! Is this a problem? Why or why not? (It's complicated.)
 
-```jsx
+```tsx
 function StyledComponent() {
   return (
     <div
@@ -931,7 +958,7 @@ Treating styles as data simplifies dynamic styles. Based on the app's current st
 
 To add classes in our components, we must use `className`.
 
-```jsx
+```tsx
 // Component
 function StyledComponent() {
   return (
@@ -945,8 +972,8 @@ function StyledComponent() {
 
 We can use braces for our `className` attributed values to add expressions and make our styles more dynamic.
 
-```jsx
-function Button({ primary }) {
+```tsx
+function Button({ primary }: { primary?: boolean }) {
   return (
     <button className={`btn ${primary ? "btn-primary" : "btn-secondary"}`}>
       Click Me
@@ -971,7 +998,7 @@ This is how we handle events in React, by passing functions as data (callbacks) 
 
 Take this example:
 
-```jsx
+```tsx
 function Button() {
   const handleClick = () => {
     alert("Button clicked!");
@@ -987,9 +1014,18 @@ The `button` is accepting our `handleClick` callback. This looks like how we pas
 
 ### Event with parameters and closures
 
-```jsx
-function Button({ id, text }) {
-  const handleClick = (id, event) => {
+<style scoped>
+  section {
+    font-size: 26px;
+  }
+</style>
+
+```tsx
+function Button({ id, text }: { id: number | string; text: string }) {
+  const handleClick = (
+    id: number | string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     console.log(`Button ${id} clicked`);
     console.log("Event:", event);
   };
@@ -1014,9 +1050,9 @@ Events "bubble up". Event if you handle an event there are may be other affects 
 
 ## The event object and propagation example
 
-```jsx
+```tsx
 function Form() {
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // stop form from refreshing the page
     e.stopPropagation(); // stop event bubbling up
     alert("Form submitted!");
@@ -1035,11 +1071,13 @@ export default Form;
 
 ---
 
+<!-- class: invert-->
+
 ## Component lifecycle
 
-Components
-
 ---
+
+<!-- class: lead-->
 
 ## Hooks
 
@@ -1061,14 +1099,14 @@ You can also define your own hooks. We will take a look at that too.
 
 `useState` allows us to maintain data between component render cycles. We saw an example of this with the counter example:
 
-```jsx
+```tsx
 import { useState } from "react";
 
 function Counter() {
   // `count` is the bound data (when changed UI will re-render)
   // `setCount` is a callback function which we use to update the count
   // the argument passed to `useState` (0) is the initial value
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState<number>(0);
 
   return (
     <div>
@@ -1113,11 +1151,11 @@ This can best be seen by example.
 
 ## `useEffect` example
 
-```jsx
+```tsx
 import { useState, useEffect } from "react";
 
 function Timer() {
-  const [seconds, setSeconds] = useState(0);
+  const [seconds, setSeconds] = useState<number>(0);
 
   // Runs on mount + every update
   useEffect(() => {
@@ -1151,15 +1189,15 @@ function Timer() {
 
 ## Defining a custom hook (on window resize)
 
-```jsx
+```tsx
 import { useState, useEffect } from "react";
 
 // Custom hook (normally in a separate file)
-function useWindowWidth() {
-  const [width, setWidth] = useState(window.innerWidth);
+function useWindowWidth(): number {
+  const [width, setWidth] = useState<number>(window.innerWidth);
 
   useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
+    const handleResize = (): void => setWidth(window.innerWidth);
 
     window.addEventListener("resize", handleResize);
     // always remove listeners on unmount!!!
@@ -1170,7 +1208,7 @@ function useWindowWidth() {
 }
 
 // ✅ Using the custom hook
-function App() {
+function App(): JSX.Element {
   // width is bound data. Whenever the user resizes, this component will re-render.
   const width = useWindowWidth();
 
@@ -1227,9 +1265,13 @@ npm install --save-dev typescript @types/react @types/react-dom
 
 ---
 
-## TypeScript React Components
+<style scoped>
+  section {
+    font-size: 20px;
+  }
+</style>
 
-### Basic Component with Props
+### Basic TS Component with Props
 
 ```tsx
 interface UserCardProps {
@@ -1295,9 +1337,7 @@ function useCounter(initialValue: number = 0) {
 
 ---
 
-## TypeScript Event Handling
-
-### Typed Event Handlers
+## Typed Event Handlers
 
 ```tsx
 import { ChangeEvent, FormEvent, MouseEvent } from "react";
@@ -1350,6 +1390,12 @@ function Form() {
 
 ## TypeScript Best Practices
 
+<style scoped>
+  section {
+    font-size: 26px;
+  }
+</style>
+
 ### ✅ **Do's**
 
 - **Use interfaces for props** - Clear component contracts
@@ -1364,3 +1410,23 @@ function Form() {
 - **Don't ignore type errors** - Fix them, don't suppress them
 - **Don't over-type** - Let TypeScript infer when possible
 - **Don't forget to type external libraries** - Install `@types` packages
+
+---
+
+<!-- class: lead -->
+
+## Summary & Questions
+
+### Quick Summary
+
+- **React**: declarative, component-based, virtual DOM
+- **JSX**: expressions, lists, conditional rendering
+- **State & Effects**: `useState`, `useEffect`, custom hooks
+- **Events**: handlers, forms, propagation control
+- **TypeScript**: typed props, state, events, hooks
+
+### Questions?
+
+- **What was surprising today?**
+- **Which topic would you be interested in diving into deeper?**
+- **Any examples from your projects to discuss?**

@@ -17,8 +17,6 @@ paginate: true
 
 # Introduction to Next.js
 
-_A modern JavaScript library for building fullstack React applications_
-
 ---
 
 <!-- class: lead -->
@@ -95,8 +93,8 @@ Do we see any downsides or limitation to SPAs?
 
 - Next is a _fullstack_ framework for building React applications. You write the same React code that runs on both the client and the server.
 - Next can improve performance by statically rendering and server rendering pages and using _code splitting_ to only return the functionality and markup to the client that it needs.
-- Next can improve SEO and accessibility by returning valid HTML from the server instead of a JS bundle.
-- Next improves developer experience by allowing you to seamlessly work across the stack without changing context or codebase.
+- Next can improve _SEO and accessibility_ by returning valid HTML from the server instead of a JS bundle.
+- Next improves _developer experience_ by allowing you to seamlessly work across the stack without changing context or codebase.
 
 ---
 
@@ -518,7 +516,7 @@ _What are the tradeoffs to these solutions?_
 
 <div data-marpit-fragment>
 
-- **Faster page load for RSC** - the CSR example requires two request/response cycles, one for the app, the second for the data that app needs. With RSC, both app and data are returned at the same time.
+- **Faster page load for RSC (React Server Component)** - the CSR (Client Side Render) example requires two request/response cycles, one for the app, the second for the data that app needs. With RSC, both app and data are returned at the same time.
 - **Smaller bundle size for RSC** - packages in the RSC component are not bundled with the app, resulting in a smaller bundle size.
 - **Better SEO for RSC** - RSC is returning actual HTML which tends to perform much better for SEO purposes than a simple JS bundle.
 
@@ -699,7 +697,7 @@ Prior to PPR caching and pre-building was typically an all or nothing choice (ei
 
 ## Streaming Server-Side Rendering
 
-Streaming Server-Side Rendering is closely related to Partial Pre-Rendering. Both techniques allow the browser to begin displaying content while the server is still generate sections of the page.
+Streaming Server-Side Rendering is closely related to Partial Pre-Rendering. Both techniques allow the browser to begin displaying content while the server is still generating sections of the page.
 
 Streaming SSR is a rendering technique where a server sends HTML components to the client as they become ready, improving performance by allowing users to see content sooner than with traditional SSR. Partial Prerendering (PPR) is an even more advanced pattern, used in Next.js, that combines the benefits of static generation (SSG) for static content with streaming for dynamic parts, delivering a single stream of HTML that includes both pre-rendered static sections and dynamically streamed components, resulting in a faster initial load and a smoother user experience.
 
@@ -923,52 +921,19 @@ We have really just scratched the surface of API development in Next. If you wou
 
 ---
 
-<!-- class: invert -->
+## Summary
 
-## Getting Started
-
----
-
-<!-- class: lead -->
-
-<style scoped>
-  section {
-    font-size: 24px;
-  }
-</style>
-
-To get started with Next, run the following:
-
-```bash
-npx create-next-app@latest
-```
-
-Select your configuration options. Make sure to enable TS, use App Router. Otherwise, the defaults are fine.
-
-```bash
-What is your project named? my-app
-Would you like to use TypeScript? No / Yes
-Would you like to use ESLint? No / Yes
-Would you like to use Tailwind CSS? No / Yes
-Would you like your code inside a `src/` directory? No / Yes
-Would you like to use App Router? (recommended) No / Yes
-Would you like to use Turbopack? (recommended) No / Yes
-Would you like to customize the import alias (`@/*` by default)? No / Yes
-What import alias would you like configured? @/*
-```
-
-## After installation, `cd` to the new directory, and run `npm run dev`.
+- **What Next.js is**: a fullstack React framework with server and client rendering.
+- **Rendering strategies**: CSR, SSR, SSG, ISR, and **PPR**; can be mixed.
+- **Hydration**: server-rendered HTML becomes interactive on the client.
+- **Routers**: Pages Router vs App Router (recommended) with Server Components.
+- **Data fetching**: `getServerSideProps`/`getStaticProps` vs async Server Components and `generateStaticParams`.
+- **Performance features**: Streaming, `<Suspense>`, code splitting, caching with Next `fetch`.
+- **Core components**: `Image`, `Link`, `Script` for production-grade optimizations.
+- **APIs in Next**: build REST endpoints with App Router route handlers.
 
 ---
 
-<!-- class: invert -->
+## Questions?
 
-<!-- ## Deployment - TK -->
-
-<!-- --- -->
-
-<!-- class: lead -->
-
----
-
-## Summary - TK
+![bg contain right:70%](./assets/questions.gif)
