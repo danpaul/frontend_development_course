@@ -1,4 +1,4 @@
-# Frontend Development - Class 2
+# Frontend Development Week 2
 
 ## Today
 
@@ -8,7 +8,6 @@
 - Announcements
   - Final project (React Native)
   - State management moving to week 4 (relation to Prisma)
-  - For next week: Ne
 - Prisma
   - Demo and discussion
   - Activity

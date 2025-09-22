@@ -6,6 +6,9 @@ paginate: true
 
 <!-- class: invert -->
 
+<!-- TODO: add suspense and error boundaries -->
+<!-- TODO: deeper examination of threads and rendering -->
+
 # Introduction to React
 
 _A modern JavaScript library for building user interfaces_

@@ -4,6 +4,9 @@ theme: default
 paginate: true
 ---
 
+<!-- TODO: discuss how caching works on page navigation, how react server components are handled on page navigation -->
+<!-- TODO: more in depth discussion of server components, how rendering works for these, how the component tree is reconciled with client components -->
+<!-- TODO: deeper examination of streamed server components, examples -->
 <style scoped>
 @media screen {
   /* Hide not current fragments */
@@ -918,6 +921,17 @@ We have really just scratched the surface of API development in Next. If you wou
 
 - [Route Handlers and Middleware](https://nextjs.org/docs/app/getting-started/route-handlers-and-middleware)
 - [Building APIs with Next.js](https://nextjs.org/blog/building-apis-with-nextjs)
+
+---
+
+## Final discussion
+
+Deployment:
+
+- Prisma Postgres
+- Vercel
+
+Infrastructure as a server, pros/cons?
 
 ---
 
