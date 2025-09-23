@@ -49,9 +49,11 @@ By the end you’ll be able to choose the right tool for state, implement querie
 
 ## Side note: server state management
 
-This lecture is mostly focused on client-side data management but, we have seen that Next and related tooling (Prisma, Prisma Postgres) provide data management options as well.
+We have seen that Next and related tooling (Prisma, Prisma Postgres) provide data management options as well.
 
 We may be able to achieve all we need to using server-side data fetching along with caching options (incremental static regeneration, query caching) to achieve efficient data management without additional client-side tools.
+
+This presentation won't be focused on Prisma data access but it's important to keep in mind as a possible data management option.
 
 ---
 
@@ -110,7 +112,7 @@ We know that we can manage state within a single component using `useState()` bu
 
 <div data-marpit-fragment>
 
-We can handle state management where state and/or actions are accessible by multiple components by simply moving the state and actions to a shared parent component and passing the data and event handlers as props to the children.
+We can handle state management where state and/or actions are accessible by multiple components by simply _moving the state and actions to a common parent component_ and passing the data and event handlers as props to the children.
 
 </div>
 
@@ -167,6 +169,12 @@ Passing data to child components makes it clear and explicit how data is moving 
 
 ---
 
+## Example: state distributed throughout the UI
+
+![contain](./assets/lenovo_laptop.png)
+
+---
+
 ## Context
 
 To avoid prop drilling, React provides the `createContext()` hook to provide state via context to child components without needing to explicitly pass the data via props.
@@ -195,11 +203,11 @@ Look at the child components of `App.tsx` and see how they are using the auth co
 
 Context allows us to share state between any component inside our application.
 
-Do we see any risks with using context? Do we see any limits we should place on our use of context?
+_Do we see any risks with using context? Do we see any limits we should place on our use of context?_
 
 <div data-marpit-fragment>
 
-Context is essentially a (potentially) global data store. All the reasons we know to not use or overuse global data apply here. It can lead to spaghetti code where side effects and mutations can come from anywhere in our application. It can make it difficult to understand, maintain and debug our code.
+Context is essentially a (potentially) _global data_ store. All the reasons we know to not use or overuse global data apply here. It can lead to spaghetti code where side effects and mutations can come from anywhere in our application. It can make it difficult to understand, maintain and debug our code.
 
 Context is generally limited to items like authentication, theming and settings where it is best to have a single source of truth and a centralized way of access some data.
 
@@ -329,9 +337,9 @@ _TanStack Query (formerly known as React Query) is often described as the missin
 
 - [Source](https://tanstack.com/query/latest/docs/framework/react/overview)
 
-In the majority of cases, when dealing with server state, we are simply retrieving items or collections (posts, products, users, chats, etc.). We want to query our server without the overhead of redundant and uncached requests.
+In the majority of cases, when dealing with server state, we are _simply retrieving items or collections_ (posts, products, users, chats, etc.). We want to query our server without the overhead of redundant and uncached requests.
 
-TanStack Query is a simple drop-in solution that allows us to co-locate our server queries in the components that are using them while automatically caching those queries. This allows us to avoid global state and better containerize and co-locate state with the components that are using them.
+TanStack Query is a simple drop-in solution that allows us to _co-locate our server queries in the components that are using them while automatically caching those queries_. This allows us to avoid global state and better containerize and co-locate state with the components that are using them.
 
 TanStack Query also supports _mutations_ and _query invalidation_, allowing the user to update server state and clear cached queries that were affected.
 
@@ -367,7 +375,9 @@ The query client provides a single, centralized, global client for running all o
   }
 </style> -->
 
-Before we look at the queries themselves, we need a bit of context. What do the functions that the queries call (the query functions) look like? These are just plain async functions that throw exceptions in the case of errors. Simple!
+Before we look at the queries themselves, we need a bit of context. What do the functions that the queries call (the query functions) look like?
+
+These are just plain async functions that throw exceptions in the case of errors. Simple!
 
 <!-- type Todo = {
   userId: number;
@@ -473,7 +483,7 @@ There is a hierarchy of keys. In the above example, if this individual todo was 
 
 If you wanted to invalidate all todo queries, you would invalidate this query key: `['todo']`
 
-Read: [Query Keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys)
+**Read: [Query Keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys)**
 
 ---
 
