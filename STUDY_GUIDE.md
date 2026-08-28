@@ -14,7 +14,7 @@ During this portion of the course, we will have weekly theory lectures combined 
 
 #### Hackathon
 
-During this portion, we will also be working individually on a small hackathon project. The project will be demoed during week 4 in a competitive presentation (a winner will be decided). The only rule is that you use the stack we are learning about in weeks 1-4, namely Next.js with Typescript. This project is not assessed but is highly beneficial practice for the final React Native project
+During this portion, we will also be working individually on a small hackathon project. The project will be demoed during week 4 in a competitive presentation (a winner will be decided). The only rule is that you use the stack we are learning about in weeks 1-4, namely Next.js with Typescript. This project is not assessed but is highly beneficial practice for the final React Native project.
 
 ### React Native (weeks 5 - 7)
 
@@ -22,15 +22,15 @@ During weeks 5 - 7, you will receive lectures and work on a final React Native p
 
 ## Weekly Schedule
 
-| Week | Topics                                      |
-| ---- | ------------------------------------------- |
-| 1    | JavaScript Fundamentals, TypeScript         |
-| 2    | React Native, Next.js                       |
-| 3    | State Management                            |
-| 4    | Hackathon expo / transition to React Native |
-| 5    | React Native                                |
-| 6    | React Native                                |
-| 7    | React Native                                |
+| Week | Topics                                                        |
+| ---- | ------------------------------------------------------------- |
+| 1    | Class Overview, Tooling, AI Workflow, JavaScript Fundamentals |
+| 2    | React, TS                                                     |
+| 3    | NextJS                                                        |
+| 4    | Sate Management / Hackathon expo / transition to React Native |
+| 5    | React Native                                                  |
+| 6    | React Native                                                  |
+| 7    | React Native                                                  |
 
 ## Assessments
 

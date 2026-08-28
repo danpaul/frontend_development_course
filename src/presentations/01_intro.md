@@ -29,10 +29,9 @@ paginate: true
 ![bg contain right:50%](./assets/baldi.gif)
 
 - Class overview
-- Hackathon planning
-- Tooling setup
-- JS highlights and toolings
-- TypeScript
+- Tooling
+- AI Workflow (spec driven development)
+- JS Fundamentals
 
 ---
 
@@ -49,49 +48,19 @@ paginate: true
 
 ---
 
-## Class Materials and Info Activity
+## Class Materials
 
-The material for this portion of the course is in the class repo. Lets take a minute to get familiar with that now!
+The material for this portion of the course is contained in two repos. One is for learning materials and includes all presentations (including this one). The other contains example code which we will look at together and use for various exercises in class.
 
-- Clone it: [https://github.com/danpaul/frontend_development_course](https://github.com/danpaul/frontend_development_course)
-- Read the [README](../README.md)
-- Read the [study guide](../STUDY_GUIDE.md)
+Course material:
 
----
+[https://github.com/danpaul/frontend_development_course](https://github.com/danpaul/frontend_development_course)
 
-## Quiz Time!
+Course code:
 
-Should you read the presentation materials for upcoming class before class (read week 2 presentations before week 2)?
+- Clone it: [https://github.com/danpaul/frontend_development_course_code](https://github.com/danpaul/frontend_development_course_code)
 
-<div data-marpit-fragment>
-
-**Yes!**
-
-</div>
-
-<div data-marpit-fragment>
-
-The course contains only one assessment.
-
-</div>
-
-<div data-marpit-fragment>
-
-**False!** _There is a theory exam for weeks 1-4 and a practical project for weeks 5-7._
-
-</div>
-
-<div data-marpit-fragment>
-
-During this portion of the course, you should be reading presentations, reading referenced materials and working on your hackathon project.
-
-</div>
-
-<div data-marpit-fragment>
-
-**True!**
-
-</div>
+_Clone both of these. Read the README files._
 
 ---
 
@@ -101,25 +70,22 @@ During this portion of the course, you should be reading presentations, reading 
 
 - Frontend development using React, TypeScript, React Native
 - Technologies used
-  - JS/ES6
+  - JS/TS
   - React
-  - TypeScript
   - Next.js
-  - TanStack Query
-  - Redux
-  - React Native
+  - State management (TanStack Query, Redux)
+  - Tailwind
+  - Lots of other, minor related frameworks and tooling
 
 ---
 
 ## Class format
 
 - At home:
-  - Review upcoming week's presentation material (before class)
-  - Read/watch supplementary materials referenced in the presentations
-  - Build your hackathon project and reading documentation
+  - Complete assigned reading (~3 hours)
+  - Work on your hackathon project (~3 hours)
 - In class:
-  - Review presentations (lecture), ask questions and clarify
-  - Project work, discussion, feedback
+  - Lectures, discussions, activities
 
 ---
 
@@ -138,25 +104,21 @@ Can _you_ jam with the console cowboys in cyberspace?
 
 ---
 
-## Hackathon Planning Activity
+## Hackathon details
 
-1. Form groups of 2-3
-2. Brainstorm some ideas, select your best 2-3 (5 minutes)
-3. Discuss, get feedback (10 minutes)
+- Use the Stack we are using for this class
+- You may work in small groups (2-3 people) or individually
+- Hackathon presentation (week 4):
+  - ~5-10 minutes
+  - Demo your product
+  - Describe an interesting learning and show a relevant code snippet
 
 ---
 
-## Tooling
+## Hackathon Speed Dating Activity
 
-![bg left:40%](./assets/useless_hammer.jpg)
-
-- Node (current version)
-- NPM (current version)
-- VS Code
-  - TS/React/Next Extensions
-  - Prettier extension
-- React Developer Tools (Chrome extension)
-  - _We recommend standardizing on Chrome as a primary development browser_
+1. Take a few minutes to brainstorm ideas for the Hackathon
+2. 3 x 5 minute speed dating rounds to briefly discuss your idea. _Try to meet with someone you haven't met yet._
 
 ---
 
