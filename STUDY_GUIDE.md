@@ -10,11 +10,11 @@ This course is divided into two main parts. The first (weeks 1-4) are focused on
 
 ### Web Development (weeks 1-4)
 
-During this portion of the course, we will have weekly theory lectures combined with in-class activities. Each class is based around a series of presentations. The presentations contain additional readings and activities. The reading and watching activities should be completed before the upcoming class.
+During this portion of the course, we will have weekly theory lectures combined with in-class activities and at home reading assignments. At home you will also practice applying the topics you are learning by developing a hackathon project.
 
 #### Hackathon
 
-During this portion, we will also be working individually on a small hackathon project. The project will be demoed during week 4 in a competitive presentation (a winner will be decided). The only rule is that you use the stack we are learning about in weeks 1-4, namely Next.js with Typescript. This project is not assessed but is highly beneficial practice for the final React Native project.
+During weeks 1-4 you will individually or in small groups (max 3), develop a small hackathon project. The project will be demoed during week 4 in a competitive presentation (a winner will be decided). The only rule is that you use the stack we are learning about in weeks 1-4, namely Next.js with Typescript. This project is not assessed but is highly beneficial practice for the final React Native project.
 
 ### React Native (weeks 5 - 7)
 

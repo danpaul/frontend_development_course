@@ -58,7 +58,7 @@ Course material:
 
 Course code:
 
-Clone it: [https://github.com/danpaul/frontend_development_course_code](https://github.com/danpaul/frontend_development_course_code)
+[https://github.com/danpaul/frontend_development_course_code](https://github.com/danpaul/frontend_development_course_code)
 
 _Clone both of these. Read the README files._
 
@@ -90,6 +90,14 @@ _Clone both of these. Read the README files._
 Each week we will cover a small set of topics as an introduction. You will dive deeper into the topic through assigned readings which we will discuss briefly the following week.
 
 _**All materials, reading, lecture, discussion are eligible for inclusion in the final exam!**_
+
+---
+
+## Note on asynchronous learning
+
+Although we will learn topics in more depth every lesson, **we will start today with a more or less complete, full stack Next application**.
+
+It's of course fine to jump in now and starting using/learning things before we officially cover them in class.
 
 ---
 
@@ -140,31 +148,3 @@ The hackathon judges will be judging based on the following:
 
 1. Take a few minutes to brainstorm ideas for the Hackathon
 2. 3 x 5 minute speed dating rounds to briefly discuss your idea. _Try to meet with someone you haven't met yet._
-
-<!-- --- -->
-
-<!-- ## Activity: Get Started
-
-<style scoped>
-  section {
-    font-size: 24px;
-  }
-</style>
-
-Create a Next App!
-
-[https://nextjs.org/docs/app/getting-started/installation](https://nextjs.org/docs/app/getting-started/installation)
-
-Install a current version Node and npx (if not already installed)
-
-run `npx create-next-app@latest my-hackathon-app`
-
-Use these options:
-
-![](./assets/next_defaults.png)
-
-Look at the `package.json`
-
-Explore the project files.
-
-Run `npm run dev` -->
