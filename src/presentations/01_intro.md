@@ -58,7 +58,7 @@ Course material:
 
 Course code:
 
-- Clone it: [https://github.com/danpaul/frontend_development_course_code](https://github.com/danpaul/frontend_development_course_code)
+Clone it: [https://github.com/danpaul/frontend_development_course_code](https://github.com/danpaul/frontend_development_course_code)
 
 _Clone both of these. Read the README files._
 
@@ -75,7 +75,7 @@ _Clone both of these. Read the README files._
   - Next.js
   - State management (TanStack Query, Redux)
   - Tailwind
-  - Lots of other, minor related frameworks and tooling
+  - Lots of other related frameworks and tooling
 
 ---
 
@@ -86,6 +86,17 @@ _Clone both of these. Read the README files._
   - Work on your hackathon project (~3 hours)
 - In class:
   - Lectures, discussions, activities
+
+Each week we will cover a small set of topics as an introduction. You will dive deeper into the topic through assigned readings which we will discuss briefly the following week.
+
+_**All materials, reading, lecture, discussion are eligible for inclusion in the final exam!**_
+
+---
+
+## Theory Exam
+
+Format: TestVision exam
+Materials covered: weeks 1-4, lecture, discussion, reading
 
 ---
 
@@ -115,24 +126,24 @@ Can _you_ jam with the console cowboys in cyberspace?
 
 ---
 
+## Hackathon judging
+
+The hackathon judges will be judging based on the following:
+
+- **product quality** - how interesting, innovative, and unique the product is
+- **product polish** - how polished an professional the product appears
+- **technical understanding** - how clear the description of the code snippet is
+
+---
+
 ## Hackathon Speed Dating Activity
 
 1. Take a few minutes to brainstorm ideas for the Hackathon
 2. 3 x 5 minute speed dating rounds to briefly discuss your idea. _Try to meet with someone you haven't met yet._
 
----
+<!-- --- -->
 
-## On your marks, get set...
-
-![bg right:40%](./assets/run.webp)
-
-You have the tools you need. You know the stack we're using. You know how to read docs. You have everything you need. Now go build!
-
-You don't need to wait until we officially cover something in class to start using it. It's a good idea to start reading and working through the documentation as you start building your project before we get to it.
-
----
-
-## Activity: Get Started
+<!-- ## Activity: Get Started
 
 <style scoped>
   section {
@@ -156,4 +167,4 @@ Look at the `package.json`
 
 Explore the project files.
 
-Run `npm run dev`
+Run `npm run dev` -->
