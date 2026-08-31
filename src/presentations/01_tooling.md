@@ -24,6 +24,14 @@ paginate: true
 
 ## Tooling
 
+<style scoped>
+  section {
+    font-size: 20px;
+  }
+</style>
+
+![bg contain right:35%](./assets/useless_hammer.jpg)
+
 [VS Code](https://code.visualstudio.com/)
 
 An AI Coding tool. Cursor/Copilot/Claude, etc.
@@ -37,6 +45,7 @@ VS Code Extensions (also work in Cursor)
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+- [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) (optional, for presentations)
 
 [Node/NPM](https://nodejs.org/en/download)
 
@@ -74,7 +83,13 @@ VS Code Extensions (also work in Cursor)
 
 ## React 19
 
-![bg contain right:40%](https://react.dev/images/og-home.png)
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+
+![bg contain right:50%](https://react.dev/images/og-home.png)
 
 - A JavaScript library for building user interfaces from **reusable components**
 - You describe _what_ the UI should look like; React keeps the DOM in sync when data changes
@@ -87,7 +102,13 @@ VS Code Extensions (also work in Cursor)
 
 ## Next.js
 
-![bg contain right:40%](https://nextjs.org/static/twitter-cards/home.jpg)
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+
+![bg contain right:50%](https://h8dxkfmaphn8o0p3.public.blob.vercel-storage.com/nextjs/twitter-card.png)
 
 - A **React framework** for production web applications
 - File-based routing, server-side rendering, and API routes out of the box
@@ -100,6 +121,14 @@ VS Code Extensions (also work in Cursor)
 
 ## Prisma
 
+<style scoped>
+  section {
+    font-size: 26px;
+  }
+</style>
+
+![bg contain right:50%](https://upload.wikimedia.org/wikipedia/commons/6/63/Dispersion_prism.jpg?utm_source=nl.wikipedia.org&utm_campaign=index&utm_content=original)
+
 - A **type-safe ORM** for Node.js and TypeScript
 - Define your database schema in code; Prisma generates migrations and a typed client
 - Query the database without hand-writing SQL — autocomplete catches mistakes early
@@ -109,9 +138,15 @@ VS Code Extensions (also work in Cursor)
 
 ---
 
+<style scoped>
+  section {
+    font-size: 26px;
+  }
+</style>
+
 ## Storybook
 
-![bg contain right:35%](https://storybook.js.org/images/og-image.jpg)
+![bg contain right:50%](https://storybook.js.org/opengraph-image.jpg)
 
 - A tool for developing UI components **in isolation**, outside the main app
 - Preview states, edge cases, and variants without navigating full pages
@@ -122,9 +157,15 @@ VS Code Extensions (also work in Cursor)
 
 ---
 
+<style scoped>
+  section {
+    font-size: 26px;
+  }
+</style>
+
 ## Atomic Design
 
-![bg contain right:40%](https://atomicdesign.bradfrost.com/images/content/atomic-design-process.png)
+![bg contain right:50%](https://atomicdesign.bradfrost.com/images/content/atomic-design-process.png)
 
 - A methodology (Brad Frost) for organizing UI into a **clear hierarchy**
 - **Atoms** → **Molecules** → **Organisms** → **Templates** → **Pages**
@@ -137,6 +178,14 @@ VS Code Extensions (also work in Cursor)
 
 ## Tailwind CSS
 
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+
+![bg contain right:50%](https://tailwindcss.com/opengraph-image.jpg?opengraph-image.0jwfhnd690..4.jpg)
+
 - A **utility-first** CSS framework — style with composable class names in your markup
 - Design tokens (spacing, colors, typography) stay consistent across the project
 - Responsive and state variants (`md:`, `hover:`) without switching files
@@ -146,9 +195,15 @@ VS Code Extensions (also work in Cursor)
 
 ---
 
+<style scoped>
+  section {
+    font-size: 26px;
+  }
+</style>
+
 ## Vite
 
-![bg contain right:40%](https://vite.dev/og.jpg)
+![bg contain right:50%](https://vite.dev/og-image.jpg)
 
 - A fast **build tool and dev server** for modern frontend projects
 - Near-instant startup and hot module replacement while you code
@@ -159,7 +214,15 @@ VS Code Extensions (also work in Cursor)
 
 ---
 
+<style scoped>
+  section {
+    font-size: 26px;
+  }
+</style>
+
 ## Vitest
+
+![bg contain right:50%](https://vitest.dev/og.jpg)
 
 - A **unit and integration testing** framework built on Vite
 - Jest-compatible API — familiar if you have seen `describe` / `it` / `expect` before
@@ -180,5 +243,25 @@ VS Code Extensions (also work in Cursor)
 - Complements Vitest: unit tests for logic, Playwright for the whole experience
 
 [playwright.dev](https://playwright.dev/)
+
+---
+
+<!-- class: lead -->
+
+## Summary & Questions
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+</style>
+
+![bg contain right:55%](./assets/beavis_hacking.webp)
+
+- **Tooling**: VS Code/Cursor, extensions, Node/npm
+- **Setup**: clone repos, `npm install`, `npm run dev`
+- **Stack**: React, Next.js, Prisma, Storybook, Atomic Design, Tailwind, Vite, Vitest, Playwright
+
+### Questions?
 
 ---
