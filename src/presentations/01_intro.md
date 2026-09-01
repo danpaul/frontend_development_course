@@ -64,6 +64,12 @@ _Clone both of these. Read the README files._
 
 ---
 
+## Homework
+
+Course homework is in this repo under `/homework`, organized by week.
+
+---
+
 ## Main Topics Covered
 
 ![bg contain right:50%](./assets/jabbascript.webp)

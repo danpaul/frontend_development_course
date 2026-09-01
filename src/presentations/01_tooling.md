@@ -45,6 +45,7 @@ VS Code Extensions (also work in Cursor)
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+- [Prisma](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)
 - [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) (optional, for presentations)
 
 [Node/NPM](https://nodejs.org/en/download)
@@ -59,19 +60,24 @@ VS Code Extensions (also work in Cursor)
   - Course material: [https://github.com/danpaul/frontend_development_course](https://github.com/danpaul/frontend_development_course)
   - Course code: [https://github.com/danpaul/frontend_development_course_code](https://github.com/danpaul/frontend_development_course_code)
 - Install the tools from the previous slide
-- In the root of the course code repo, run:
-  - `npm i` / `npm install`
-  - `npm run dev`
+- Open the course code repo in your editor and terminal and follow the README setup instructions.
 - You should see a todo app at [http://localhost:3000/](http://localhost:3000/)
-- Read the code repo README and start exploring the codebase.
+- Read the rest of the README and start exploring the codebase.
 
 ---
 
 ## The Stack
 
+<style scoped>
+  section {
+    font-size: 28px;
+  }
+</style>
+
 - [React 19](https://react.dev/)
 - [Nextjs](https://nextjs.org/)
 - [Prisma](https://www.prisma.io/)
+- [SQLite](https://sqlite.org/)
 - [Storybook](https://storybook.js.org/)
 - [Atomic Design](https://atomicdesign.bradfrost.com/chapter-2/)
 - [Tailwind](https://tailwindcss.com/)
@@ -135,6 +141,91 @@ VS Code Extensions (also work in Cursor)
 - Used when our projects need persistent data (users, todos, etc.)
 
 [prisma.io](https://www.prisma.io/)
+
+---
+
+## Prisma — Schema Definition
+
+<style scoped>
+  section {
+    font-size: 20px;
+  }
+</style>
+
+- Your database structure lives in **`prisma/schema.prisma`**
+- **`model`** blocks define tables; field types map to SQL column types
+- Relations, defaults, and constraints are declared here — Prisma handles the rest
+
+```prisma
+model Todo {
+  id        Int      @id @default(autoincrement())
+  title     String
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+```
+
+---
+
+## Prisma — Applying Migrations
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+</style>
+
+- When the schema changes, create and apply a **migration** to update the database
+- Prisma writes SQL migration files to `prisma/migrations/` — reviewable and version-controlled
+- Run during development:
+
+```bash
+npx prisma migrate dev --name add_todo_table
+```
+
+- **`migrate dev`**: creates the migration, applies it to your local DB, and regenerates the client
+
+---
+
+## Prisma — Generating the Client
+
+<style scoped>
+  section {
+    font-size: 20px;
+  }
+</style>
+
+- **`npx prisma generate`** reads `schema.prisma` and builds a typed **`@prisma/client`**
+- Also runs automatically after `migrate dev` — re-run manually if you pull schema changes
+- Import and query with full TypeScript autocomplete:
+
+```typescript
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+const todos = await prisma.todo.findMany();
+const created = await prisma.todo.create({ data: { title: "Learn Prisma" } });
+```
+
+---
+
+## SQLite
+
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+
+![bg contain right:50%](https://www.sqlite.org/images/sqlite370_banner.gif)
+
+- A lightweight, **file-based** relational database — no separate server process
+- Stores everything in a single `.db` file on disk; easy to reset, copy, and back up
+- Great for local development, prototypes, and small-to-medium apps
+- Our course app uses SQLite via Prisma — configured in your `.env` `DATABASE_URL`
+
+[sqlite.org](https://sqlite.org/)
 
 ---
 
@@ -260,7 +351,7 @@ VS Code Extensions (also work in Cursor)
 
 - **Tooling**: VS Code/Cursor, extensions, Node/npm
 - **Setup**: clone repos, `npm install`, `npm run dev`
-- **Stack**: React, Next.js, Prisma, Storybook, Atomic Design, Tailwind, Vite, Vitest, Playwright
+- **Stack**: React, Next.js, Prisma, SQLite, Storybook, Atomic Design, Tailwind, Vite, Vitest, Playwright
 
 ### Questions?
 
