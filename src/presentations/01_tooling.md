@@ -106,6 +106,35 @@ VS Code Extensions (also work in Cursor)
 
 ---
 
+## React — A Component
+
+<style scoped>
+  section {
+    font-size: 20px;
+  }
+</style>
+
+- A component is a **function that returns JSX** (HTML-like markup mixed with JavaScript)
+- **Props** are the inputs; the return value is what appears on screen
+- Write it once, reuse it with different data — we'll go much deeper later
+
+```jsx
+function Greeting({ name }) {
+  return <h1>Hello, {name}!</h1>;
+}
+
+function App() {
+  return (
+    <div>
+      <Greeting name="Ada" />
+      <Greeting name="Grace" />
+    </div>
+  );
+}
+```
+
+---
+
 ## Next.js
 
 <style scoped>
@@ -354,5 +383,3 @@ const created = await prisma.todo.create({ data: { title: "Learn Prisma" } });
 - **Stack**: React, Next.js, Prisma, SQLite, Storybook, Atomic Design, Tailwind, Vite, Vitest, Playwright
 
 ### Questions?
-
----

@@ -25,9 +25,9 @@ paginate: true
 ## SDD Overview
 
 - Disclaimers
-- Intro to SDD and AI Engineering
-- SDD
+- Engineering with AI
 - Context engineering
+- SDD in practice
 
 ![bg contain right:50%](./assets/sdd.jpg)
 
@@ -37,15 +37,13 @@ paginate: true
 
 **AI engineering practices are evolving rapidly.** In cases like MCP, something that was completely new becomes industry standard within a year. Engineers are looking for and building out abstractions for common problems and adopting useful frameworks and patterns quickly. The dust has not settled, **things will continue to change, standards are still emerging**.
 
-That said, it is important that developers are not standing still. These tools are transforming the industry and we must do our best to **stay informed and current on standards and tooling**.
-
 ---
 
 ## Disclaimer - it's not free
 
-Use of AI coding agents is not required for this class, but most of us are using these tools anyway. What we are learning in this class is a set of general processes around software development with AI. I will be using Cursor, but the processes should be applicable to whatever coding tools you use.
+Use of AI coding agents is **not required for this class**, but most of us are using these tools anyway. What we are learning in this class is a set of general processes around software development with AI. I will be using Cursor, but the processes should be applicable to whatever coding tools you use.
 
-There are free, limited tiers available to you, but it may be worth investing in a subscription to go deeper with your learning.
+There are free, limited tiers available to you, but **it may be worth investing in a subscription to go deeper with your learning**.
 
 I will be using Cursor. The React Native portion will work with Claude. Claude has plugin integrations with Cursor and VS Code.
 
@@ -71,6 +69,12 @@ We have all had some experience with this. What do we think? Is it a suitable ap
 
 ## Vibe coding problems
 
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+</style>
+
 In general, vibe coding or even simple prompt-based feature engineering fails beyond simple prototypes and small applications for a variety of reasons including:
 
 - **Architectural drift** - Each prompt solves a local task but not necessarily in an architecturally consistent way. The system accumulates multiple and inconsistent implementations and architectural choices. Inconsistent schemas, diverging error handling, duplicated auth. These inconsistencies can compound exponentially over time as the inconsistencies pollute the agent's inferred context.
@@ -79,17 +83,31 @@ In general, vibe coding or even simple prompt-based feature engineering fails be
 
 ---
 
+![bg contain](./assets/failure_modes.png)
+
+---
+
 ## SDD as a solution to vibe coding limitations
 
 Software engineering has known for decades that **ambiguous requirements are expensive**. Boehm (1981): a defect found in production can cost far more than one caught in design.
 
-What changed in 2025 is speed. With **vibe coding** (describe the vibe, accept the diffs, ship), prototyping got cheaper but production defects got cheaper to create at volume.
+What changed in 2025 is speed. With **vibe coding** (describe the vibe, accept the diffs, ship), **prototyping got cheaper but production defects got cheaper to create at volume**.
 
-**Spec-driven development** is the emerging standard around developing applications in a rigorous, detailed and incremental way using text-based specification documents to guide the agent during development.
+_**Spec-driven development** is the emerging standard around developing applications in a rigorous, detailed and incremental way using text-based specification documents to guide the agent during development._
+
+---
+
+![bg contain](./assets/vibe_vs_sdd.png)
 
 ---
 
 ## SDD at a glance, Two Engineers, One Task
+
+<style scoped>
+  section {
+    font-size: 18px;
+  }
+</style>
 
 **Task:** Rate-limit payment - max 10 requests per user per minute.
 
@@ -332,6 +350,10 @@ A 200k window is not 200k of reliable working space. **Effective context ≈ 50%
 
 ---
 
+![bg contain](./assets/attention_gradient.png)
+
+---
+
 ## Two failure modes
 
 <style scoped>
@@ -350,27 +372,11 @@ Context engineering = navigate between them: **enough to reason well, structured
 
 ---
 
-## What actually fills the window
+![bg contain](./assets/too_little_too_much.png)
 
-<style scoped>
-  section {
-    font-size: 20px;
-  }
-</style>
+---
 
-Only the **user’s query is strictly mandatory**. Everything else is optional - and should _earn its place_.
-
-| Component                     | Role                                                 |
-| ----------------------------- | ---------------------------------------------------- |
-| **System prompt**             | Identity, goals, standing constraints                |
-| **User input / `@` refs**     | The task, plus the exact slice you hand in           |
-| **Rules**                     | Always-on conventions you should not have to restate |
-| **Skills / commands**         | On-demand workflows (`/review-pr`)                   |
-| **Tools**                     | Schemas consume tokens; calls pull more in           |
-| **Environment (`AGENTS.md`)** | “Where am I, and what is this system?”               |
-| **History**                   | Continuity - and the thing that rots                 |
-
-Two audit questions: How often does this actually help? What would break if it were absent?
+![bg contain](./assets/context_window_layers.png)
 
 ---
 
@@ -396,7 +402,15 @@ Progressive disclosure:
 
 Repeatedly pasting the same extra context? Promote it to a rule or a skill.
 
+---
+
+![bg contain](./assets/rules_vs_skills.png)
+
+---
+
 ## Code review
+
+![bg contain right:45%](./assets/code_review_detective.png)
 
 Let's take a minute to review the rules and baseline agent context in our own project.
 
@@ -424,6 +438,10 @@ The general SDD workflow looks like this (this may vary slightly from team to te
 
 ---
 
+![bg contain](./assets/sdd_practice_loop.png)
+
+---
+
 ## Defining a spec
 
 _A spec is just a markdown file, committed to your repo, outlining details for a specific feature._
@@ -435,6 +453,12 @@ The structure of the file and the organization of the spec directory may vary so
 ---
 
 ## Example spec
+
+<style scoped>
+  section {
+    font-size: 18px;
+  }
+</style>
 
 ```markdown
 ## Goal
@@ -466,6 +490,8 @@ Add in-memory caching for the /api/products endpoint to reduce database load dur
 
 ## Spec iteration, grill me
 
+![bg contain right:42%](./assets/grill_me.png)
+
 A common strategy for spec improvement and iteration is through the process of _grilling_. _Grilling reverses the roles._
 
 While grilling, the agent examines your spec file, identifies areas of uncertainty and undefined implementation choices, and asks you, interactively, to improve clarity.
@@ -475,6 +501,8 @@ Afterwards, the spec is updated with additional details the agent should need to
 ---
 
 ## To prompt or not to prompt?
+
+![bg contain right:40%](./assets/hamlet_prompt.png)
 
 When we want the agent to grill us on our spec, we _could_ simply prompt the agent, asking it to ask us for additional details it needs. Is there a better approach?
 
@@ -502,7 +530,7 @@ Going into planning, our goal is to feed a clear, concise, implementable specifi
 
 ## Planning
 
-After the spec is defined, we will prompt the agent to develop two additional documents before implementation. A plan document and a task document.
+After the spec is defined, we will prompt the agent to develop two additional documents before implementation. **A plan document and a task document.**
 
 We will again use a skill to initiate the creation of these artifacts. During planning, the agent is instructed to review the spec document and create a concrete plan: which files to modify, which files provide needed context or must be interacted with, example code snippets, and other implementation details.
 
@@ -511,6 +539,8 @@ After completing the plan, the agent will create a final task.md document. This 
 ---
 
 ## Execution!
+
+![bg contain right:48%](./assets/execution_pit_crew.png)
 
 After planning has been completed and verified, you should clear context and have the agent implement your task list.
 
@@ -524,6 +554,8 @@ As noted earlier, verification is an essential final part of the SDD cycle.
 
 You should review the diff, especially closely for high-stakes updates, and apply a layered testing approach (user, e2e, unit).
 
+Tests should be included as part of your rules and added for each new feature the agent develops.
+
 ---
 
 ## Architectural documentation
@@ -534,10 +566,12 @@ Finally, the agent should be instructed as part of the general rules to document
 
 ## Frameworks and variations
 
-To reiterate, this is an evolving standard and implementation varies per-team and per-framework. We are keeping things low-level for now, for this class to understand the general process and key concepts, but if you are interested in diving deeper into a popular, well-supported framework for doing SDD development, you may want to check out GitHub's [spec-kit](https://github.com/github/spec-kit).
+To reiterate, SDD is an evolving standard and implementation varies per-team and per-framework. We are keeping things low-level for now, for this class to understand the general process and key concepts, but if you are interested in diving deeper into a popular, well-supported framework for doing SDD development, you may want to check out GitHub's [spec-kit](https://github.com/github/spec-kit).
 
 ---
 
 ## Let's do it!
+
+![bg contain right:50%](./assets/lets_do_it.png)
 
 Let's take a look at a sample code repo and develop a new feature using SDD.

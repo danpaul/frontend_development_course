@@ -31,15 +31,13 @@ paginate: true
 - Class overview
 - Tooling
 - AI Workflow (spec driven development)
-- JS Fundamentals
 
 ---
 
 ## Class Structure / Assessments
 
 - Weeks 1 - 4, React/TS
-  - Final _written exam_ covering theoretical topics.
-  - Theory topics will come from at home reading assignments and in-class reading assignments.
+  - Final _TestVision exam_ covering theoretical topics.
   - 50% of grade
 - Weeks 5 - 7 React Native
   - Final React Native _project_.
@@ -132,7 +130,7 @@ Can _you_ jam with the console cowboys in cyberspace?
 
 ## Hackathon details
 
-- Use the Stack we are using for this class
+- Use the stack we are using for this class
 - Work in your project group
 - Hackathon presentation (week 4):
   - ~5-10 minutes
@@ -145,9 +143,9 @@ Can _you_ jam with the console cowboys in cyberspace?
 
 The hackathon judges will be judging based on the following:
 
-- **product quality** - how interesting, innovative, and unique the product is
-- **product polish** - how polished an professional the product appears
-- **technical understanding** - how clear the description of the code snippet is
+- **Product quality** - how interesting, innovative, and unique the product is
+- **Product polish** - how polished an professional the product appears
+- **Technical understanding** - how clear the description of the code snippet is
 
 ---
 
