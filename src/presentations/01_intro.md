@@ -88,8 +88,8 @@ Course homework is in this repo under `/homework`, organized by week.
 ## Class format
 
 - At home:
-  - Complete assigned reading (~3 hours)
-  - Work on your hackathon project (~3 hours)
+  - Complete assigned reading (~3-4 hours)
+  - Work on your hackathon project (~3-4 hours)
 - In class:
   - Lectures, discussions, activities
 
@@ -132,7 +132,7 @@ Can _you_ jam with the console cowboys in cyberspace?
 ## Hackathon details
 
 - Use the Stack we are using for this class
-- You may work in small groups (2-3 people) or individually
+- Work in your project group
 - Hackathon presentation (week 4):
   - ~5-10 minutes
   - Demo your product
@@ -150,7 +150,6 @@ The hackathon judges will be judging based on the following:
 
 ---
 
-## Hackathon Speed Dating Activity
+## Hackathon Planning Activity - 10 minutes
 
-1. Take a few minutes to brainstorm ideas for the Hackathon
-2. 3 x 5 minute speed dating rounds to briefly discuss your idea. _Try to meet with someone you haven't met yet._
+Take a few minutes to brainstorm ideas for the hackathon with your group.
