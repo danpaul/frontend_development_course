@@ -87,13 +87,14 @@ Course homework is in this repo under `/homework`, organized by week.
 
 ## Class format
 
+- In class:
+  - Discussion, clarification and deeper exploration of previous week's topic
+  - Lectures and activities introducing new topics
 - At home:
   - Complete assigned reading (~3-4 hours)
   - Work on your hackathon project (~3-4 hours)
-- In class:
-  - Lectures, discussions, activities
 
-Each week we will cover a small set of topics as an introduction. You will dive deeper into the topic through assigned readings which we will discuss briefly the following week.
+Each week we will cover a small set of topics as an introduction. You will dive deeper into the topic through assigned readings which we will discuss briefly the following week. We will **rinse and repeat** (cover each new topic three times to reinforce and expand on core concepts).
 
 _**All materials, reading, lecture, discussion are eligible for inclusion in the final exam!**_
 
