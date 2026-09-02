@@ -22,13 +22,12 @@ paginate: true
 
 <!-- class: lead -->
 
-<!-- TODO: update -->
-
 ## SDD Overview
 
 - Disclaimers
 - Intro to SDD and AI Engineering
 - SDD
+- Context engineering
 
 ![bg contain right:50%](./assets/sdd.jpg)
 
@@ -92,7 +91,7 @@ What changed in 2025 is speed. With **vibe coding**: describe the vibe, accept t
 
 ## SDD at a glance, two Engineers, One Task
 
-**Task:** Rate-limit payment — max 10 requests per user per minute.
+**Task:** Rate-limit payment - max 10 requests per user per minute.
 
 |                    | Engineer A (vibe)                                                                            | Engineer B (AI-native)                                                                            |
 | ------------------ | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
@@ -119,7 +118,7 @@ Traditional development assumed **implementation speed was the bottleneck**, and
 
 **You used to discover the design _by writing the code_.** Edge cases showed up in tests. The data model changed when you hit the third entity. That worked because **_you_ accumulated context and understanding as you went**.
 
-**An agent does not. It starts fresh at each context boundary. Underspecify, and it invents assumptions** — then builds the next prompt on top of them.
+**An agent does not. It starts fresh at each context boundary. Underspecify, and it invents assumptions** - then builds the next prompt on top of them.
 
 **\_So the expensive work moves **upstream** (clear spec) and **downstream** (rigorous verification). Generation in the middle is the cheap part.\_**
 
@@ -146,7 +145,7 @@ When an agent can draft a CRUD endpoint in 30 seconds, the scarce work moves **a
 
 An **orchestrator** defines work precisely, assigns it, reviews against intent, integrates what passes, and redirects what does not.
 
-Addy Osmani: _every engineer is a manager now_ — not of people, of work that other capable entities produce.
+Addy Osmani: _every engineer is a manager now_ - not of people, of work that other capable entities produce.
 
 ---
 
@@ -190,13 +189,13 @@ Vague intent produces vague code. The model will fill every gap with **training-
 
 The most common AI failure: the agent **violates a constraint it was never told**.
 
-The code passes tests, merges, and the violation shows up later — often when it is expensive.
+The code passes tests, merges, and the violation shows up later - often when it is expensive.
 
 Write them down **before** the task:
 
-- **Technical** — existing auth library, p99 under 200ms, no new database
-- **Business** — all locales, backward-compatible with v2, no emails to anonymous users
-- **Quality** — coverage bar, security scan, project naming conventions
+- **Technical** - existing auth library, p99 under 200ms, no new database
+- **Business** - all locales, backward-compatible with v2, no emails to anonymous users
+- **Quality** - coverage bar, security scan, project naming conventions
 
 If it is not in the spec, the model is free to invent something plausible.
 
@@ -214,9 +213,9 @@ AI is confident. It can also be wrong: hallucinated APIs, misread code, locally 
 
 Three layers:
 
-1. **Automated** — unit/integration tests, linters, types, CI. Catches the embarrassing class of errors quickly.
-2. **Structured review** — does it match intent, respect constraints, take shortcuts that will hurt later?
-3. **Acceptance** — run it the way a real user would.
+1. **Automated** - unit/integration tests, linters, types, CI. Catches the embarrassing class of errors quickly.
+2. **Structured review** - does it match intent, respect constraints, take shortcuts that will hurt later?
+3. **Acceptance** - run it the way a real user would.
 
 Tests the agent wrote are necessary and **not sufficient**. Agents can generate tests that pass without covering the behavior that matters.
 
@@ -240,8 +239,306 @@ HITL is **calibrated automation**, not maximum automation.
 
 Checkpoints that actually pay for themselves:
 
-1. **Review the spec / plan before execution** — cheapest place to catch a misunderstanding. Cursor Plan Mode is this habit, formalized.
-2. **Review output before merge** — CI already checked that it compiles. You check that it belongs in _this_ system.
-3. **Stay close on high-risk work** — auth, production data, new dependencies. A utility function can be reviewed quickly. A migration cannot.
+1. **Review the spec / plan before execution** - cheapest place to catch a misunderstanding. Cursor Plan Mode is this habit, formalized.
+2. **Review output before merge** - CI already checked that it compiles. You check that it belongs in _this_ system.
+3. **Stay close on high-risk work** - auth, production data, new dependencies. A utility function can be reviewed quickly. A migration cannot.
 
 Skipping review "to go faster" is backwards. A 10-minute spec review prevents hours of remediating the wrong implementation.
+
+---
+
+<!-- class: invert -->
+
+# Context engineering
+
+---
+
+<!-- class: lead -->
+
+## Filling the window is the job
+
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+
+> “Context engineering is the delicate art and science of filling the context window with just the right information for the next step.” - Andrej Karpathy
+
+Everything the model knows about your task, codebase, standards, and intent must arrive in the **context window**. It cannot browse, remember last Tuesday, or look up your testing library unless something delivers that information.
+
+**You control what it receives.**
+
+System prompt, rules files, referenced snippets, tool definitions, conversation history - the totality of what the model sees when it begins reasoning.
+
+---
+
+## Looks right. Wrong for _your_ system.
+
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+
+Agent adds a Node.js endpoint. It looks reasonable. It uses **deprecated Moment.js**, skips required **Zod** validation, and writes a **unit test** when CI gates on **integration tests**.
+
+Nothing was wrong _in the abstract_. It was wrong _for your system_.
+
+A better prompt would not have fixed it. The information was never in the window.
+
+Same lesson as vibe coding: the model fills every gap with **training-data defaults**. Context engineering is how you stop that.
+
+---
+
+## Prompt engineering vs context engineering
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+</style>
+
+Prompt engineering remains a prerequisite. Multi-step agentic sessions change the diagnosis.
+
+| Prompt instinct                                                           | Context instinct                                                                                                   |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Rewrite the instruction: more specific, add a constraint, clarify format. | Did the model have what it needed? Relevant file included? Conflicting rule loading? Window full of stale history? |
+
+- Prompt engineering = **local optimization** - one input, one interaction.
+- Context engineering = **systems discipline** - full state across a session, and across all sessions over a project’s lifetime.
+
+Anthropic: the question shifts from “how should I phrase this?” to “**what configuration of context is most likely to generate the desired behavior?**”
+
+A prompt helps one session. A rules file in the repo helps every engineer, every session.
+
+---
+
+## The window is finite - and not processed equally
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+</style>
+
+Frontier models advertise 200k–1M tokens. Size is not the whole story.
+
+Transformers compute **pairwise attention**: every token attends to every other. That scales as **n²**. At 100,000 tokens → 10 billion pairwise relationships. Attention stretches thinner as context grows.
+
+Result is a **gradient, not a cliff**: strong reliability in a small window, then a slow decline as it fills.
+
+A 200k window is not 200k of reliable working space. **Effective context ≈ 50% of the advertised limit.** Plan sessions and resets around that.
+
+---
+
+## Two failure modes
+
+<style scoped>
+  section {
+    font-size: 24px;
+  }
+</style>
+
+They pull in opposite directions.
+
+**Too little context** - Agent fills gaps from training data. Fine in the abstract, wrong for your system. The Node.js example: every mistake traced to info never in the window. Context failures, not model failures.
+
+**Too much context** - Every file, every rule, hours of history leads to worse output, slower, higher cost. Lost-in-the-middle: more context does not equal more attention to every piece.
+
+Context engineering = navigate between them: **enough to reason well, structured so attention lands where it should**, updated as conditions change.
+
+---
+
+## What actually fills the window
+
+<style scoped>
+  section {
+    font-size: 20px;
+  }
+</style>
+
+Only the **user’s query is strictly mandatory**. Everything else is optional - and should _earn its place_.
+
+| Component                     | Role                                                 |
+| ----------------------------- | ---------------------------------------------------- |
+| **System prompt**             | Identity, goals, standing constraints                |
+| **User input / `@` refs**     | The task, plus the exact slice you hand in           |
+| **Rules**                     | Always-on conventions you should not have to restate |
+| **Skills / commands**         | On-demand workflows (`/review-pr`)                   |
+| **Tools**                     | Schemas consume tokens; calls pull more in           |
+| **Environment (`AGENTS.md`)** | “Where am I, and what is this system?”               |
+| **History**                   | Continuity - and the thing that rots                 |
+
+Two audit questions: How often does this actually help? What would break if it were absent?
+
+---
+
+## Always-on vs on-demand
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+</style>
+
+Irrelevant-but-present context occupies attention. DB-migration constraints during a CSS update = wasted tokens.
+
+**Rules** = a constraint you want followed even when you aren’t thinking about it. Always-on. Expensive. Keep short.
+
+**Skills** = a workflow. “When adding an API endpoint, follow these eight steps…” Content does **not** load every session.
+
+Progressive disclosure:
+
+1. **Catalog** at session start - name + description (~50–100 tokens)
+2. **Instructions** on activation
+3. **Resources** only if the skill needs them
+
+Repeatedly pasting the same extra context? Promote it to a rule or a skill.
+
+## Code review
+
+Lets take a minute to review the rules and baseline agent context in our own project.
+
+Spend a few minutes reviewing AGENT.md in the source code repo and then we'll talk about this together.
+
+---
+
+<!-- class: invert -->
+
+# SDD in practice
+
+---
+
+<!-- class: lead -->
+
+## SDD steps
+
+The general SDD workflow looks like this (this may vary slightly from team to team):
+
+- Define a spec
+- Create an implementation plan
+- Implement the plan
+- Verify results
+- Update relevant architectural documents with any decisions that came out of the cycle
+
+---
+
+## Defining a spec
+
+_A spec is just a markdown file, committed to your repo, outlining details for a specific features._
+
+A spec should clearly document your _feature goal, requirements, acceptance criteria and scope_.
+
+The structure of the file and the organization of the spec directory may vary somewhat according to you team's conventions and/or the framework you are using.
+
+---
+
+## Example spec
+
+```markdown
+## Goal
+
+Add in-memory caching for the /api/products endpoint to reduce database load during high-t
+
+## Constraints
+
+- Use the existing in-process cache (node-cache);
+- no new infrastructure
+- Cache TTL: 5 minutes
+- Cache key: product category ID (not the full query string)
+- Cache must be invalidated on product updates via the existing product.updated event
+
+## Acceptance Criteria
+
+- First request for a category returns data from the database
+- Subsequent requests within the TTL return data from the cache (verifiable via logging)
+- A product.updated event causes the relevant category's cache to be invalidated within 1
+- Cache hit/miss ratio is visible in existing monitoring dashboards
+
+## Out of Scope
+
+- Distributed caching across multiple instances
+- Caching for other endpoints
+- Cache warming on startup
+```
+
+---
+
+## Spec iteration, grill me
+
+A common strategy for spec improvement and iteration is through the process of _grilling_. _Grilling reverses the roles._
+
+While grilling, the agent examines your script file, identifies areas of uncertainty and undefined implementation choices and asks you, interactively to improve clarity.
+
+Afterwards, the spec is updated with additional details the agent should need to begin implementation planning.
+
+---
+
+## To prompt or not to prompt?
+
+When we want the agent to grill us on our implementation plan we _could_ simply prompt the agent, asking it to ask us for additional details it needs for the spec. Is there a better approach?
+
+<div data-marpit-fragment>
+
+Yes! When we start to notice repetitive commands, that we are making to the agent, such commands are good candidates for skills. Defining them as skills allows us to provide additional context and consistent instructions to the agent.
+
+</div>
+
+---
+
+## Context matters
+
+Once the spec definition is complete we will clear context (create a new agent window) and use the specification as the input for next step (planning). Why is this important?
+
+<div data-marpit-fragment>
+
+By creating a new context, we remove unnecessary context details from the spec clarification stage. As we learned earlier, we want to keep unnecessary data out of the context since reasoning ability diminishes as the context window fills.
+
+Going into planning, out goal is to feed a clear, concise, implementable specification with all necessary details to the agent for implementation planning.
+
+</div>
+
+---
+
+## Planning
+
+After the spec is defined, we will prompt the agent to develop two additional documents before implementation. A plan document and a task document.
+
+We will again use a skill to initiate the creation of these artifacts. During planning, the agent is instructed to review spec document and create a concrete plan, which files to modify, which files provided needed context or must be interacted with, example code snippets and other implementation details.
+
+After completing the plan, the agent will create a final task.md document. This document includes the plan as context and a grouped checklist of items that must be completed.
+
+---
+
+## Execution!
+
+After planning has completed, and verified, you should clear context and have the agent implement your task list.
+
+The execution prompt should also be defined as a skill.
+
+---
+
+## Verification
+
+As noted earlier, verification is an essential final part of the SDD cycle.
+
+You should review the diff, especially closely with high-stakes updates and apply a layered testing approach (user, e2e, unit).
+
+---
+
+## Architectural documentation
+
+Finally, the agent should be instructed as part of the general rules to document in the rules or AGENTS.md file any architectural or standards that were determined during the SDD cycle so, these standards are part of future agents' working context.
+
+---
+
+## Frameworks and variations
+
+To reiterate, this is an evolving standard and implementation varies per-team and per-framework. We are keeping things low-level for now, for this class to understand the general process and key concepts but, if you are interested in diving deeper into a popular, well supported framework for doing SDD development, you may want to check out GitHub's [spec-kit](https://github.com/github/spec-kit).
+
+---
+
+## Let's do it!
+
+Lets take a look and sample code repo and develop a new feature using SDD.
