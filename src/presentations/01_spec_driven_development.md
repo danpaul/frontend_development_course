@@ -16,7 +16,7 @@ paginate: true
 
 <!-- class: invert -->
 
-# Spec Driven Development (SDD)
+# Spec-Driven Development (SDD)
 
 ---
 
@@ -43,9 +43,9 @@ That said, it is important that developers are not standing still. These tools a
 
 ## Disclaimer - it's not free
 
-Use of AI coding agents is not required for this class but most of us are using these tools anyway. What we are learning in this class is general processes around software development with AI. I will be using Cursor but the processes should be applicable to whatever coding tools you use.
+Use of AI coding agents is not required for this class, but most of us are using these tools anyway. What we are learning in this class is a set of general processes around software development with AI. I will be using Cursor, but the processes should be applicable to whatever coding tools you use.
 
-There are free, limited, tiers available to you but it may be worth investing in a subscription to go deeper with your learning.
+There are free, limited tiers available to you, but it may be worth investing in a subscription to go deeper with your learning.
 
 I will be using Cursor. The React Native portion will work with Claude. Claude has plugin integrations with Cursor and VS Code.
 
@@ -63,7 +63,7 @@ I will be using Cursor. The React Native portion will work with Claude. Claude h
 
 ![vibe coding](./assets/vibe_coding.png)
 
-Andrej Karpathy (founding member of OpenAI) coined the term "vibe-coding".
+Andrej Karpathy (founding member of OpenAI) coined the term "vibe coding".
 
 We have all had some experience with this. What do we think? Is it a suitable approach for software development? Why or why not? In what cases is it most appropriate?
 
@@ -71,11 +71,11 @@ We have all had some experience with this. What do we think? Is it a suitable ap
 
 ## Vibe coding problems
 
-In general, vibe coding or even simple prompt-based, feature engineering fails beyond simple prototypes and small application for a variety of reasons including:
+In general, vibe coding or even simple prompt-based feature engineering fails beyond simple prototypes and small applications for a variety of reasons including:
 
 - **Architectural drift** - Each prompt solves a local task but not necessarily in an architecturally consistent way. The system accumulates multiple and inconsistent implementations and architectural choices. Inconsistent schemas, diverging error handling, duplicated auth. These inconsistencies can compound exponentially over time as the inconsistencies pollute the agent's inferred context.
 - **Missing context** - Conventions live outside the code (validate at service layer, soft deletes, localized errors). These are invisible to an AI given only the task leading to incorrect or missing implementations due to missing details.
-- **The plausability gap** - AI code looks production-quality (formatting, names, patterns) leading quick approval of large changes with potential bugs.
+- **The plausibility gap** - AI code looks production-quality (formatting, names, patterns) leading to quick approval of large changes with potential bugs.
 
 ---
 
@@ -83,13 +83,13 @@ In general, vibe coding or even simple prompt-based, feature engineering fails b
 
 Software engineering has known for decades that **ambiguous requirements are expensive**. Boehm (1981): a defect found in production can cost far more than one caught in design.
 
-What changed in 2025 is speed. With **vibe coding**: describe the vibe, accept the diffs, ship, prototyping got cheaper but production defects got cheaper to create at volume.
+What changed in 2025 is speed. With **vibe coding** (describe the vibe, accept the diffs, ship), prototyping got cheaper but production defects got cheaper to create at volume.
 
 **Spec-driven development** is the emerging standard around developing applications in a rigorous, detailed and incremental way using text-based specification documents to guide the agent during development.
 
 ---
 
-## SDD at a glance, two Engineers, One Task
+## SDD at a glance, Two Engineers, One Task
 
 **Task:** Rate-limit payment - max 10 requests per user per minute.
 
@@ -120,7 +120,7 @@ Traditional development assumed **implementation speed was the bottleneck**, and
 
 **An agent does not. It starts fresh at each context boundary. Underspecify, and it invents assumptions** - then builds the next prompt on top of them.
 
-**\_So the expensive work moves **upstream** (clear spec) and **downstream** (rigorous verification). Generation in the middle is the cheap part.\_**
+**So the expensive work moves upstream (clear spec) and downstream (rigorous verification). Generation in the middle is the cheap part.**
 
 ---
 
@@ -155,7 +155,7 @@ Addy Osmani: _every engineer is a manager now_ - not of people, of work that oth
 
 ## SDD development cycle
 
-SDD relies on a cycle where intent, and constraint are defined, implementation is completed and verification is performed.
+SDD relies on a cycle where intent and constraints are defined, implementation is completed, and verification is performed.
 
 ![bg contain right:60%](./assets/intent_constraints_verification.png)
 
@@ -214,7 +214,7 @@ AI is confident. It can also be wrong: hallucinated APIs, misread code, locally 
 Three layers:
 
 1. **Automated** - unit/integration tests, linters, types, CI. Catches the embarrassing class of errors quickly.
-2. **Structured review** - does it match intent, respect constraints, take shortcuts that will hurt later?
+2. **Structured review** - does it match intent, respect constraints, or take shortcuts that will hurt later?
 3. **Acceptance** - run it the way a real user would.
 
 Tests the agent wrote are necessary and **not sufficient**. Agents can generate tests that pass without covering the behavior that matters.
@@ -342,9 +342,9 @@ A 200k window is not 200k of reliable working space. **Effective context ≈ 50%
 
 They pull in opposite directions.
 
-**Too little context** - Agent fills gaps from training data. Fine in the abstract, wrong for your system. The Node.js example: every mistake traced to info never in the window. Context failures, not model failures.
+**Too little context** - Agent fills gaps from training data. Fine in the abstract, wrong for your system. The Node.js example: every mistake was traced to info never in the window. Context failures, not model failures.
 
-**Too much context** - Every file, every rule, hours of history leads to worse output, slower, higher cost. Lost-in-the-middle: more context does not equal more attention to every piece.
+**Too much context** - Every file, every rule, and hours of history lead to worse output, slower responses, and higher cost. Lost-in-the-middle: more context does not equal more attention to every piece.
 
 Context engineering = navigate between them: **enough to reason well, structured so attention lands where it should**, updated as conditions change.
 
@@ -398,9 +398,9 @@ Repeatedly pasting the same extra context? Promote it to a rule or a skill.
 
 ## Code review
 
-Lets take a minute to review the rules and baseline agent context in our own project.
+Let's take a minute to review the rules and baseline agent context in our own project.
 
-Spend a few minutes reviewing AGENT.md in the source code repo and then we'll talk about this together.
+Spend a few minutes reviewing AGENTS.md in the source code repo and then we'll talk about this together.
 
 ---
 
@@ -426,11 +426,11 @@ The general SDD workflow looks like this (this may vary slightly from team to te
 
 ## Defining a spec
 
-_A spec is just a markdown file, committed to your repo, outlining details for a specific features._
+_A spec is just a markdown file, committed to your repo, outlining details for a specific feature._
 
 A spec should clearly document your _feature goal, requirements, acceptance criteria and scope_.
 
-The structure of the file and the organization of the spec directory may vary somewhat according to you team's conventions and/or the framework you are using.
+The structure of the file and the organization of the spec directory may vary somewhat according to your team's conventions and/or the framework you are using.
 
 ---
 
@@ -439,12 +439,11 @@ The structure of the file and the organization of the spec directory may vary so
 ```markdown
 ## Goal
 
-Add in-memory caching for the /api/products endpoint to reduce database load during high-t
+Add in-memory caching for the /api/products endpoint to reduce database load during high traffic
 
 ## Constraints
 
-- Use the existing in-process cache (node-cache);
-- no new infrastructure
+- Use the existing in-process cache (node-cache); no new infrastructure
 - Cache TTL: 5 minutes
 - Cache key: product category ID (not the full query string)
 - Cache must be invalidated on product updates via the existing product.updated event
@@ -453,7 +452,7 @@ Add in-memory caching for the /api/products endpoint to reduce database load dur
 
 - First request for a category returns data from the database
 - Subsequent requests within the TTL return data from the cache (verifiable via logging)
-- A product.updated event causes the relevant category's cache to be invalidated within 1
+- A product.updated event causes the relevant category's cache to be invalidated within 1 second
 - Cache hit/miss ratio is visible in existing monitoring dashboards
 
 ## Out of Scope
@@ -469,7 +468,7 @@ Add in-memory caching for the /api/products endpoint to reduce database load dur
 
 A common strategy for spec improvement and iteration is through the process of _grilling_. _Grilling reverses the roles._
 
-While grilling, the agent examines your script file, identifies areas of uncertainty and undefined implementation choices and asks you, interactively to improve clarity.
+While grilling, the agent examines your spec file, identifies areas of uncertainty and undefined implementation choices, and asks you, interactively, to improve clarity.
 
 Afterwards, the spec is updated with additional details the agent should need to begin implementation planning.
 
@@ -477,11 +476,11 @@ Afterwards, the spec is updated with additional details the agent should need to
 
 ## To prompt or not to prompt?
 
-When we want the agent to grill us on our implementation plan we _could_ simply prompt the agent, asking it to ask us for additional details it needs for the spec. Is there a better approach?
+When we want the agent to grill us on our spec, we _could_ simply prompt the agent, asking it to ask us for additional details it needs. Is there a better approach?
 
 <div data-marpit-fragment>
 
-Yes! When we start to notice repetitive commands, that we are making to the agent, such commands are good candidates for skills. Defining them as skills allows us to provide additional context and consistent instructions to the agent.
+Yes! When we start to notice repetitive commands that we are making to the agent, such commands are good candidates for skills. Defining them as skills allows us to provide additional context and consistent instructions to the agent.
 
 </div>
 
@@ -489,13 +488,13 @@ Yes! When we start to notice repetitive commands, that we are making to the agen
 
 ## Context matters
 
-Once the spec definition is complete we will clear context (create a new agent window) and use the specification as the input for next step (planning). Why is this important?
+Once the spec definition is complete, we will clear context (create a new agent window) and use the specification as the input for the next step (planning). Why is this important?
 
 <div data-marpit-fragment>
 
 By creating a new context, we remove unnecessary context details from the spec clarification stage. As we learned earlier, we want to keep unnecessary data out of the context since reasoning ability diminishes as the context window fills.
 
-Going into planning, out goal is to feed a clear, concise, implementable specification with all necessary details to the agent for implementation planning.
+Going into planning, our goal is to feed a clear, concise, implementable specification with all necessary details to the agent for implementation planning.
 
 </div>
 
@@ -505,7 +504,7 @@ Going into planning, out goal is to feed a clear, concise, implementable specifi
 
 After the spec is defined, we will prompt the agent to develop two additional documents before implementation. A plan document and a task document.
 
-We will again use a skill to initiate the creation of these artifacts. During planning, the agent is instructed to review spec document and create a concrete plan, which files to modify, which files provided needed context or must be interacted with, example code snippets and other implementation details.
+We will again use a skill to initiate the creation of these artifacts. During planning, the agent is instructed to review the spec document and create a concrete plan: which files to modify, which files provide needed context or must be interacted with, example code snippets, and other implementation details.
 
 After completing the plan, the agent will create a final task.md document. This document includes the plan as context and a grouped checklist of items that must be completed.
 
@@ -513,7 +512,7 @@ After completing the plan, the agent will create a final task.md document. This 
 
 ## Execution!
 
-After planning has completed, and verified, you should clear context and have the agent implement your task list.
+After planning has been completed and verified, you should clear context and have the agent implement your task list.
 
 The execution prompt should also be defined as a skill.
 
@@ -523,22 +522,22 @@ The execution prompt should also be defined as a skill.
 
 As noted earlier, verification is an essential final part of the SDD cycle.
 
-You should review the diff, especially closely with high-stakes updates and apply a layered testing approach (user, e2e, unit).
+You should review the diff, especially closely for high-stakes updates, and apply a layered testing approach (user, e2e, unit).
 
 ---
 
 ## Architectural documentation
 
-Finally, the agent should be instructed as part of the general rules to document in the rules or AGENTS.md file any architectural or standards that were determined during the SDD cycle so, these standards are part of future agents' working context.
+Finally, the agent should be instructed as part of the general rules to document in the rules or AGENTS.md file any architectural decisions or standards that were determined during the SDD cycle so these standards are part of future agents' working context.
 
 ---
 
 ## Frameworks and variations
 
-To reiterate, this is an evolving standard and implementation varies per-team and per-framework. We are keeping things low-level for now, for this class to understand the general process and key concepts but, if you are interested in diving deeper into a popular, well supported framework for doing SDD development, you may want to check out GitHub's [spec-kit](https://github.com/github/spec-kit).
+To reiterate, this is an evolving standard and implementation varies per-team and per-framework. We are keeping things low-level for now, for this class to understand the general process and key concepts, but if you are interested in diving deeper into a popular, well-supported framework for doing SDD development, you may want to check out GitHub's [spec-kit](https://github.com/github/spec-kit).
 
 ---
 
 ## Let's do it!
 
-Lets take a look and sample code repo and develop a new feature using SDD.
+Let's take a look at a sample code repo and develop a new feature using SDD.
