@@ -575,3 +575,11 @@ To reiterate, SDD is an evolving standard and implementation varies per-team and
 ![bg contain right:50%](./assets/lets_do_it.png)
 
 Let's take a look at a sample code repo and develop a new feature using SDD.
+
+---
+
+## Your turn
+
+We have now built out a small toast notification features. It is not yet integrated with the main application.
+
+Go through the SDD steps to complete integration with the TODO application.
