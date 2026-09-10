@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JavaScript Essentials Quiz</title>
+    <style>
+      :root {
+        --bg: #fff8f0;
+        --ink: #2c1810;
+        --muted: #6b5344;
+        --accent: #8b0000;
+        --card: #fffef9;
+        --line: #e8d5c4;
+        --correct: #1b7a4a;
+        --correct-bg: #e7f6ee;
+        --wrong: #9b2226;
+        --wrong-bg: #fdecea;
+        --btn: #8b0000;
+        --btn-ink: #fffef9;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Georgia, "Times New Roman", serif;
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.45;
+      }
+
+      .wrap {
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 3rem;
+      }
+
+      h1 {
+        color: var(--accent);
+        font-size: 1.85rem;
+        margin: 0 0 0.35rem;
+      }
+
+      .lede {
+        color: var(--muted);
+        margin: 0 0 1.5rem;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 1.35rem 1.4rem 1.5rem;
+        box-shadow: 0 8px 24px rgba(44, 24, 16, 0.06);
+      }
+
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: baseline;
+        font-size: 0.95rem;
+        color: var(--muted);
+        margin-bottom: 0.75rem;
+      }
+
+      .progress {
+        height: 6px;
+        background: var(--line);
+        border-radius: 99px;
+        overflow: hidden;
+        margin-bottom: 1.1rem;
+      }
+
+      .progress > span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--accent);
+        transition: width 0.2s ease;
+      }
+
+      .topic {
+        display: inline-block;
+        font-size: 0.8rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.4rem;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+        margin: 0 0 0.85rem;
+        font-weight: 700;
+      }
+
+      pre {
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 0.85rem;
+        background: #2c1810;
+        color: #f4e6d8;
+        padding: 0.85rem 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 0 0 1rem;
+      }
+
+      .choices {
+        display: grid;
+        gap: 0.55rem;
+        margin: 0 0 1.1rem;
+      }
+
+      .choice {
+        text-align: left;
+        font: inherit;
+        font-size: 1rem;
+        padding: 0.7rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        cursor: pointer;
+        color: var(--ink);
+      }
+
+      .choice:hover:not(:disabled) {
+        border-color: var(--accent);
+      }
+
+      .choice.selected {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.15);
+      }
+
+      .choice.correct {
+        background: var(--correct-bg);
+        border-color: var(--correct);
+      }
+
+      .choice.wrong {
+        background: var(--wrong-bg);
+        border-color: var(--wrong);
+      }
+
+      .choice:disabled {
+        cursor: default;
+      }
+
+      .feedback {
+        min-height: 1.4em;
+        margin: 0 0 1rem;
+        font-size: 0.98rem;
+      }
+
+      .feedback.correct {
+        color: var(--correct);
+      }
+
+      .feedback.wrong {
+        color: var(--wrong);
+      }
+
+      button.primary {
+        font: inherit;
+        font-size: 1rem;
+        background: var(--btn);
+        color: var(--btn-ink);
+        border: 0;
+        border-radius: 8px;
+        padding: 0.55rem 1.1rem;
+        cursor: pointer;
+      }
+
+      button.primary:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+
+      button.primary:hover:not(:disabled) {
+        filter: brightness(1.08);
+      }
+
+      .score-hero {
+        text-align: center;
+        margin-bottom: 1.4rem;
+      }
+
+      .score-hero strong {
+        display: block;
+        font-size: 2.4rem;
+        color: var(--accent);
+        line-height: 1.1;
+      }
+
+      .topics {
+        display: grid;
+        gap: 0.45rem;
+        margin: 0 0 1.4rem;
+      }
+
+      .topics div {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.45rem 0.6rem;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+      }
+
+      .review h3 {
+        margin: 1.2rem 0 0.6rem;
+        font-size: 1.05rem;
+      }
+
+      .review-item {
+        border-top: 1px solid var(--line);
+        padding: 0.85rem 0;
+      }
+
+      .review-item .mark {
+        font-weight: 700;
+      }
+
+      .review-item .mark.ok {
+        color: var(--correct);
+      }
+
+      .review-item .mark.no {
+        color: var(--wrong);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .start-actions,
+      .end-actions {
+        margin-top: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>JavaScript Essentials Quiz</h1>
+        <p class="lede">Week 2 — 20 questions from the lecture. Open this file in a browser.</p>
+      </header>
+
+      <section id="start" class="card">
+        <p>
+          Covers functions, <code>this</code> / binding / closures, async programming,
+          array &amp; object syntax, and modules.
+        </p>
+        <p>One question at a time. Submit each answer before moving on. Results and a review appear at the end.</p>
+        <div class="start-actions">
+          <button type="button" class="primary" id="start-btn">Start quiz</button>
+        </div>
+      </section>
+
+      <section id="quiz" class="card hidden">
+        <div class="meta">
+          <span id="counter"></span>
+          <span id="running-score"></span>
+        </div>
+        <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+        <div class="topic" id="topic"></div>
+        <h2 id="prompt"></h2>
+        <pre id="code" class="hidden"></pre>
+        <div class="choices" id="choices"></div>
+        <p class="feedback" id="feedback"></p>
+        <button type="button" class="primary" id="action-btn">Submit answer</button>
+      </section>
+
+      <section id="results" class="card hidden">
+        <div class="score-hero">
+          <strong id="total-score"></strong>
+          <p id="total-message" class="lede"></p>
+        </div>
+        <h2>By topic</h2>
+        <div class="topics" id="topic-scores"></div>
+        <div class="review" id="review"></div>
+        <div class="end-actions">
+          <button type="button" class="primary" id="retry-btn">Try again</button>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          topic: "Functions",
+          prompt: "What is true of a function declaration vs a function expression?",
+          code: "sayHi();\nfunction sayHi() { return \"Hello\"; }\n\nsayBye();\nconst sayBye = function () { return \"Bye\"; };",
+          choices: [
+            "Both calls work, because all functions are hoisted the same way",
+            "sayHi works (declarations are hoisted); sayBye throws because the expression is not hoisted",
+            "Neither call works until after both definitions",
+            "sayBye works; sayHi throws because declarations cannot be called early",
+          ],
+          answer: 1,
+          explanation:
+            "Function declarations are hoisted and can be called before they appear. Function expressions assigned with const/let are not hoisted that way — calling sayBye too early is a ReferenceError.",
+        },
+        {
+          topic: "Functions",
+          prompt: "What does farewell(\"Alice\") return?",
+          code: "const farewell = (name) => {\n  `Goodbye, ${name}!`;\n};",
+          choices: [
+            "\"Goodbye, Alice!\"",
+            "undefined — braces need an explicit return (no automatic return)",
+            "A Promise that resolves to the string",
+            "It throws a syntax error",
+          ],
+          answer: 1,
+          explanation:
+            "An arrow with a block body ({}) does not return automatically. The template string is computed and discarded. Implicit return only works with a concise body: (name) => `Goodbye, ${name}!`.",
+        },
+        {
+          topic: "Functions",
+          prompt: "Functions in JavaScript are first-class. What does that enable?",
+          choices: [
+            "Functions can only be declared at the top of a file",
+            "Functions can be passed as arguments, returned from functions, and stored in variables",
+            "Every function binds this to a class instance, like C#",
+            "Functions cannot be anonymous",
+          ],
+          answer: 1,
+          explanation:
+            "First-class functions are values. That is why higher-order functions, callbacks, and event handlers are natural in JS — you pass and return behavior the same way you pass data.",
+        },
+        {
+          topic: "this, binding, closures",
+          prompt: "It is the same greet function each time. What do the three calls print for this.name (strict-ish / module-like: no fallback global)?",
+          code: "const alice = {\n  name: \"Alice\",\n  greet() { console.log(this.name); },\n};\n\nalice.greet();\nconst greet = alice.greet;\ngreet();\nconst hatter = { name: \"Mad Hatter\", greet };\nhatter.greet();",
+          choices: [
+            "Alice, Alice, Alice — the function belongs to alice",
+            "Alice, undefined, Mad Hatter — this is decided at the call site",
+            "Alice, Mad Hatter, Mad Hatter",
+            "undefined, undefined, undefined — methods never keep this",
+          ],
+          answer: 1,
+          explanation:
+            "this is not stored on the function. alice.greet() has alice left of the dot. Extracted greet() has no object, so this is lost. hatter.greet() makes hatter the caller.",
+        },
+        {
+          topic: "this, binding, closures",
+          prompt: "How does an arrow function get its this?",
+          choices: [
+            "From whoever is left of the . at the call site, like a regular function",
+            "From the surrounding lexical scope where the arrow was written; .bind() cannot override it",
+            "Always from the global object",
+            "From the first argument passed to the arrow",
+          ],
+          answer: 1,
+          explanation:
+            "Arrows ignore the call site. Their this is lexical. Moving an arrow onto another object, or calling .bind(), does not rebind it.",
+        },
+        {
+          topic: "this, binding, closures",
+          prompt: "What does .bind(alice) do on a regular function?",
+          choices: [
+            "It mutates the original function in place",
+            "It returns a new function with this locked to alice; later calls do not need an object on the left of .",
+            "It works the same way on arrow functions",
+            "It only sets this for the very next call, then forgets it",
+          ],
+          answer: 1,
+          explanation:
+            "Binding attaches a regular function to a specific this. The original is unchanged. Arrows keep lexical this, so .bind() is ignored on them.",
+        },
+        {
+          topic: "this, binding, closures",
+          prompt: "A closure is best described as:",
+          choices: [
+            "A function that always runs on a timer",
+            "The binding of a function with its enclosing scope — it can still see that data after the outer function returns",
+            "Another name for .bind()",
+            "A module's default export",
+          ],
+          answer: 1,
+          explanation:
+            "The inner function keeps decree, accused, or a React prop even after the outer function has finished. That is how Node request handlers and React click handlers keep setup data.",
+        },
+        {
+          topic: "Asynchronous programming",
+          prompt: "Why does JavaScript need async programming and the event loop?",
+          choices: [
+            "So many JS statements can run on different CPU cores at once on the main thread",
+            "JS is single-threaded; without async, network/file I/O would freeze the whole program (and the UI)",
+            "So this can be rebound like in C#",
+            "So function declarations can be hoisted",
+          ],
+          answer: 1,
+          explanation:
+            "One thread means one call stack. Async I/O plus the event loop lets JS wait on many operations concurrently without blocking, while still executing one line at a time.",
+        },
+        {
+          topic: "Asynchronous programming",
+          prompt: "On the event loop, where do resolved Promises wait relative to setTimeout callbacks?",
+          choices: [
+            "In the call stack, ahead of all other code",
+            "In the microtask queue, which is processed before the regular task queue (setTimeout, I/O, events)",
+            "In the same task queue as setTimeout, in the order they were registered",
+            "On a Web Worker thread",
+          ],
+          answer: 1,
+          explanation:
+            "Call stack runs JS (LIFO). The microtask queue (Promises) drains before the task queue. The event loop moves work onto the stack only when the stack is empty.",
+        },
+        {
+          topic: "Asynchronous programming",
+          prompt: "What is the main problem with nested callbacks (\"callback hell\")?",
+          choices: [
+            "Callbacks cannot perform HTTP requests",
+            "Code becomes deeply nested, hard to read, and errors are awkward to handle",
+            "Callbacks are not first-class functions",
+            "They force the second request to start before the first finishes",
+          ],
+          answer: 1,
+          explanation:
+            "Nesting a second request inside the first callback is how you sequence async work with callbacks — and how the pyramid of doom starts. Promises and async/await flatten that.",
+        },
+        {
+          topic: "Asynchronous programming",
+          prompt: "A Promise is in one of which three states?",
+          choices: [
+            "start, middle, end",
+            "pending, fulfilled, rejected",
+            "then, catch, finally",
+            "sync, async, queued",
+          ],
+          answer: 1,
+          explanation:
+            "pending means it has not settled. fulfilled is success; rejected is failure. .then / .catch / .finally are methods, not states.",
+        },
+        {
+          topic: "Asynchronous programming",
+          prompt: "In a promise chain, if the first .then() rejects, what happens?",
+          choices: [
+            "The next .then() still runs with undefined",
+            "Execution skips remaining .then() handlers and goes to .catch(); .finally() still runs afterward",
+            "The program always crashes",
+            ".finally() is skipped on errors",
+          ],
+          answer: 1,
+          explanation:
+            "An error anywhere in the chain jumps to catch. finally runs on success or failure. The return value of one then is the input to the next.",
+        },
+        {
+          topic: "Asynchronous programming",
+          prompt: "What is true of Promise.all([...])?",
+          choices: [
+            "It runs the promises strictly one after another",
+            "The promises all start immediately (concurrent I/O). You get one result when every one finishes, or one error if any fails. That is not parallelism on the main thread",
+            "It is how the main JS thread uses multiple CPU cores at once",
+            "It converts callbacks into arrow functions",
+          ],
+          answer: 1,
+          explanation:
+            "Concurrency: overlapping waits on one thread. Parallelism: multiple cores actually running. Promise.all is concurrent. True parallelism needs Web Workers / worker_threads.",
+        },
+        {
+          topic: "Asynchronous programming",
+          prompt: "What do async and await actually do?",
+          choices: [
+            "await blocks the entire JavaScript thread until the Promise settles",
+            "async marks a function so it always returns a Promise; await pauses that function until the Promise settles, while the rest of the program keeps running",
+            "await is legal in any ordinary function",
+            "async/await replaces the event loop with threads",
+          ],
+          answer: 1,
+          explanation:
+            "Same event loop, same Promise states — syntax that reads top to bottom. Sequential awaits wait in order, like a .then() chain. await is only legal in async functions (or at module top level).",
+        },
+        {
+          topic: "Asynchronous programming",
+          prompt: "When an awaited Promise rejects inside an async function, the usual way to handle it is:",
+          choices: [
+            "Ignore it — reject cannot happen after await",
+            "try / catch / finally, matching .then / .catch / .finally",
+            "Only .bind() on the async function",
+            "A nested callback inside await",
+          ],
+          answer: 1,
+          explanation:
+            "await throws on rejection, so ordinary try/catch/finally works. try is the success path, catch any rejection in the try, finally always runs.",
+        },
+        {
+          topic: "JS syntax",
+          prompt: "From an array of food objects, how do you get a new array of names of sweet pastries?",
+          code: "food.filter((item) => item.type === \"pastry\" && item.isSweet)\n    .map((item) => item.name);",
+          choices: [
+            "filter selects matching items (new array); map transforms each to a name; the methods chain because both return arrays",
+            "reduce then find — find is chainable and returns a new array",
+            "some then every — both return new arrays",
+            "forEach, because it returns a new array of names",
+          ],
+          answer: 0,
+          explanation:
+            "map and filter return new arrays and chain. reduce returns any value (not typically chained as an array). find returns one element. some/every return booleans. forEach returns undefined.",
+        },
+        {
+          topic: "JS syntax",
+          prompt: "What does this syntax do?",
+          code: "const { cakeName, isSweet } = cake;",
+          choices: [
+            "It copies cake into two new objects",
+            "Object destructuring: pluck cakeName and isSweet out of cake into variables",
+            "It is the rest operator gathering leftover properties",
+            "It is CommonJS require()",
+          ],
+          answer: 1,
+          explanation:
+            "Destructuring turns selected properties into variables. The same idea is used for function parameters and React props: function Welcome({ name }) { ... }.",
+        },
+        {
+          topic: "JS syntax",
+          prompt: "Spread vs rest: which statement is correct?",
+          choices: [
+            "Spread and rest are identical in every position",
+            "Spread (...) copies properties into a new object/array; rest gathers whatever is left out of one during destructuring",
+            "Rest copies into a new value; spread collects leftovers",
+            "Neither can be used with arrays",
+          ],
+          answer: 1,
+          explanation:
+            "const hatter = { ...guest, name: \"Mad Hatter\" } is spread (into). const { cakeName, ...details } = cake is rest (out of).",
+        },
+        {
+          topic: "JS syntax",
+          prompt: "After this runs, is alice.pockets.drink still \"shrinking potion\"?",
+          code: "const { pockets, companions, ...identity } = alice;\nconst tallerAlice = {\n  ...identity,\n  size: \"tall\",\n  pockets,\n  companions: [...companions, \"Mad Hatter\"],\n};\ntallerAlice.pockets.drink = \"empty bottle\";",
+          choices: [
+            "Yes — object spread always deep-clones nested objects",
+            "No — rest/spread copy the top level only, so pockets is the same nested object; mutating it mutates alice.pockets (companions was copied into a new array)",
+            "It throws, because pockets cannot be reassigned",
+            "Yes, because identity includes a cloned pockets object",
+          ],
+          answer: 1,
+          explanation:
+            "Shallow copy: nested objects are shared. [...companions] built a new array, so that part is independent. pockets was reused by reference.",
+        },
+        {
+          topic: "Modules",
+          prompt: "Which description of JS module systems matches the lecture?",
+          choices: [
+            "CommonJS (require / module.exports) is the official browser system; ESM is Node-only",
+            "ESM (import / export) is the official system for browser and Node; prefer it. CommonJS is the older Node style and is typically server-side. Default exports are imported without braces; named exports use { }",
+            "Named exports cannot be used in ESM",
+            "export default must be destructured: import { TeaParty } from \"./tea.js\"",
+          ],
+          answer: 1,
+          explanation:
+            "import { defaultBlend, pourTea } from \"./tea.js\" for named exports; import TeaParty from \"./tea.js\" for the default. You can combine: import TeaParty, { pourTea } from \"./tea.js\".",
+        },
+      ];
+
+      const startEl = document.querySelector("#start");
+      const quizEl = document.querySelector("#quiz");
+      const resultsEl = document.querySelector("#results");
+      const counterEl = document.querySelector("#counter");
+      const runningScoreEl = document.querySelector("#running-score");
+      const barEl = document.querySelector("#bar");
+      const topicEl = document.querySelector("#topic");
+      const promptEl = document.querySelector("#prompt");
+      const codeEl = document.querySelector("#code");
+      const choicesEl = document.querySelector("#choices");
+      const feedbackEl = document.querySelector("#feedback");
+      const actionBtn = document.querySelector("#action-btn");
+
+      let index = 0;
+      let selected = null;
+      let revealed = false;
+      let answers = [];
+
+      function show(el) {
+        startEl.classList.add("hidden");
+        quizEl.classList.add("hidden");
+        resultsEl.classList.add("hidden");
+        el.classList.remove("hidden");
+      }
+
+      function renderQuestion() {
+        const q = questions[index];
+        selected = null;
+        revealed = false;
+        feedbackEl.textContent = "";
+        feedbackEl.className = "feedback";
+        actionBtn.textContent = "Submit answer";
+        actionBtn.disabled = true;
+
+        counterEl.textContent = "Question " + (index + 1) + " of " + questions.length;
+        const correctSoFar = answers.filter((a) => a.correct).length;
+        runningScoreEl.textContent =
+          answers.length === 0 ? "Score 0" : "Score " + correctSoFar + " / " + answers.length;
+        barEl.style.width = ((index / questions.length) * 100) + "%";
+
+        topicEl.textContent = q.topic;
+        promptEl.textContent = q.prompt;
+
+        if (q.code) {
+          codeEl.textContent = q.code;
+          codeEl.classList.remove("hidden");
+        } else {
+          codeEl.textContent = "";
+          codeEl.classList.add("hidden");
+        }
+
+        choicesEl.replaceChildren();
+        q.choices.forEach((label, i) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "choice";
+          btn.textContent = label;
+          btn.addEventListener("click", () => selectChoice(i));
+          choicesEl.appendChild(btn);
+        });
+      }
+
+      function selectChoice(i) {
+        if (revealed) return;
+        selected = i;
+        actionBtn.disabled = false;
+        [...choicesEl.children].forEach((btn, idx) => {
+          btn.classList.toggle("selected", idx === i);
+        });
+      }
+
+      function submitAnswer() {
+        const q = questions[index];
+        if (selected === null) return;
+
+        if (!revealed) {
+          revealed = true;
+          const correct = selected === q.answer;
+          answers.push({ selected, correct });
+
+          [...choicesEl.children].forEach((btn, idx) => {
+            btn.disabled = true;
+            if (idx === q.answer) btn.classList.add("correct");
+            if (idx === selected && !correct) btn.classList.add("wrong");
+          });
+
+          feedbackEl.className = "feedback " + (correct ? "correct" : "wrong");
+          feedbackEl.textContent = (correct ? "Correct. " : "Not quite. ") + q.explanation;
+          actionBtn.textContent = index === questions.length - 1 ? "See results" : "Next question";
+          runningScoreEl.textContent =
+            "Score " + answers.filter((a) => a.correct).length + " / " + answers.length;
+          barEl.style.width = (((index + 1) / questions.length) * 100) + "%";
+          return;
+        }
+
+        index += 1;
+        if (index >= questions.length) {
+          renderResults();
+        } else {
+          renderQuestion();
+        }
+      }
+
+      function renderResults() {
+        show(resultsEl);
+        const total = questions.length;
+        const score = answers.filter((a) => a.correct).length;
+        const pct = Math.round((score / total) * 100);
+        document.querySelector("#total-score").textContent = score + " / " + total + "  (" + pct + "%)";
+
+        let message = "Keep reviewing the lecture examples and try again.";
+        if (pct === 100) message = "Perfect — Alice would let you through.";
+        else if (pct >= 80) message = "Strong grasp of the essentials.";
+        else if (pct >= 60) message = "Solid start. Check the misses below.";
+        document.querySelector("#total-message").textContent = message;
+
+        const byTopic = {};
+        questions.forEach((q, i) => {
+          if (!byTopic[q.topic]) byTopic[q.topic] = { correct: 0, total: 0 };
+          byTopic[q.topic].total += 1;
+          if (answers[i].correct) byTopic[q.topic].correct += 1;
+        });
+
+        const topicBox = document.querySelector("#topic-scores");
+        topicBox.replaceChildren();
+        Object.keys(byTopic).forEach((topic) => {
+          const row = document.createElement("div");
+          const t = byTopic[topic];
+          row.innerHTML =
+            "<span>" +
+            topic +
+            "</span><span>" +
+            t.correct +
+            " / " +
+            t.total +
+            "</span>";
+          topicBox.appendChild(row);
+        });
+
+        const review = document.querySelector("#review");
+        review.replaceChildren();
+        const heading = document.createElement("h3");
+        heading.textContent = "Review";
+        review.appendChild(heading);
+
+        questions.forEach((q, i) => {
+          const item = document.createElement("div");
+          item.className = "review-item";
+          const mark = document.createElement("div");
+          mark.className = "mark " + (answers[i].correct ? "ok" : "no");
+          mark.textContent =
+            (answers[i].correct ? "Correct" : "Incorrect") +
+            " — Q" +
+            (i + 1) +
+            " · " +
+            q.topic;
+          const p = document.createElement("p");
+          p.textContent = q.prompt;
+          const yours = document.createElement("p");
+          yours.textContent = "Your answer: " + q.choices[answers[i].selected];
+          const right = document.createElement("p");
+          right.textContent = "Correct answer: " + q.choices[q.answer];
+          const why = document.createElement("p");
+          why.textContent = q.explanation;
+          item.append(mark, p, yours, right, why);
+          review.appendChild(item);
+        });
+      }
+
+      function startQuiz() {
+        index = 0;
+        answers = [];
+        show(quizEl);
+        renderQuestion();
+      }
+
+      document.querySelector("#start-btn").addEventListener("click", startQuiz);
+      document.querySelector("#retry-btn").addEventListener("click", startQuiz);
+      actionBtn.addEventListener("click", submitAnswer);
+    </script>
+  </body>
+</html>
