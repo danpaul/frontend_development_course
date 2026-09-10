@@ -13,35 +13,35 @@ console.log("===================");
 
 const food = [
   {
-    name: "banana",
-    type: "fruit",
+    name: "jam tart",
+    type: "pastry",
     isSweet: true,
   },
   {
-    name: "apple",
-    type: "fruit",
+    name: "Eat Me cake",
+    type: "pastry",
     isSweet: true,
   },
   {
-    name: "avocado",
-    type: "fruit",
+    name: "bread-and-butter",
+    type: "pastry",
     isSweet: false,
   },
   {
-    name: "carrot",
-    type: "vegetable",
+    name: "turtle soup",
+    type: "soup",
     isSweet: false,
   },
 ];
 
 console.log("Original food array:", food);
 
-// Solution: Get names of sweet fruits
-const sweetFruitNames = food
-  .filter((item) => item.type === "fruit" && item.isSweet)
+// Solution: Get names of sweet pastries
+const sweetPastryNames = food
+  .filter((item) => item.type === "pastry" && item.isSweet)
   .map((item) => item.name);
 
-console.log("Sweet fruit names:", sweetFruitNames);
+console.log("Sweet pastry names:", sweetPastryNames);
 console.log();
 
 // ========================================
@@ -91,22 +91,22 @@ console.log("3️⃣ Array Method Chaining:");
 console.log("==========================");
 
 const foodItems = [
-  { name: "banana", type: "fruit", isSweet: true },
-  { name: "apple", type: "fruit", isSweet: true },
-  { name: "avocado", type: "fruit", isSweet: false },
-  { name: "carrot", type: "vegetable", isSweet: false },
+  { name: "jam tart", type: "pastry", isSweet: true },
+  { name: "Eat Me cake", type: "pastry", isSweet: true },
+  { name: "bread-and-butter", type: "pastry", isSweet: false },
+  { name: "turtle soup", type: "soup", isSweet: false },
 ];
 
 // Chain filter and map
-const sweetFruitNamesChained = foodItems
-  .filter((food) => food.type === "fruit" && food.isSweet === true)
+const sweetPastryNamesChained = foodItems
+  .filter((food) => food.type === "pastry" && food.isSweet === true)
   .map((food) => food.name);
 
-console.log("Sweet fruit names (chained):", sweetFruitNamesChained);
+console.log("Sweet pastry names (chained):", sweetPastryNamesChained);
 
-// Check if array has a vegetable
-const hasVegetable = foodItems.find((food) => food.type === "vegetable");
-console.log("Has vegetable:", !!hasVegetable);
+// Check if array has a soup
+const hasSoup = foodItems.find((food) => food.type === "soup");
+console.log("Has soup:", !!hasSoup);
 
 console.log();
 
