@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>The Queen's Court</title>
+    <style>
+      body {
+        font-family: Georgia, serif;
+        max-width: 32rem;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        background: #fff8f0;
+      }
+      h1 {
+        color: #8b0000;
+      }
+      button {
+        margin-right: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        font-size: 1rem;
+      }
+      p {
+        min-height: 1.4em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>The Queen's Court</h1>
+    <p>Sentence Alice, then hear the Queen announce her decree.</p>
+
+    <button type="button" id="sentence">Sentence Alice</button>
+    <button type="button" id="announce">Hear ye</button>
+
+    <p id="result"></p>
+    <p id="announcement"></p>
+
+    <script>
+      /*
+        Bugs:
+        - Sentence Alice → Off with Alice's head! (undefined)
+          should be: Off with Alice's head! (Wonderland)
+        - Hear ye → undefined says: Off with their heads!
+          should name the Queen
+      */
+
+      document.querySelector("#sentence").addEventListener("click", async () => {
+        const res = await fetch("/sentence?name=Alice");
+        document.querySelector("#result").textContent = await res.text();
+      });
+
+      const queen = {
+        name: "The Queen of Hearts",
+        announce() {
+          document.querySelector("#announcement").textContent =
+            this.name + " says: Off with their heads!";
+        },
+      };
+
+      document
+        .querySelector("#announce")
+        .addEventListener("click", queen.announce);
+    </script>
+  </body>
+</html>

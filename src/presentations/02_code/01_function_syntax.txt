@@ -1,0 +1,21 @@
+// There are two bugs related to hoising and automatic returns. Fix them (in the text file) so both logs match the expected output.
+
+
+
+// Expected:  "Goodbye, Alice!"
+
+const farewell = (name) => {
+  `Goodbye, ${name}!`;
+};
+
+console.log(farewell("Alice"));
+
+
+
+// Expected:  "Hello, Alice!"
+
+console.log(welcome("Alice"));
+
+const welcome = function (name) {
+  return `Hello, ${name}!`;
+};
