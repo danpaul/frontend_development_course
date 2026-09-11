@@ -30,6 +30,8 @@ Essential how to sections from the Tailwind guide:
 
 ## Coding
 
+_Read the hackathon guide: `/hackathon.md`_
+
 Begin development of your hackathon project. You should spend around 3-4 hours per-week.
 
 Focus especially on applying the spec driven development patterns we learned about in class and which you are reading about this week.
