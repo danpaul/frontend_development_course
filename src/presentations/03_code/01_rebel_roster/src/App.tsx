@@ -7,7 +7,7 @@
   - Close comms → console still logs "This is Red Leader. Stay on target."
 */
 
-import { useState, type FormEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import PilotRow from "./PilotRow";
 import RebelRadio from "./RebelRadio";
 
@@ -23,7 +23,7 @@ export default function App() {
   const [xWings, setXWings] = useState(0);
   const [commsOpen, setCommsOpen] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     setPilots((current) => [
       ...current,
       { id: crypto.randomUUID(), name: name.trim() || "Unknown pilot" },

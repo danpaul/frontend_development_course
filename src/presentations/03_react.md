@@ -39,7 +39,7 @@ React is a **component** library: you describe UI as functions of data, and the 
 By the end of this session, you will be able to:
 
 - Describe UI with **JSX**
-- Split a screen into **function components**
+- Split a screen into **function components** and **import / export** them across files
 - Pass data with **props** and update the UI with **state**
 - Handle events, including a **controlled form**
 - Use **`useState`**, **`useEffect`**, and a small **custom hook**
@@ -525,6 +525,67 @@ Class components with `render()` show up in old codebases. We write functions.
   section {
     font-size: 22px;
   }
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  pre {
+    font-size: 15px;
+  }
+</style>
+
+## One file per component
+
+Same **ESM** as the JS lecture. The usual pattern is **one component per file**.
+
+<div class="columns">
+<div>
+
+```tsx
+// Welcome.tsx
+export default function Welcome() {
+  return <h1>Hello, world!</h1>;
+}
+```
+
+</div>
+<div>
+
+```tsx
+// App.tsx
+import Welcome from "./Welcome";
+
+export default function App() {
+  return (
+    <div>
+      <Welcome />
+      <Welcome />
+    </div>
+  );
+}
+```
+
+</div>
+</div>
+
+**Default:** `export default function Welcome` then `import Welcome from "./Welcome"`
+
+**Named:** `export function Welcome` then `import { Welcome } from "./Welcome"`
+
+Omit the `.tsx` in the import path. Name the file after the component.
+
+<!--
+Callback to JS modules. Default is the common choice when the file *is* the component (Vite's App, this week's Rebel roster: `import PilotRow from "./PilotRow"`). Named locks the import name to the export name — nicer when a file exports more than one thing.
+-->
+
+---
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
 </style>
 
 ## Props are the argument
@@ -960,7 +1021,7 @@ Causes (for walking the room; debrief is the next slide):
 
 ## Summary
 
-- **React:** UI = f(state, props); components; React updates the DOM
+- **React:** UI = f(state, props); components (`import` / `export`); React updates the DOM
 - **JSX:** expressions, one root / fragments, lists need **stable keys**
 - **Props:** read-only input; data down, events up; `children` is a prop
 - **State:** `useState`, **functional updates**, controlled inputs

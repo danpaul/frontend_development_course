@@ -8,7 +8,7 @@
   4. Comms after close — clear the interval in the effect cleanup
 */
 
-import { useState, type FormEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import PilotRow from "./PilotRow";
 import RebelRadio from "./RebelRadio";
 
@@ -24,7 +24,7 @@ export default function App() {
   const [xWings, setXWings] = useState(0);
   const [commsOpen, setCommsOpen] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setPilots((current) => [
       ...current,
