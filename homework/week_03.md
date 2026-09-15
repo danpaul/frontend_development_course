@@ -1,26 +1,27 @@
 # Week 3 Homework
 
-Read and complete the activities for the Next.js presentation `/presentations/03_nextjs.html`.
+This week you will do a bit of reading but are mostly focused on completing your Hackathon project.
 
 ## Reading and watching
 
-- [Getting Started: App Router](https://nextjs.org/docs/app/getting-started)
+Review the presentations and review/follow up on any concepts that are unclear.
+
+Read:
+
 - [Server Components](https://react.dev/reference/rsc/server-components)
-- [Data Fetching, Caching, and Revalidating](https://nextjs.org/docs/app/getting-started/fetching-data)
-- [Server Actions and Mutations](https://nextjs.org/docs/app/getting-started/updating-data)
+- [Data Fetching](https://nextjs.org/docs/15/pages/building-your-application/data-fetching)
+  - all sub-sections
 - Watch: [Streaming Server Rendering with React 18 (YouTube)](https://www.youtube.com/watch?v=MTcPrTIBkpA)
 
-Optional, if you will read older Next.js code:
-
-- [Pages Router: Data Fetching](https://nextjs.org/docs/pages/building-your-application/data-fetching)
+Quiz (open in a browser, in the `week_03` branch of the course code repo): [`/03_code/02_jedi_trial/index.html`](../src/presentations/03_code/02_jedi_trial/index.html) — missed questions come back until you clear them.
 
 ## Coding
 
-_Read the hackathon guide: `/hackathon.md`_
+_Read the hackathon guide if you have not already done so: `/hackathon.md`_
 
-Spend 3-4 hours on your hackathon project. This week, try to:
+Finish your hackathon project! Next week we will have a presentation of what you have created
 
-- Fetch data in a **Server Component** instead of `useEffect`
-- Keep `"use client"` on the smallest interactive pieces
-- Use `next/link` and `next/image` instead of raw `<a>` and `<img>`
-- Use a **Server Action** for a form if you need to write data
+During the demo you will:
+
+- demo what you have built
+- show a code snippet that you found challenging and explain it

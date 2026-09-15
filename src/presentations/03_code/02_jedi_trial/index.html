@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jedi Trial — React &amp; Next.js</title>
+    <style>
+      :root {
+        --bg: #05070c;
+        --bg-2: #0c1220;
+        --ink: #e8e6dc;
+        --muted: #9aa3b5;
+        --gold: #ffe81f;
+        --gold-dim: #c4b014;
+        --card: #121826;
+        --line: #2a3548;
+        --correct: #3dcf8a;
+        --correct-bg: #123326;
+        --wrong: #e24b4b;
+        --wrong-bg: #3a1518;
+        --btn: #ffe81f;
+        --btn-ink: #14120a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        color: var(--ink);
+        line-height: 1.45;
+        background-color: var(--bg);
+        background-image:
+          radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.7) 50%, transparent 51%),
+          radial-gradient(1px 1px at 28% 72%, rgba(255, 255, 255, 0.45) 50%, transparent 51%),
+          radial-gradient(1px 1px at 41% 33%, rgba(255, 232, 31, 0.35) 50%, transparent 51%),
+          radial-gradient(1px 1px at 63% 14%, rgba(255, 255, 255, 0.55) 50%, transparent 51%),
+          radial-gradient(1px 1px at 77% 58%, rgba(255, 255, 255, 0.4) 50%, transparent 51%),
+          radial-gradient(1px 1px at 88% 81%, rgba(255, 255, 255, 0.6) 50%, transparent 51%),
+          radial-gradient(1px 1px at 9% 88%, rgba(255, 255, 255, 0.35) 50%, transparent 51%),
+          radial-gradient(2px 2px at 52% 47%, rgba(255, 255, 255, 0.25) 50%, transparent 51%),
+          linear-gradient(180deg, #10182a 0%, var(--bg) 42%, #04060a 100%);
+      }
+
+      .wrap {
+        max-width: 44rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 3rem;
+      }
+
+      h1 {
+        color: var(--gold);
+        font-size: 1.85rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin: 0 0 0.35rem;
+      }
+
+      .lede {
+        color: var(--muted);
+        margin: 0 0 1.5rem;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 1.35rem 1.4rem 1.5rem;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: baseline;
+        font-size: 0.95rem;
+        color: var(--muted);
+        margin-bottom: 0.75rem;
+      }
+
+      .progress {
+        height: 6px;
+        background: var(--line);
+        border-radius: 99px;
+        overflow: hidden;
+        margin-bottom: 1.1rem;
+      }
+
+      .progress > span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--gold);
+        transition: width 0.2s ease;
+      }
+
+      .topic {
+        display: inline-block;
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.4rem;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+        margin: 0 0 0.85rem;
+        font-weight: 700;
+      }
+
+      pre {
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 0.85rem;
+        background: #07090f;
+        color: #d7e0c8;
+        padding: 0.85rem 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 0 0 1rem;
+        border: 1px solid var(--line);
+      }
+
+      .choices {
+        display: grid;
+        gap: 0.55rem;
+        margin: 0 0 1.1rem;
+      }
+
+      .choice {
+        text-align: left;
+        font: inherit;
+        font-size: 1rem;
+        padding: 0.7rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--bg-2);
+        cursor: pointer;
+        color: var(--ink);
+      }
+
+      .choice:hover:not(:disabled) {
+        border-color: var(--gold-dim);
+      }
+
+      .choice.selected {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 2px rgba(255, 232, 31, 0.2);
+      }
+
+      .choice.correct {
+        background: var(--correct-bg);
+        border-color: var(--correct);
+      }
+
+      .choice.wrong {
+        background: var(--wrong-bg);
+        border-color: var(--wrong);
+      }
+
+      .choice:disabled {
+        cursor: default;
+      }
+
+      .feedback {
+        min-height: 1.4em;
+        margin: 0 0 1rem;
+        font-size: 0.98rem;
+      }
+
+      .feedback.correct {
+        color: var(--correct);
+      }
+
+      .feedback.wrong {
+        color: var(--wrong);
+      }
+
+      button.primary {
+        font: inherit;
+        font-size: 1rem;
+        background: var(--btn);
+        color: var(--btn-ink);
+        border: 0;
+        border-radius: 8px;
+        padding: 0.55rem 1.1rem;
+        cursor: pointer;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+      }
+
+      button.primary:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+
+      button.primary:hover:not(:disabled) {
+        filter: brightness(1.08);
+      }
+
+      .score-hero {
+        text-align: center;
+        margin-bottom: 1.4rem;
+      }
+
+      .score-hero strong {
+        display: block;
+        font-size: 2.4rem;
+        color: var(--gold);
+        line-height: 1.1;
+      }
+
+      .rank {
+        display: block;
+        margin-top: 0.35rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-size: 0.95rem;
+        color: var(--gold);
+      }
+
+      .topics {
+        display: grid;
+        gap: 0.45rem;
+        margin: 0 0 1.4rem;
+      }
+
+      .topics div {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.45rem 0.6rem;
+        background: var(--bg-2);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+      }
+
+      .review h3 {
+        margin: 1.2rem 0 0.6rem;
+        font-size: 1.05rem;
+        color: var(--gold);
+      }
+
+      .review-item {
+        border-top: 1px solid var(--line);
+        padding: 0.85rem 0;
+      }
+
+      .review-item .mark {
+        font-weight: 700;
+      }
+
+      .review-item .mark.ok {
+        color: var(--correct);
+      }
+
+      .review-item .mark.no {
+        color: var(--wrong);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .start-actions,
+      .end-actions {
+        margin-top: 0.5rem;
+      }
+
+      .crawl {
+        color: var(--gold);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.78rem;
+        margin: 0 0 0.6rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <p class="crawl">Rebel Academy · Week 3</p>
+        <h1>Jedi Trial</h1>
+        <p class="lede">React and Next.js. Open this file in a browser.</p>
+      </header>
+
+      <section id="start" class="card">
+        <p>
+          Twenty-two questions from the Rebel roster and App Router lectures.
+          Trial score sets your rank. Missed questions return until you clear them —
+          review does not change the trial score.
+        </p>
+        <p>Choices are shuffled. Submit each answer before moving on.</p>
+        <div class="start-actions">
+          <button type="button" class="primary" id="start-btn">Begin the trial</button>
+        </div>
+      </section>
+
+      <section id="quiz" class="card hidden">
+        <div class="meta">
+          <span id="counter"></span>
+          <span id="running-score"></span>
+        </div>
+        <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+        <div class="topic" id="topic"></div>
+        <h2 id="prompt"></h2>
+        <pre id="code" class="hidden"></pre>
+        <div class="choices" id="choices"></div>
+        <p class="feedback" id="feedback"></p>
+        <button type="button" class="primary" id="action-btn">Submit answer</button>
+      </section>
+
+      <section id="results" class="card hidden">
+        <div class="score-hero">
+          <strong id="total-score"></strong>
+          <span class="rank" id="rank"></span>
+          <p id="total-message" class="lede"></p>
+        </div>
+        <h2>By topic</h2>
+        <div class="topics" id="topic-scores"></div>
+        <div class="review" id="review"></div>
+        <div class="end-actions">
+          <button type="button" class="primary" id="retry-btn">Fly again</button>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          id: "jsx-and-zero",
+          topic: "JSX",
+          prompt: "A hangar readout uses this JSX. What appears when xWings is 0?",
+          code: "{xWings && <p>{xWings} X-wings scrambled</p>}",
+          choices: [
+            "Nothing — React skips the paragraph",
+            "The number 0 appears on the page",
+            "A paragraph saying 0 X-wings",
+            "React throws: 0 is not a valid child",
+          ],
+          correct: "The number 0 appears on the page",
+          explanation:
+            "0 is falsy, so && returns 0, and React renders that 0. Use xWings > 0 && … or a ternary.",
+        },
+        {
+          id: "setstate-batch",
+          topic: "useState",
+          prompt:
+            "Scramble two X-wings uses this handler. By how much does xWings increase after one click?",
+          code: "function scrambleTwo() {\n  setXWings(xWings + 1);\n  setXWings(xWings + 1);\n}",
+          choices: [
+            "By 2 — both setters run in order",
+            "By 1 — both reads see this render's value",
+            "By 0 — React ignores the second setter",
+            "By 1, then 2 after a second render",
+          ],
+          correct: "By 1 — both reads see this render's value",
+          explanation:
+            "setXWings schedules an update; xWings in this function body does not change. Both calls queue +1 from the same snapshot. Use setXWings((n) => n + 1) twice.",
+        },
+        {
+          id: "keys-index",
+          topic: "Lists and keys",
+          prompt:
+            "PilotRow keeps ready in its own useState. The list uses key={index}. You toggle Luke to Airborne, then Dismiss Luke. What does Wedge show?",
+          code: "{pilots.map((pilot, index) => (\n  <PilotRow key={index} pilot={pilot} />\n))}",
+          choices: [
+            "On deck — Wedge is a new component",
+            "Airborne — React reused Luke's state",
+            "Airborne — props copy the ready flag",
+            "On deck — dismiss resets every child",
+          ],
+          correct: "Airborne — React reused Luke's state",
+          explanation:
+            "Keys identify list items across renders. After Luke is removed, Wedge shifts to index 0, so React keeps the state that used to belong to Luke. Use key={pilot.id}.",
+        },
+        {
+          id: "effect-cleanup",
+          topic: "useEffect",
+          prompt:
+            "RebelRadio starts a setInterval in useEffect with no cleanup. You click Close comms, which unmounts RebelRadio. What happens?",
+          choices: [
+            "The interval stops because the component is gone",
+            "The interval keeps logging after unmount",
+            "React throws until you add a cleanup",
+            "The interval pauses and resumes on remount",
+          ],
+          correct: "The interval keeps logging after unmount",
+          explanation:
+            "Unmount does not cancel timers you created. Return a cleanup from the effect: () => clearInterval(id). Skipping it leaks, and can setState on an unmounted tree.",
+        },
+        {
+          id: "hooks-rules",
+          topic: "Rules of Hooks",
+          prompt: "Why is this illegal?",
+          code:
+            "function Roster({ extra }) {\n  const [name, setName] = useState(\"\");\n  if (extra) {\n    const [note, setNote] = useState(\"\");\n  }\n}",
+          choices: [
+            "useState cannot be called twice in one component",
+            "React matches hook state by call order each render",
+            "Conditional state must use useRef instead",
+            "Hooks only work in files marked use client",
+          ],
+          correct: "React matches hook state by call order each render",
+          explanation:
+            "Hooks must run in the same order every render. An if around useState makes the second hook appear and disappear, so React wires state to the wrong call. Keep hooks at the top level.",
+        },
+        {
+          id: "prevent-vs-stop",
+          topic: "Events",
+          prompt:
+            "The Add to roster form reloads the page and wipes React state. Which call fixes that, and what does the other one do?",
+          choices: [
+            "stopPropagation blocks submit; preventDefault blocks bubbling",
+            "preventDefault blocks submit; stopPropagation stops bubbling",
+            "preventDefault blocks bubbling; stopPropagation blocks submit",
+            "Either one blocks the reload — they are aliases",
+          ],
+          correct: "preventDefault blocks submit; stopPropagation stops bubbling",
+          explanation:
+            "The browser default for submit is a full navigation. preventDefault stops that. stopPropagation only keeps the event from reaching parent handlers. They are not the same.",
+        },
+        {
+          id: "jsx-parent",
+          topic: "JSX",
+          prompt: "What is wrong with this component return?",
+          code: "return (\n  <h1>Rebel Roster</h1>\n  <p>Stand by for hyperspace.</p>\n);",
+          choices: [
+            "Adjacent JSX tags need one parent or a fragment",
+            "h1 and p cannot appear in the same component",
+            "You must wrap them in React.createElement",
+            "Whitespace between tags is a syntax error",
+          ],
+          correct: "Adjacent JSX tags need one parent or a fragment",
+          explanation:
+            "JSX compiles to a single expression. Two adjacent roots do not compile. Wrap them in a <div> or <>...</> — a fragment adds no extra DOM node.",
+        },
+        {
+          id: "controlled-form",
+          topic: "Controlled forms",
+          prompt: "Which pairing makes this name field a controlled input?",
+          code: "<input ??? />",
+          choices: [
+            "defaultValue={name} and onSubmit={setName}",
+            "value={name} and onChange that calls setName",
+            "ref={nameRef} and reading the ref on each keystroke",
+            "name=\"name\" so React binds it to state automatically",
+          ],
+          correct: "value={name} and onChange that calls setName",
+          explanation:
+            "Controlled means React state is the source of truth: value plus onChange. Without preventDefault on submit, the browser still reloads and wipes that state.",
+        },
+        {
+          id: "virtual-dom",
+          topic: "Render model",
+          prompt: "After setCount, what does React actually do?",
+          choices: [
+            "It mutates existing DOM nodes in place, with no tree diff",
+            "It re-runs the function, diffs trees, patches changed nodes",
+            "It discards the document and writes a brand-new HTML page",
+            "It looks up nodes with getElementById and sets textContent",
+          ],
+          correct: "It re-runs the function, diffs trees, patches changed nodes",
+          explanation:
+            "UI = f(state, props). The function runs again, React diffs the new virtual tree against the previous one, and commits only the DOM nodes that changed.",
+        },
+        {
+          id: "children-prop",
+          topic: "Props",
+          prompt: "What is children in <Card heading=\"Hangar\">…</Card>?",
+          choices: [
+            "A special React API, not part of props",
+            "A prop: the JSX between the Card tags",
+            "Only valid if Card calls React.cloneElement",
+            "Automatically forwarded to the next DOM node",
+          ],
+          correct: "A prop: the JSX between the Card tags",
+          explanation:
+            "Anything between a component's tags is passed as the children prop. Type it as ReactNode. It is not a separate API.",
+        },
+        {
+          id: "data-down",
+          topic: "Props",
+          prompt:
+            "Display shows the X-wing count. Controls has the Increase button. Where should count live, and how does Controls change it?",
+          choices: [
+            "In Display; Controls reads it from the DOM",
+            "In the parent; Controls gets an onInc callback",
+            "In Controls; Display polls it with useEffect",
+            "In both; they keep copies in sync with refs",
+          ],
+          correct: "In the parent; Controls gets an onInc callback",
+          explanation:
+            "Data down, events up. The parent that owns the state passes the value to Display and a callback to Controls. Props are read-only in the child.",
+        },
+        {
+          id: "use-client-boundary",
+          topic: "Server Components",
+          prompt:
+            "You put \"use client\" at the top of LikeButton.tsx. What else becomes part of the client bundle?",
+          choices: [
+            "Only LikeButton.tsx — imports stay on the server",
+            "LikeButton and every module it imports",
+            "The whole app/ tree, including layout.tsx",
+            "Nothing until you also add \"use client\" to page.tsx",
+          ],
+          correct: "LikeButton and every module it imports",
+          explanation:
+            "\"use client\" is a boundary: that module and everything it imports ship to the browser. Keep it on leaves (buttons, forms). Do not mark the page just to use one hook.",
+        },
+        {
+          id: "rsc-children",
+          topic: "Server Components",
+          prompt:
+            "ClientShell is a Client Component. Can it display a Server Component's output?",
+          choices: [
+            "No — Client files cannot mention Server Components at all",
+            "Yes — import the Server Component from the Client file",
+            "Yes — pass the Server Component as children from a parent",
+            "Yes — dynamic(() => import) converts it to a Client file",
+          ],
+          correct: "Yes — pass the Server Component as children from a parent",
+          explanation:
+            "A Client Component cannot import a Server Component. A Server parent can render <ClientShell><ServerChild /></ClientShell>; children is already rendered on the server.",
+        },
+        {
+          id: "rsc-hooks",
+          topic: "Server Components",
+          prompt: "Why can this file not call useState, even though it is a React component?",
+          code:
+            "// app/page.tsx — no \"use client\"\nexport default async function Page() {\n  const [n, setN] = useState(0);\n}",
+          choices: [
+            "async components are illegal in the App Router",
+            "They cannot use useState, useEffect, or window",
+            "useState only works if you also import ReactDOM",
+            "You must pass the setter from layout.tsx instead",
+          ],
+          correct: "They cannot use useState, useEffect, or window",
+          explanation:
+            "App Router files are Server Components by default. They can be async and await data, but they never run in the browser — so no hooks, no window. Put useState in a \"use client\" leaf.",
+        },
+        {
+          id: "serializable",
+          topic: "Server Components",
+          prompt:
+            "A Server Component passes onLike={() => save()} to a Client LikeButton, where save is an ordinary function. What happens?",
+          choices: [
+            "It works — functions are valid Client props",
+            "It fails — Client props must be serializable",
+            "It works if LikeButton is also a Server Component",
+            "Next wraps the function in a Server Action automatically",
+          ],
+          correct: "It fails — Client props must be serializable",
+          explanation:
+            "Server-to-client props must be serializable (plain data, not functions or class instances). Put the handler in the Client Component, or pass a Server Action marked \"use server\".",
+        },
+        {
+          id: "fetch-cache",
+          topic: "Fetching data",
+          prompt:
+            "In Next 15, this Server Component fetch has no cache option. What is the default?",
+          code: "const res = await fetch(\"https://api.alliance.rebels/fleet\");",
+          choices: [
+            "Cached forever, like Next 14, until you opt out",
+            "Uncached (no-store) until you opt into caching",
+            "ISR with a one-hour revalidate window",
+            "Cached only when the route is static",
+          ],
+          correct: "Uncached (no-store) until you opt into caching",
+          explanation:
+            "Next 15 reversed the default: fetch is uncached unless you pass cache: \"force-cache\" or next: { revalidate }. Tutorials that say \"cached unless you opt out\" are describing Next 14.",
+        },
+        {
+          id: "params-promise",
+          topic: "App Router",
+          prompt: "In Next 15+, how do you read the id in app/posts/[id]/page.tsx?",
+          code: "export default async function PostPage({ params }) { /* ? */ }",
+          choices: [
+            "const { id } = params; — params is a plain object",
+            "const { id } = await params; — params is a Promise",
+            "const id = useParams().id; — pages must be Client",
+            "const id = context.params.id; — Pages Router API",
+          ],
+          correct: "const { id } = await params; — params is a Promise",
+          explanation:
+            "In Next 15+, params and searchParams are Promises. Always await them in Server Components. useParams is for Client Components; context.params is the old Pages Router.",
+        },
+        {
+          id: "link-rsc",
+          topic: "Navigation",
+          prompt:
+            "You already loaded /hangar. You click <Link href=\"/pilots\">. What does Next fetch, and what happens to layout.tsx?",
+          choices: [
+            "A full HTML document; the root layout remounts",
+            "An RSC payload; the layout stays mounted",
+            "Nothing — Link only changes the URL bar",
+            "The same HTML as View Source; hydration runs again",
+          ],
+          correct: "An RSC payload; the layout stays mounted",
+          explanation:
+            "First visit sends HTML. In-app <Link> fetches an RSC payload (text/x-component) and swaps the page segment. Layouts stay mounted — that is why shared chrome does not reset.",
+        },
+        {
+          id: "raw-anchor",
+          topic: "Navigation",
+          prompt:
+            "What does <a href=\"/pilots\"> do inside a Next App Router app that <Link> does not?",
+          choices: [
+            "Prefetch the route as soon as it is in view",
+            "Do a full document reload and remount layouts",
+            "Swap only the page segment via an RSC payload",
+            "Nothing different — they compile to the same tag",
+          ],
+          correct: "Do a full document reload and remount layouts",
+          explanation:
+            "A raw <a> is a normal browser navigation: new HTML document, all React state gone, layouts remount. Use next/link for internal routes.",
+        },
+        {
+          id: "server-action",
+          topic: "Mutations",
+          prompt:
+            "You need to add a pilot from a form in this Next app. When is a Server Action the right tool vs app/api/pilots/route.ts?",
+          choices: [
+            "Always use route.ts — forms cannot POST to a Server Action",
+            "Server Action for this app's form; route.ts for an HTTP API",
+            "Server Action for GET; route.ts for any POST mutation",
+            "They are interchangeable; pick whichever file is closer",
+          ],
+          correct: "Server Action for this app's form; route.ts for an HTTP API",
+          explanation:
+            "Prefer a \"use server\" action on <form action={addPilot}> for in-app mutations. Use a Route Handler when a mobile client, webhook, or another frontend needs a real HTTP endpoint.",
+        },
+        {
+          id: "suspense-ppr",
+          topic: "Streaming",
+          prompt:
+            "What does Partial Pre-Rendering (PPR) add to wrapping a slow Server Component in <Suspense>?",
+          choices: [
+            "A third framework that replaces Server Components",
+            "A static shell first; dynamic holes stream later",
+            "Client-only rendering so Suspense can use useEffect",
+            "A guaranteed one-hour ISR cache around every hole",
+          ],
+          correct: "A static shell first; dynamic holes stream later",
+          explanation:
+            "Suspense already streams slow holes. PPR is that idea with a prerendered static shell (nav, layout, cached bits) that can be sent at once. Not a third framework.",
+        },
+        {
+          id: "hydration",
+          topic: "Hydration",
+          prompt:
+            "You View Source on /counter and already see Count: 3. You click Increment. What did hydration do, and what happens to View Source?",
+          choices: [
+            "Hydration re-fetched the count; View Source updates to 4",
+            "Hydration wired the HTML to client JS; View Source stays 3",
+            "Hydration skipped the server HTML and painted from scratch",
+            "Hydration stored the count in a cookie so source can change",
+          ],
+          correct: "Hydration wired the HTML to client JS; View Source stays 3",
+          explanation:
+            "Hydration attaches client JS to the server HTML so the island becomes interactive. It does not re-fetch that HTML. View Source is the original response; clicks only update the live DOM.",
+        },
+      ];
+
+      const startEl = document.querySelector("#start");
+      const quizEl = document.querySelector("#quiz");
+      const resultsEl = document.querySelector("#results");
+      const counterEl = document.querySelector("#counter");
+      const runningScoreEl = document.querySelector("#running-score");
+      const barEl = document.querySelector("#bar");
+      const topicEl = document.querySelector("#topic");
+      const promptEl = document.querySelector("#prompt");
+      const codeEl = document.querySelector("#code");
+      const choicesEl = document.querySelector("#choices");
+      const feedbackEl = document.querySelector("#feedback");
+      const actionBtn = document.querySelector("#action-btn");
+
+      let mode = "trial";
+      let queue = [];
+      let stillMissed = [];
+      let index = 0;
+      let selected = null;
+      let revealed = false;
+      let dealt = null;
+      let trialAnswers = [];
+      let reviewPass = 0;
+
+      function shuffle(list) {
+        const a = list.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const tmp = a[i];
+          a[i] = a[j];
+          a[j] = tmp;
+        }
+        return a;
+      }
+
+      function deal(question) {
+        const choices = shuffle(question.choices);
+        const answerIndex = choices.indexOf(question.correct);
+        if (answerIndex < 0) {
+          throw new Error("Correct answer missing from choices: " + question.id);
+        }
+        return { question, choices, answerIndex };
+      }
+
+      function show(el) {
+        startEl.classList.add("hidden");
+        quizEl.classList.add("hidden");
+        resultsEl.classList.add("hidden");
+        el.classList.remove("hidden");
+      }
+
+      function trialScore() {
+        return trialAnswers.filter((a) => a.correct).length;
+      }
+
+      function renderQuestion() {
+        dealt = deal(queue[index]);
+        selected = null;
+        revealed = false;
+        feedbackEl.textContent = "";
+        feedbackEl.className = "feedback";
+        actionBtn.textContent = "Submit answer";
+        actionBtn.disabled = true;
+
+        const q = dealt.question;
+        const trialTotal = questions.length;
+        const score = trialScore();
+
+        if (mode === "trial") {
+          counterEl.textContent = "Question " + (index + 1) + " of " + queue.length;
+          runningScoreEl.textContent =
+            trialAnswers.length === 0 ? "Score 0" : "Score " + score + " / " + trialAnswers.length;
+          barEl.style.width = (index / queue.length) * 100 + "%";
+          topicEl.textContent = "Trial · " + q.topic;
+        } else {
+          const remaining = queue.length - index + stillMissed.length;
+          counterEl.textContent = "Review · " + remaining + " still in play";
+          runningScoreEl.textContent = "Trial " + score + " / " + trialTotal;
+          barEl.style.width = "100%";
+          topicEl.textContent = "Review · " + q.topic;
+        }
+
+        promptEl.textContent = q.prompt;
+
+        if (q.code) {
+          codeEl.textContent = q.code;
+          codeEl.classList.remove("hidden");
+        } else {
+          codeEl.textContent = "";
+          codeEl.classList.add("hidden");
+        }
+
+        choicesEl.replaceChildren();
+        dealt.choices.forEach((label, i) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "choice";
+          btn.textContent = label;
+          btn.addEventListener("click", () => selectChoice(i));
+          choicesEl.appendChild(btn);
+        });
+      }
+
+      function selectChoice(i) {
+        if (revealed) return;
+        selected = i;
+        actionBtn.disabled = false;
+        [...choicesEl.children].forEach((btn, idx) => {
+          btn.classList.toggle("selected", idx === i);
+        });
+      }
+
+      function lastInQueue() {
+        return index === queue.length - 1;
+      }
+
+      function submitAnswer() {
+        if (selected === null || !dealt) return;
+
+        if (!revealed) {
+          revealed = true;
+          const correct = selected === dealt.answerIndex;
+          const q = dealt.question;
+
+          if (mode === "trial") {
+            trialAnswers.push({
+              id: q.id,
+              selectedLabel: dealt.choices[selected],
+              correct,
+            });
+          } else if (!correct) {
+            stillMissed.push(q);
+          }
+
+          [...choicesEl.children].forEach((btn, idx) => {
+            btn.disabled = true;
+            if (idx === dealt.answerIndex) btn.classList.add("correct");
+            if (idx === selected && !correct) btn.classList.add("wrong");
+          });
+
+          feedbackEl.className = "feedback " + (correct ? "correct" : "wrong");
+          const lead = correct ? "Correct. " : "Not quite. ";
+          feedbackEl.textContent = lead + q.explanation;
+
+          const trialDone = mode === "trial" && lastInQueue();
+          const reviewClear =
+            mode === "review" && lastInQueue() && stillMissed.length === 0;
+          if (trialDone) {
+            const missed = firstPassMisses();
+            actionBtn.textContent =
+              missed.length === 0 ? "See results" : "Review missed questions";
+          } else if (reviewClear) {
+            actionBtn.textContent = "See results";
+          } else if (mode === "review" && lastInQueue()) {
+            actionBtn.textContent = "Continue review";
+          } else {
+            actionBtn.textContent = "Next question";
+          }
+
+          if (mode === "trial") {
+            runningScoreEl.textContent =
+              "Score " + trialScore() + " / " + trialAnswers.length;
+            barEl.style.width = ((index + 1) / queue.length) * 100 + "%";
+          }
+          return;
+        }
+
+        advance();
+      }
+
+      function firstPassMisses() {
+        return trialAnswers
+          .filter((a) => !a.correct)
+          .map((a) => questions.find((q) => q.id === a.id));
+      }
+
+      function startReview(missed) {
+        mode = "review";
+        reviewPass += 1;
+        queue = shuffle(missed);
+        stillMissed = [];
+        index = 0;
+        renderQuestion();
+      }
+
+      function advance() {
+        if (!lastInQueue()) {
+          index += 1;
+          renderQuestion();
+          return;
+        }
+
+        if (mode === "trial") {
+          const missed = firstPassMisses();
+          if (missed.length > 0) {
+            startReview(missed);
+          } else {
+            renderResults();
+          }
+          return;
+        }
+
+        if (stillMissed.length > 0) {
+          startReview(stillMissed);
+        } else {
+          renderResults();
+        }
+      }
+
+      function rankFor(pct) {
+        if (pct === 100) return "Grand Master";
+        if (pct >= 80) return "Jedi Knight";
+        if (pct >= 60) return "Rebel Pilot";
+        if (pct >= 40) return "Padawan";
+        return "Gungan Intern";
+      }
+
+      function messageFor(pct) {
+        if (pct === 100) return "The Force is strong with this one.";
+        if (pct >= 80) return "A Jedi uses the Force for knowledge.";
+        if (pct >= 60) return "Stay on target.";
+        if (pct >= 40) return "Much to learn, you still have.";
+        return "Do. Or do not. Fly again.";
+      }
+
+      function renderResults() {
+        show(resultsEl);
+        const total = questions.length;
+        const score = trialScore();
+        const pct = Math.round((score / total) * 100);
+        document.querySelector("#total-score").textContent =
+          score + " / " + total + "  (" + pct + "%)";
+        document.querySelector("#rank").textContent = rankFor(pct);
+        document.querySelector("#total-message").textContent = messageFor(pct);
+
+        const byTopic = {};
+        questions.forEach((q) => {
+          if (!byTopic[q.topic]) byTopic[q.topic] = { correct: 0, total: 0 };
+          byTopic[q.topic].total += 1;
+        });
+        trialAnswers.forEach((a) => {
+          const q = questions.find((item) => item.id === a.id);
+          if (a.correct) byTopic[q.topic].correct += 1;
+        });
+
+        const topicBox = document.querySelector("#topic-scores");
+        topicBox.replaceChildren();
+        Object.keys(byTopic).forEach((topic) => {
+          const row = document.createElement("div");
+          const t = byTopic[topic];
+          const name = document.createElement("span");
+          name.textContent = topic;
+          const val = document.createElement("span");
+          val.textContent = t.correct + " / " + t.total;
+          row.append(name, val);
+          topicBox.appendChild(row);
+        });
+
+        const review = document.querySelector("#review");
+        review.replaceChildren();
+        const heading = document.createElement("h3");
+        heading.textContent = "First-pass misses";
+        review.appendChild(heading);
+
+        const misses = trialAnswers.filter((a) => !a.correct);
+        if (misses.length === 0) {
+          const p = document.createElement("p");
+          p.textContent = "None — clear run.";
+          review.appendChild(p);
+          return;
+        }
+
+        misses.forEach((a) => {
+          const q = questions.find((item) => item.id === a.id);
+          const item = document.createElement("div");
+          item.className = "review-item";
+          const mark = document.createElement("div");
+          mark.className = "mark no";
+          mark.textContent = "Missed · " + q.topic;
+          const p = document.createElement("p");
+          p.textContent = q.prompt;
+          const yours = document.createElement("p");
+          yours.textContent = "Your answer: " + a.selectedLabel;
+          const right = document.createElement("p");
+          right.textContent = "Correct answer: " + q.correct;
+          const why = document.createElement("p");
+          why.textContent = q.explanation;
+          item.append(mark, p, yours, right, why);
+          review.appendChild(item);
+        });
+      }
+
+      function startQuiz() {
+        mode = "trial";
+        queue = shuffle(questions);
+        stillMissed = [];
+        index = 0;
+        selected = null;
+        revealed = false;
+        dealt = null;
+        trialAnswers = [];
+        reviewPass = 0;
+        show(quizEl);
+        renderQuestion();
+      }
+
+      document.querySelector("#start-btn").addEventListener("click", startQuiz);
+      document.querySelector("#retry-btn").addEventListener("click", startQuiz);
+      actionBtn.addEventListener("click", submitAnswer);
+    </script>
+  </body>
+</html>
