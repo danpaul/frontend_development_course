@@ -901,6 +901,61 @@ Do **not** treat `useEffect` + `fetch` as the default data-loading pattern. Next
 
 ---
 
+<style scoped>
+  section {
+    font-size: 20px;
+  }
+</style>
+
+### Exercise: debug the Rebel roster — 15 minutes
+
+Open `/03_code/01_rebel_roster`, run `npm install` then `npm run dev`. **Don't use AI.**
+
+**Four bugs**
+
+1. **Add to roster** — page reloads; the new pilot never sticks
+2. **Scramble two X-wings** — count goes up by 1, not 2
+3. Click **Toggle ready** next to Luke. Then click **Dismiss** next to Luke.
+   **You see:** Wedge says "Airborne". **Should be:** "On deck".
+4. **Close comms** — console still logs `This is Red Leader. Stay on target.`
+
+With a partner: name the lecture idea, then fix.
+
+Stretch: extract a `useRebelRadio` hook with cleanup.
+
+<!--
+Causes (for walking the room; debrief is the next slide):
+
+1. Form submit has no preventDefault — the browser reloads and wipes React state
+2. setXWings(xWings + 1) twice — both reads see this render's value; functional updates
+3. key={index} plus ready state inside PilotRow — React reuses the wrong child; key with pilot.id
+4. setInterval in useEffect with no cleanup — the interval outlives unmount
+-->
+
+---
+
+<style scoped>
+  section {
+    font-size: 20px;
+  }
+</style>
+
+## Why it broke
+
+1. **Add to roster** — the form submits and the browser reloads. React state is gone.
+   Fix: `event.preventDefault()` in the submit handler.
+
+2. **Scramble +1** — `setXWings(xWings + 1)` twice. Both reads see this render's `xWings`.
+   Fix: `setXWings((n) => n + 1)` twice.
+
+3. **Wrong row after dismiss** — `key={index}` plus `ready` state inside `PilotRow`. React reuses the DOM node (and its state) for the next pilot at that index.
+   Fix: `key={pilot.id}`.
+
+4. **Comms after close** — `setInterval` in `useEffect` with no cleanup. Closing comms unmounts `RebelRadio`; the interval keeps firing.
+   Fix: `return () => clearInterval(id)`.
+
+---
+
 <!-- class: lead -->
 
 ## Summary
