@@ -970,7 +970,9 @@ Do **not** treat `useEffect` + `fetch` as the default data-loading pattern. Next
 
 ### Exercise: debug the Rebel roster — 15 minutes
 
-Open `/03_code/01_rebel_roster`, run `npm install` then `npm run dev`. Each component is its own file in `src/`. **Don't use AI.**
+In the `week_03` branch in the course code repo, open `/01_rebel_roster`, run `npm install` then `npm run dev`. Each component is its own file in `src/`. **Don't use AI.**
+
+`src\App.tsx` is the starting point.
 
 **Four bugs**
 
