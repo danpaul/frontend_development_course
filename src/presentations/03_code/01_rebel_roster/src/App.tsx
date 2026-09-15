@@ -7,46 +7,11 @@
   - Close comms → console still logs "This is Red Leader. Stay on target."
 */
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
+import PilotRow from "./PilotRow";
+import RebelRadio from "./RebelRadio";
 
 type Pilot = { id: string; name: string };
-
-function PilotRow({
-  name,
-  onDismiss,
-}: {
-  name: string;
-  onDismiss: () => void;
-}) {
-  const [ready, setReady] = useState(false);
-
-  return (
-    <li>
-      <span className="pilot-name">{name}</span>
-      <span className="status">{ready ? "Airborne" : "On deck"}</span>
-      <button
-        type="button"
-        className="secondary"
-        onClick={() => setReady((r) => !r)}
-      >
-        Toggle ready
-      </button>
-      <button type="button" className="secondary" onClick={onDismiss}>
-        Dismiss
-      </button>
-    </li>
-  );
-}
-
-function RebelRadio() {
-  useEffect(() => {
-    const id = setInterval(() => {
-      console.log("This is Red Leader. Stay on target.");
-    }, 1000);
-  }, []);
-
-  return <p className="radio">Comms open. Check the console.</p>;
-}
 
 export default function App() {
   const [pilots, setPilots] = useState<Pilot[]>([

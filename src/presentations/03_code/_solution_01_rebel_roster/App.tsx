@@ -1,6 +1,6 @@
 /*
-  Solution: 01_rebel_roster App.tsx
-  Drop this file over 01_rebel_roster/src/App.tsx
+  Solution: 01_rebel_roster
+  Drop these files over 01_rebel_roster/src/
 
   1. Form reload — preventDefault so React state survives submit
   2. Scramble +1 — functional updates; both setters see the queued value
@@ -8,44 +8,11 @@
   4. Comms after close — clear the interval in the effect cleanup
 */
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
+import PilotRow from "./PilotRow";
+import RebelRadio from "./RebelRadio";
 
 type Pilot = { id: string; name: string };
-
-function PilotRow({
-  name,
-  onDismiss,
-}: {
-  name: string;
-  onDismiss: () => void;
-}) {
-  const [ready, setReady] = useState(false);
-
-  return (
-    <li>
-      <span className="pilot-name">{name}</span>
-      <span className="status">{ready ? "Airborne" : "On deck"}</span>
-      <button type="button" className="secondary" onClick={() => setReady((r) => !r)}>
-        Toggle ready
-      </button>
-      <button type="button" className="secondary" onClick={onDismiss}>
-        Dismiss
-      </button>
-    </li>
-  );
-}
-
-function RebelRadio() {
-  useEffect(() => {
-    const id = setInterval(() => {
-      console.log("This is Red Leader. Stay on target.");
-    }, 1000);
-    // Closing comms unmounts this component; without cleanup the interval keeps firing.
-    return () => clearInterval(id);
-  }, []);
-
-  return <p className="radio">Comms open. Check the console.</p>;
-}
 
 export default function App() {
   const [pilots, setPilots] = useState<Pilot[]>([

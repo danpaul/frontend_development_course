@@ -909,7 +909,7 @@ Do **not** treat `useEffect` + `fetch` as the default data-loading pattern. Next
 
 ### Exercise: debug the Rebel roster — 15 minutes
 
-Open `/03_code/01_rebel_roster`, run `npm install` then `npm run dev`. **Don't use AI.**
+Open `/03_code/01_rebel_roster`, run `npm install` then `npm run dev`. Each component is its own file in `src/`. **Don't use AI.**
 
 **Four bugs**
 
