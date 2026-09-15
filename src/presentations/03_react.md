@@ -31,7 +31,7 @@ React is a **component** library: you describe UI as functions of data, and the 
 - **Declarative** - return what the UI should look like; React applies the DOM changes
 - **Composable organization** - screens composed of reusable, modular, well defined components
 - **Performant** - efficient, "under the hood", implementation details for performant rendering
-- **Consistent model** - one model for frotend (React), backend (Next.js) and  mobile (React Native)
+- **Consistent model** - one model for frotend (React), backend (Next.js) and mobile (React Native)
 
 ---
 
@@ -388,7 +388,6 @@ JSX looks like HTML, but it is JavaScript. A few names and rules differ.
 ```
 
 </div>
-
 
 ---
 
@@ -828,7 +827,6 @@ function Counter() {
 Pass a function when the next value depends on the previous one: counters, callbacks, and anywhere the click might not see the latest state.
 
 ---
-
 
 <style scoped>
   section {

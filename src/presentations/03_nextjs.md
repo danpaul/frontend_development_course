@@ -6,7 +6,7 @@ paginate: true
 
 <style>
 @media screen {
-  [data-bespoke-marp-fragment="inactive"] {
+  [data-marpit-fragment]:not([data-marpit-fragment]:current) {
     display: none;
   }
 }
@@ -65,7 +65,7 @@ That model works. It also has costs that Next.js is built to avoid.
 
 ## SPA flowchart
 
-![h:580](./assets/spa_diagram.png)
+![h:500](./assets/spa_diagram.png)
 
 ---
 
@@ -79,11 +79,11 @@ That model works. It also has costs that Next.js is built to avoid.
 
 What problems do you see?
 
-* **Performance**
+- **Performance**
   - **Bundle size** — a landing page still downloads the whole app
   - **Time to first paint** — JS download, boot, then a second request for data
-* **SEO / accessibility** — crawlers and some tools see an empty shell until JS runs
-* **Developer experience** — frontend and API live in different codebases and mental models
+- **SEO / accessibility** — crawlers and some tools see an empty shell until JS runs
+- **Developer experience** — frontend and API live in different codebases and uses different mental models
 
 ---
 
@@ -136,9 +136,38 @@ _Server Components, client islands, and navigation_
 
 <!-- class: lead -->
 
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+  .columns {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 1.25rem 1.5rem;
+    align-items: center;
+  }
+  figure {
+    margin: 0;
+    text-align: center;
+  }
+  figure img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  figcaption {
+    font-size: 15px;
+    font-style: italic;
+    margin-top: 0.6rem;
+    line-height: 1.3;
+  }
+</style>
+
 ## Default: Server Components
 
-![bg contain right:40%](./assets/what.gif)
+<div class="columns">
+<div>
 
 In the **App Router**, a file is a **Server Component** unless you opt out.
 
@@ -149,6 +178,20 @@ Server Components:
 - **Cannot** use `useState`, `useEffect`, or browser APIs (`window`, `document`)
 
 They are React. They just run on the server first.
+
+</div>
+<div>
+
+<figure>
+
+![what](./assets/what.gif)
+
+<figcaption>"Render it on the server, ya dingus." - Dr. Steve Brule</figcaption>
+
+</figure>
+
+</div>
+</div>
 
 ---
 
@@ -216,15 +259,11 @@ No `useEffect`. No extra round trip. Heavy libraries never enter the client bund
 
 What changed?
 
-<div data-marpit-fragment>
-
 - **Fewer round trips** — HTML arrives with the data already in it
 - **Smaller bundle** — Markdown parsing never ships
 - **Better SEO** — the first response is real HTML
 
 When might you still want CSR? A dashboard, editor, or game where SEO does not matter and almost everything is interactive.
-
-</div>
 
 ---
 
@@ -232,7 +271,17 @@ When might you still want CSR? A dashboard, editor, or game where SEO does not m
 
 <style scoped>
   section {
-    font-size: 24px;
+    font-size: 20px;
+  }
+  h2 {
+    margin-bottom: 8px;
+  }
+  pre {
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  p {
+    margin: 0.4em 0;
   }
 </style>
 
@@ -260,9 +309,13 @@ Keep the directive on **leaves** — buttons, forms, anything that needs state. 
 
 ---
 
-## How the tree composes
+## Nextistential crisis
 
 ![bg contain right:40%](./assets/who_am_i.gif)
+
+Am I on the server or the client?
+
+How the tree composes
 
 - A **Server Component** can render a **Client Component**
 - A **Client Component** cannot import a Server Component
@@ -372,9 +425,24 @@ Network tab: a client navigation shows a request with `RSC` / `text/x-component`
 
 <!-- class: lead -->
 
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+  h2 {
+    margin-bottom: 8px;
+  }
+  pre {
+    margin: 8px 0;
+  }
+  p, ul {
+    margin: 0.4em 0;
+  }
+</style>
+
 ## Counter demo
 
-Open `demos/next_counter` in a terminal.
+Open `/next_counter` in a terminal.
 
 ```bash
 npm install
@@ -408,7 +476,10 @@ View source includes the server-rendered count:
 ```html
 <body>
   <div>
-    <h1>Counter: <!-- -->10</h1>
+    <h1>
+      Counter:
+      <!-- -->10
+    </h1>
     <button>Increment</button>
   </div>
   <!-- client JS hydrates the button; it does not re-fetch 10 -->
@@ -429,20 +500,42 @@ _Files, data, and the components you should actually use_
 
 <!-- class: lead -->
 
+<style scoped>
+  section {
+    font-size: 20px;
+  }
+  h2 {
+    margin-bottom: 8px;
+  }
+  p {
+    margin: 0.35em 0;
+  }
+  table {
+    font-size: 18px;
+    margin: 0.4em 0;
+  }
+  th, td {
+    padding: 0.28em 0.55em;
+  }
+  td:first-child {
+    white-space: nowrap;
+  }
+</style>
+
 ## File-based routing
 
 ![bg contain right:30%](./assets/routes.jpeg)
 
-The **App Router** (`app/`) is the current default. Folders are URL segments. Special files give those segments behavior.
+The **App Router** (`app/`) maps folders to URLs. Special files give each segment behavior.
 
-| File | Role |
-| --- | --- |
-| `page.tsx` | The UI for that URL |
-| `layout.tsx` | Shared chrome; **does not remount** on child navigation |
-| `loading.tsx` | Instant fallback while the page loads |
-| `error.tsx` | Error boundary for the segment |
-| `not-found.tsx` | 404 UI |
-| `route.ts` | HTTP API (Route Handler) |
+| File            | Role                                |
+| --------------- | ----------------------------------- |
+| `page.tsx`      | UI for that URL                     |
+| `layout.tsx`    | Shared chrome; **does not remount** |
+| `loading.tsx`   | Fallback while the page loads       |
+| `error.tsx`     | Error boundary for the segment      |
+| `not-found.tsx` | 404 UI                              |
+| `route.ts`      | HTTP API (Route Handler)            |
 
 `app/page.tsx` → `/`  
 `app/posts/page.tsx` → `/posts`  
@@ -454,7 +547,32 @@ Pages Router (`pages/`) still exists in old apps. Mapping table later. Do not de
 
 ---
 
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+  h2 {
+    margin-bottom: 8px;
+  }
+  .columns {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 1.2rem;
+    align-items: start;
+  }
+  pre {
+    font-size: 14px;
+    margin: 8px 0;
+  }
+  p {
+    margin: 0.45em 0;
+  }
+</style>
+
 ## `layout.tsx` and `page.tsx`
+
+<div class="columns">
+<div>
 
 ```tsx
 // app/layout.tsx
@@ -474,6 +592,9 @@ export default function RootLayout({
 }
 ```
 
+</div>
+<div>
+
 ```tsx
 // app/page.tsx
 export default function HomePage() {
@@ -482,6 +603,9 @@ export default function HomePage() {
 ```
 
 Root layout **must** include `<html>` and `<body>`. Nested layouts wrap only their segment.
+
+</div>
+</div>
 
 ---
 
@@ -658,7 +782,6 @@ Review:
 
 Open [http://localhost:3000/posts](http://localhost:3000/posts) and a post such as `/posts/1`.
 
-Click from the list into a post. Watch the Network tab: you should **not** see a full document reload.
 
 ---
 
@@ -718,7 +841,6 @@ PPR is the “static shell + dynamic holes” version of the same idea.
 - The **shell** (nav, layout, cached content) can be sent immediately
 - **Dynamic holes** (the current user, live data) stream in behind `<Suspense>`
 
-In **Next 16**, this becomes the default when Cache Components (`"use cache"`) are enabled. You do **not** need it for the hackathon.
 
 Remember: **static shell, streamed holes** — not a third framework.
 
@@ -736,8 +858,7 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000).
 
 You should see fallbacks first, then each delayed Server Component as it resolves. The fast ones do not wait for the slow ones.
-
-Read `src/app/page.tsx`.
+Inspect: `src/app/page.tsx`.
 
 ---
 
@@ -804,7 +925,7 @@ export default function Page() {
 
 The form works even before client JS loads. Treat the action like a public endpoint: **validate and authorize** inside it.
 
-_Read: [Updating Data](https://nextjs.org/docs/app/getting-started/updating-data)_
+
 
 ---
 
@@ -848,20 +969,6 @@ The usual path:
 Vercel runs `next build` and hosts the result. Environment variables go in the project settings, not in git.
 
 A database is optional. Server Components can call any API or DB you configure. That is a later concern, not this hour.
-
----
-
-## After class
-
-Homework: `/homework/week_03.md`
-
-- [Getting Started: App Router](https://nextjs.org/docs/app/getting-started)
-- [Server Components](https://react.dev/reference/rsc/server-components)
-- [Fetching Data](https://nextjs.org/docs/app/getting-started/fetching-data)
-- [Server Actions](https://nextjs.org/docs/app/getting-started/updating-data)
-- Watch: [Streaming Server Rendering with React 18](https://www.youtube.com/watch?v=MTcPrTIBkpA)
-
-Spend 3–4 hours on the hackathon: Server Components for reads, Server Actions for writes, `"use client"` only on islands.
 
 ---
 
