@@ -29,8 +29,9 @@ _A JavaScript library for building user interfaces_
 React is a **component** library: you describe UI as functions of data, and the library updates the DOM.
 
 - **Declarative** - return what the UI should look like; React applies the DOM changes
-- **Composable** - small components nest into screens
-- **One model** - the same component ideas show up in Next.js and React Native
+- **Composable organization** - screens composed of reusable, modular, well defined components
+- **Performant** - efficient, "under the hood", implementation details for performant rendering
+- **Consistent model** - one model for frotend (React), backend (Next.js) and  mobile (React Native)
 
 ---
 
@@ -53,7 +54,7 @@ By the end of this session, you will be able to:
 - **2022** - React **18**, concurrent rendering
 - **2024** - React **19** (form Actions, better async).
 
-Class components still exist in old code. We will not write them.
+![bg contain right:60%](https://theonetechnologies.com/blog/Posts/files/history-and-revolution-of-reactjs_638429756320392570.webp)
 
 ---
 
@@ -91,13 +92,11 @@ What is awkward about this?
 
 <!--
 
-The count lives on the node (`data-count`), not in JavaScript. Every read is a string parse (`parseInt`); a missing attribute becomes NaN. The label is a second copy of the same fact (`textContent`). Forget one write and the UI lies.
-
-The handler does three jobs: read state, write state, paint the button. Data, logic, and markup are the same blob. There is no "source of truth" you can log, persist, or share. A header that showed total clicks would have to scrape the DOM.
-
-`getElementById` and `event.target` are brittle. Duplicate the markup and IDs collide. Nest a `<span>` in the button and `event.target` is the span, which has no `data-count`. Add a third button later and you wire it by hand.
-
-This is two buttons. A feed, a cart, or nested widgets means remembering which nodes to touch, in which order. Miss one and the screen and the data disagree.
+- mixing data into the DOM
+- The handler does three jobs: read state, write state, paint the button
+- no standard, hacky
+- brittle code - `getElementById` and `event.target`
+- This is two buttons. A feed, a cart, or nested widgets means remembering which nodes to touch, in which order. Miss one and the screen and the data disagree.
 
 Bridge: React keeps state in memory and treats the UI as a function of that state. You change the number; the library updates the DOM. Next slide.
 -->
@@ -229,88 +228,19 @@ Does it contain data, logic, and presentation?
   section {
     font-size: 22px;
   }
-  .columns {
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 1.4rem;
-    align-items: center;
-  }
-  .flow {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    font-size: 16px;
-  }
-  .flow .box {
-    border: 2px solid #334155;
-    border-radius: 10px;
-    padding: 0.45rem 0.6rem;
-    text-align: center;
-    line-height: 1.2;
-  }
-  .flow .box strong {
-    display: block;
-  }
-  .flow .box span {
-    display: block;
-    margin-top: 0.15rem;
-    font-size: 13px;
-    font-weight: 400;
-    color: #64748b;
-  }
-  .flow .arrow {
-    text-align: center;
-    color: #334155;
-    font-size: 18px;
-    line-height: 1;
-  }
-  .flow .in {
-    background: #f1f5f9;
-  }
-  .flow .fn {
-    background: #eff6ff;
-    border-color: #1d4ed8;
-  }
-  .flow .vdom {
-    background: #f5f3ff;
-    border-color: #6d28d9;
-  }
-  .flow .diff {
-    background: #fff7ed;
-    border-color: #c2410c;
-  }
-  .flow .dom {
-    background: #ecfdf5;
-    border-color: #047857;
-  }
 </style>
 
 ## The render model
 
-<div class="columns">
-<div>
-
-The mental model is:
+Essentially, the UI is a function of data (state/props). Same data in, should produce the same view out:
 
 **UI = f(state, props)**
 
-When state or props change, the component **function runs again** and returns new JSX.
+When state or props change (new data), the component **function runs again** and returns new JSX.
 
-React keeps a tree of objects that describe that UI (often called the virtual DOM), **diffs** it against the previous tree, and updates **only the DOM nodes that changed**.
+React keeps a tree of objects that describe that UI (the virtual DOM), **diffs** it against the previous tree, and updates **only the DOM nodes that changed**.
 
-</div>
-<div class="flow">
-<div class="box in"><strong>state, props</strong><span>the inputs</span></div>
-<div class="arrow">↓</div>
-<div class="box fn"><strong>f() → JSX</strong><span>function runs again</span></div>
-<div class="arrow">↓</div>
-<div class="box vdom"><strong>Virtual DOM</strong><span>tree of objects</span></div>
-<div class="arrow">↓</div>
-<div class="box diff"><strong>Diff</strong><span>vs previous tree</span></div>
-<div class="arrow">↓</div>
-<div class="box dom"><strong>Real DOM</strong><span>only nodes that changed</span></div>
-</div>
-</div>
+![bg contain right:60%](./assets/virtual_dom_render.png)
 
 ---
 
@@ -355,20 +285,16 @@ You can store JSX in variables, return it from functions, and pass it as data. C
   pre {
     font-size: 16px;
   }
-  table {
-    font-size: 18px;
-  }
 </style>
 
-## Expressions, one root, HTML differences
+## Expressions and one root
 
 <div class="columns">
 <div>
 
-```tsx
-const name = "Ada";
-const element = <h1>Hello, {name}!</h1>;
+Curly braces `{}` embed a JavaScript **expression**.
 
+```tsx
 function Greeting({
   user,
 }: {
@@ -388,6 +314,56 @@ function Greeting({
 </div>
 <div>
 
+A return must have **one parent**. Adjacent tags do not compile.
+
+```tsx
+return (
+  <h1>Hello</h1>
+  <p>Welcome.</p>
+);
+```
+
+Wrap siblings in a `<div>` or a fragment `<>...</>` (no extra DOM node):
+
+```tsx
+return (
+  <>
+    <h1>Hello</h1>
+    <p>Welcome.</p>
+  </>
+);
+```
+
+</div>
+</div>
+
+---
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  pre {
+    font-size: 16px;
+  }
+  table {
+    font-size: 18px;
+  }
+</style>
+
+## JSX vs HTML
+
+JSX looks like HTML, but it is JavaScript. A few names and rules differ.
+
+<div class="columns">
+<div>
+
 | HTML                 | JSX                        |
 | -------------------- | -------------------------- |
 | `class`              | `className`                |
@@ -396,10 +372,23 @@ function Greeting({
 | `onclick="..."`      | `onClick={handler}`        |
 | `style="color: red"` | `style={{ color: "red" }}` |
 
-JSX needs **one parent**. Use a `<div>` or a fragment `<>...</>` if you have siblings.
+</div>
+<div>
+
+```tsx
+<label htmlFor="email" className="field">
+  Email
+  <input
+    id="email"
+    type="text"
+    onChange={handleChange}
+    style={{ color: "red" }}
+  />
+</label>
+```
 
 </div>
-</div>
+
 
 ---
 
@@ -411,7 +400,7 @@ JSX needs **one parent**. Use a `<div>` or a fragment `<>...</>` if you have sib
 
 ## Conditional rendering
 
-`if` / `else` cannot sit _inside_ JSX (you must return an expression). Use a ternary, `&&`, or return early (previous slide).
+`if` / `else` cannot sit _inside_ JSX (you must return an expression). Use a ternary, `&&`, or return early (as in `Greeting`).
 
 ```tsx
 function Greeting({ isLoggedIn }: { isLoggedIn: boolean }) {
@@ -592,7 +581,7 @@ Callback to JS modules. Default is the common choice when the file *is* the comp
 
 The one argument is a **props** object. Props are **read-only**. To change what a child shows, the parent passes new props.
 
-This is the same structural typing you saw in the TypeScript lecture.
+This is the same **structural typing** you saw in the TypeScript lecture.
 
 ```tsx
 type WelcomeProps = {
@@ -612,7 +601,36 @@ function Welcome({ name, subtitle }: WelcomeProps) {
 <Welcome name="Ada" subtitle="Countess of Lovelace" />;
 ```
 
-Destructure in the parameter list. Annotate the props object; let the return type be inferred.
+Destructure in the parameter list. Annotate the props object.
+
+---
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+</style>
+
+## Spreading props
+
+JSX attributes are object properties. `{...obj}` copies those keys onto the child's props — the same object spread from the JS lecture.
+
+```tsx
+const ada = {
+  name: "Ada",
+  subtitle: "Countess of Lovelace",
+};
+
+<Welcome name={ada.name} subtitle={ada.subtitle} />
+
+<Welcome {...ada} />
+```
+
+Same result. Spread when you already have a props-shaped object — a row from an array, or remaining props after you pick a few off.
+
+<!--
+Callback to JS object spread. Extra keys that Welcome doesn't destructure are still on the props object (ignored unless forwarded). Don't dump the whole world — spread only what the child needs. Rest + spread is the usual wrap-and-forward pattern: `function Banner({ featured, ...rest }: WelcomeProps & { featured?: boolean }) { return <Welcome {...rest} />; }`.
+-->
 
 ---
 
@@ -750,7 +768,7 @@ The arrow function is a **closure**: when it runs, it still sees `id` and `handl
 
 ## `useState`
 
-`useState` is a **hook**: a function that lets a component keep data across renders. The `0` is the initial value; React uses it only on the first render.
+`useState` is a **hook**: _a function that lets a component keep data across renders_. The `0` is the initial value; React uses it only on the first render.
 
 ```tsx
 import { useState } from "react";
@@ -773,7 +791,7 @@ The call returns a **pair**: the current value, and a setter. Calling `setCount`
 
 <style scoped>
   section {
-    font-size: 20px;
+    font-size: 19px;
   }
 </style>
 
@@ -884,9 +902,7 @@ React matches hook state by call order. An `if` around `useState` breaks that ma
 
 ## `useEffect` synchronizes
 
-Components **render**. Effects run **after** paint, to sync React with something it does not own: a listener, a timer, `document.title`.
-
-That is not "lifecycle methods for functions." Mount / update / unmount are still useful words; the hook is a **synchronization** tool.
+Components **render**. Effects run **after** paint, to sync React with something it does not own: a listener, a timer, `document.title` or to trigger side effects as data changes.
 
 ```tsx
 useEffect(() => {
@@ -905,7 +921,7 @@ useEffect(() => {
 }, [seconds]);
 ```
 
-Empty deps `[]`: run after mount; the cleanup runs on **unmount**. A missing deps array: after **every** render.
+Empty deps `[]`: run after mount; the cleanup (returned fucntion) runs on **unmount**. A missing deps array: runs after **every** render. An array with members: when those members change.
 
 ---
 
@@ -954,8 +970,6 @@ function App() {
 A function whose name starts with `use` can call other hooks. Same rules.
 
 Always clean up listeners, timers, and subscriptions. If you skip the cleanup, you leak - and you can `setState` on an unmounted component.
-
-Do **not** treat `useEffect` + `fetch` as the default data-loading pattern. Next.js will give you better places to load data.
 
 </div>
 </div>
