@@ -782,7 +782,6 @@ Review:
 
 Open [http://localhost:3000/posts](http://localhost:3000/posts) and a post such as `/posts/1`.
 
-
 ---
 
 <!-- class: invert -->
@@ -840,7 +839,6 @@ PPR is the “static shell + dynamic holes” version of the same idea.
 
 - The **shell** (nav, layout, cached content) can be sent immediately
 - **Dynamic holes** (the current user, live data) stream in behind `<Suspense>`
-
 
 Remember: **static shell, streamed holes** — not a third framework.
 
@@ -922,10 +920,6 @@ export default function Page() {
 
 </div>
 </div>
-
-The form works even before client JS loads. Treat the action like a public endpoint: **validate and authorize** inside it.
-
-
 
 ---
 

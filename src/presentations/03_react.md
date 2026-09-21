@@ -862,7 +862,7 @@ function NameForm() {
 }
 ```
 
-`preventDefault` is **not** bubbling. `stopPropagation` stops the event reaching parents. You rarely need both.
+`preventDefault` is preventing default browser behavior. `stopPropagation` stops the event reaching parents. You rarely need both.
 
 ---
 
