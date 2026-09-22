@@ -1,4 +1,4 @@
-import { fetchPosts, fetchPostsQueryKey, PostType } from "@/queries/posts";
+import { fetchPosts, postsQueryKey } from "@/queries/posts";
 import {
   HydrationBoundary,
   QueryClient,
@@ -10,13 +10,12 @@ export default async function Home() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: [fetchPostsQueryKey],
+    queryKey: postsQueryKey,
     queryFn: fetchPosts,
   });
 
   return (
-    // Neat! Serialization is now as easy as passing props.
-    // HydrationBoundary is a Client Component, so hydration will happen there.
+    // HydrationBoundary is a Client Component; the dehydrated cache is reattached there.
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Posts />
     </HydrationBoundary>

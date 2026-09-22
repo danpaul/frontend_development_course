@@ -1,31 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { fetchPosts, fetchPostsQueryKey, PostType } from "@/queries/posts";
+import { fetchPosts, postsQueryKey, PostType } from "@/queries/posts";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Posts() {
-  // This useQuery could just as well happen in some deeper child to
-  // the <PostsRoute>, data will be available immediately either way
-  //
-  const { isError, isLoading, data } = useQuery<PostType[]>({
-    queryKey: [fetchPostsQueryKey],
+  // This useQuery could live in a deeper child. Same query key → same cache.
+  const { isError, isPending, data, error } = useQuery<PostType[]>({
+    queryKey: postsQueryKey,
     queryFn: fetchPosts,
   });
 
-  // // This query was not prefetched on the server and will not start
-  // // fetching until on the client, both patterns are fine to mix
-  // const { data: commentsData } = useQuery({
-  //   queryKey: ["posts-comments"],
-  //   queryFn: getComments,
-  // });
-
-  if (isLoading || !data) {
+  if (isPending) {
     return <div>Loading...</div>;
   }
 
   if (isError) {
-    return <div>An error occurred</div>;
+    return <div>An error occurred: {error.message}</div>;
   }
 
   return (

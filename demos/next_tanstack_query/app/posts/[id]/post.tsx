@@ -1,24 +1,20 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { fetchPostQueryKey, fetchPost, PostType } from "@/queries/posts";
+import { postQueryKey, fetchPost, PostType } from "@/queries/posts";
 
 export default function Post({ id }: { id: string }) {
-  const { isError, isLoading, data } = useQuery<PostType | undefined>({
-    queryKey: [fetchPostQueryKey(id)],
-    queryFn: fetchPost(id),
+  const { isError, isPending, data, error } = useQuery<PostType>({
+    queryKey: postQueryKey(id),
+    queryFn: () => fetchPost(id),
   });
 
-  if (isError) {
-    return <div>Error</div>;
-  }
-
-  if (isLoading) {
+  if (isPending) {
     return <div>Loading...</div>;
   }
 
-  if (!data) {
-    return <div>404 Not Found</div>;
+  if (isError) {
+    return <div>Error: {error.message}</div>;
   }
 
   return (

@@ -27,7 +27,7 @@ During weeks 5 - 7, you will receive lectures and work on a final React Native p
 | 1    | Class Overview, Tooling, AI Workflow, JavaScript Fundamentals |
 | 2    | React, TS                                                     |
 | 3    | NextJS                                                        |
-| 4    | Sate Management / Hackathon expo / transition to React Native |
+| 4    | State Management / Hackathon expo / transition to React Native |
 | 5    | React Native                                                  |
 | 6    | React Native                                                  |
 | 7    | React Native                                                  |

@@ -5,44 +5,34 @@ export type PostType = {
   body: string;
 };
 
+export const postsQueryKey = ["posts"] as const;
+
+export const postQueryKey = (postId: string | number) =>
+  ["posts", String(postId)] as const;
+
 export async function fetchPosts(): Promise<PostType[]> {
-  try {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    });
+  const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+    next: { revalidate: 3600 },
+  });
 
-    if (!response.ok) {
-      return [];
-    }
-
-    return response.json();
-  } catch (error) {
-    console.error("Error fetching posts:", error);
-    return [];
+  if (!response.ok) {
+    throw new Error("Failed to fetch posts");
   }
-}
-export const fetchPostsQueryKey = "fetchPostsQueryKey";
 
-export function fetchPost(
-  postId: string | number
-): () => Promise<PostType | undefined> {
-  return async (): Promise<PostType | undefined> => {
-    try {
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/posts/${postId}`,
-        {
-          next: { revalidate: 3600 }, // Cache for 1 hour
-        }
-      );
-      if (!response.ok) {
-        return undefined;
-      }
-      return response.json();
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-      return undefined;
-    }
-  };
+  return response.json();
 }
-export const fetchPostQueryKey = (postId: string | number) =>
-  `fetchPostQueryKey${postId}`;
+
+export async function fetchPost(postId: string | number): Promise<PostType> {
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${postId}`,
+    {
+      next: { revalidate: 3600 },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch post ${postId}`);
+  }
+
+  return response.json();
+}

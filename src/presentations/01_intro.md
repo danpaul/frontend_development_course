@@ -77,7 +77,7 @@ Course homework is in this repo under `/homework`, organized by week.
   - JS/TS
   - React
   - Next.js
-  - State management (TanStack Query, Redux)
+  - State management (Context, TanStack Query)
   - Tailwind
   - Lots of other related frameworks and tooling
 
