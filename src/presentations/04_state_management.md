@@ -81,13 +81,13 @@ After last week, you already store state in the address bar.
 - `?sort=price&inStock=1` — filters
 - `?tab=reviews` — which panel is open
 
-Prefer URL state for GET related views which may contain filtering and sorting
+Prefer URL state for GET-related views that include filtering and sorting.
 
-We can handle these pages as normal server rendered pages and allow Next manage state around navigation.
+We can handle these pages as normal server-rendered pages and allow Next to manage state around navigation.
 
-No need to maintain a separate client state management system in these cases.
+There is no need to maintain a separate client state management system in these cases.
 
-The makes pages and views bookmarkable and easliy sharable. This is better for UX and SEO.
+This makes pages and views bookmarkable and easily shareable. This is better for UX and SEO.
 
 ---
 
@@ -105,7 +105,7 @@ Week 2: a component keeps data across renders with `useState`. Setters schedule 
 
 The new question: **who else needs this value?**
 
-If two siblings need it, the state does not live in either of them. It lives in the **nearest parent that is a parent of both**, and you pass the value and the setter (or a handler) down as props.
+If two siblings need it, the state does not live in either of them. It lives in the **nearest common parent**, and you pass the value and the setter (or a handler) down as props.
 
 That is **lifting state**. Data down, events up — same rule as week 2, one level higher.
 
@@ -295,9 +295,11 @@ function App() {
 
 ## Prop drilling
 
-Passing props is **explicit**. That is a feature: you can see the data move.
+![bg contain right:40%](./assets/deep_sea_drill.jpg)
 
-It becomes a problem when values travel through **components that do not use them**.
+Passing props is **explicit**.
+
+It becomes a problem when that data travels through **components that do not use it**.
 
 ```
 App (user, cart)
@@ -308,7 +310,7 @@ App (user, cart)
                     └── AddToCart  ← wants cart
 ```
 
-A product page has this shape: header badge, gallery, add-to-cart, related items. The tree is not a counter. **Prop drilling** is that forwarding.
+A product page has this shape: header badge, gallery, add-to-cart, related items. **Prop drilling** is that forwarding of data deep into the component tree through intermediary components.
 
 ---
 
@@ -326,141 +328,230 @@ A product page has this shape: header badge, gallery, add-to-cart, related items
   }
 </style>
 
-## Skip the plumbing
+## Avoid drilling (simple option)
 
 React **context** lets a parent provide a value to any descendant without threading props through the middle.
 
-Three pieces — only one of them is a hook:
+Three pieces are needed:
 
-1. **`createContext()`** — a function that creates the channel
-2. **`<SomeContext.Provider value={...}>`** — the component that publishes
-3. **`useContext(SomeContext)`** — the hook that reads
+1. **`createContext()`** — a function that creates the context and exposes the data
+2. **`<SomeContext.Provider value={...}>`** — the component that wraps any component needing that data
+3. **`useContext(SomeContext)`** — the hook that reads the data
 
-`createContext` is **not** a hook. Hooks are the `use*` functions.
-
-**Read later:** [Passing Data Deeply with Context](https://react.dev/learn/passing-data-deeply-with-context)
-
----
-
-<style scoped>
-  section {
-    font-size: 20px;
-  }
-  pre {
-    font-size: 15px;
-  }
-</style>
-
-## A `useAuth` hook
-
-```tsx
-import { createContext, useContext, useState, type ReactNode } from "react";
-
-const AuthContext = createContext<Auth | null>(null);
-
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
-
-export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
-  return ctx;
-}
-```
-
-That `throw` is the custom-hook pattern from week 2: fail loudly when the tree is wrong.
-
----
-
-<style scoped>
-  section {
-    font-size: 20px;
-  }
-  pre {
-    font-size: 15px;
-  }
-</style>
-
-## Using `useAuth`
-
-Wrap the tree once. Descendants read and update auth without receiving it as a prop.
-
-```tsx
-function App() {
-  return (
-    <AuthProvider>
-      <Header />
-    </AuthProvider>
-  );
-}
-
-function Header() {
-  const { user, setUser } = useAuth();
-
-  if (!user) {
-    return <button onClick={() => setUser({ name: "Ada" })}>Log in</button>;
-  }
-
-  return <button onClick={() => setUser(null)}>Log out {user.name}</button>;
-}
-```
-
-`Layout` in between can stay empty of auth props. `Header` is the consumer.
+**Reference:** [Passing Data Deeply with Context](https://react.dev/learn/passing-data-deeply-with-context)
 
 ---
 
 <!-- class: invert -->
 
-# Demo: auth context
-
-`demos/context_auth_example`
+# Demo: theme context
 
 ---
 
 <!-- class: lead -->
 
-## What to look at
+<!-- CDN + Babel is a slide toy, same as the week 3 counter. Not how we ship apps. -->
 
-```bash
-cd demos/context_auth_example
-npm install
-npm start
+## Try it
+
+Click the button. Header and main both update. Layout in the middle never receives `theme`.
+
+<div id="theme-context-demo"></div>
+
+<script type="text/babel">
+  const { createContext, useContext, useState } = React;
+
+  const ThemeContext = createContext(undefined);
+
+  function ThemeProvider({ children }) {
+    const [theme, setTheme] = useState("light");
+
+    function toggleTheme() {
+      setTheme((current) => (current === "light" ? "dark" : "light"));
+    }
+
+    return (
+      <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        {children}
+      </ThemeContext.Provider>
+    );
+  }
+
+  function Header() {
+    const { theme } = useContext(ThemeContext);
+    return <h3 style={{ margin: "0 0 8px" }}>Header — theme is {theme}</h3>;
+  }
+
+  function Layout({ children }) {
+    return (
+      <div style={{ border: "1px dashed currentColor", borderRadius: 8, padding: 12 }}>
+        <div style={{ fontSize: 13, letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 8 }}>
+          Layout — no theme prop
+        </div>
+        {children}
+      </div>
+    );
+  }
+
+  function Main() {
+    const { theme } = useContext(ThemeContext);
+    return <p style={{ margin: 0 }}>Main — theme is {theme}. No props were passed.</p>;
+  }
+
+  function ThemeButton() {
+    const { theme, toggleTheme } = useContext(ThemeContext);
+    const dark = theme === "dark";
+
+    return (
+      <button
+        onClick={toggleTheme}
+        style={{
+          marginTop: 16,
+          padding: "10px 16px",
+          borderRadius: 6,
+          border: "none",
+          cursor: "pointer",
+          fontWeight: 600,
+          background: dark ? "#f4f1ea" : "#1c1917",
+          color: dark ? "#1c1917" : "#f4f1ea",
+        }}
+      >
+        Current theme: {theme}
+      </button>
+    );
+  }
+
+  function Screen() {
+    const { theme } = useContext(ThemeContext);
+    const dark = theme === "dark";
+
+    return (
+      <div
+        style={{
+          maxWidth: 640,
+          margin: "12px auto 0",
+          padding: 20,
+          borderRadius: 12,
+          fontFamily: "system-ui, sans-serif",
+          background: dark ? "#1c1917" : "#f4f1ea",
+          color: dark ? "#f4f1ea" : "#1c1917",
+          border: "2px solid " + (dark ? "#a78bfa" : "#1c1917"),
+        }}
+      >
+        <Header />
+        <Layout>
+          <Main />
+        </Layout>
+        <ThemeButton />
+      </div>
+    );
+  }
+
+  function App() {
+    return (
+      <ThemeProvider>
+        <Screen />
+      </ThemeProvider>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("theme-context-demo")).render(<App />);
+</script>
+
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+---
+
+<!-- class: lead -->
+
+<style scoped>
+  section {
+    font-size: 22px;
+  }
+</style>
+
+## Context example 1 - dark/light theme - context & provider
+
+```tsx
+import { createContext, useContext, useState, type ReactNode } from "react";
+
+type Theme = "light" | "dark";
+
+type ThemeContextType = {
+  theme: Theme;
+  toggleTheme: () => void;
+};
+
+// undefined is the initial value, before a provider sets it
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+export function ThemeProvider({ children }: { children: ReactNode }) {
+  const [theme, setTheme] = useState<Theme>("light");
+
+  function toggleTheme() {
+    setTheme(current => current === "light" ? "dark" : "light");
+  }
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
 ```
 
-- `src/App.tsx` — the **provider** wraps the tree
-- `src/AuthContext.tsx` — `createContext`, provider, `useAuth`
-- `src/Status.tsx` and `src/AuthButtons.tsx` — consumers; **no auth props**
+---
 
-In React DevTools, find the provider and the consumers. Login is **client** state. A real app would hydrate it from a cookie or session — the server is still the source of truth.
+## Context example 2 - dark/light theme - use the provider
 
-<!--
-This demo's login() only flips a boolean. Good for the tree; not a security model.
-Value object is recreated every render — mention if someone asks about memo / split providers.
--->
+
+```tsx
+function App() {
+  return (
+    <ThemeProvider>
+      <Header />
+      <Main />
+      <ThemeButton />
+    </ThemeProvider>
+  );
+}
+```
+
+---
+
+
+## Context example 3 - dark/light theme - use the context
+
+
+```tsx
+function ThemeButton() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
+  return (
+    <button onClick={toggleTheme}>
+      Current theme: {theme}
+    </button>
+  );
+}
+```
 
 ---
 
 ## Context has limits
 
+![bg contain right:40%](./assets/context_limits.jpeg)
+
 Context is a **shared store** for the subtree. All the reasons not to dump everything into globals apply.
 
 What should **not** go in context?
 
-- The current article, product, or query result — that is **server data**, or props for one page
-- High-frequency values (mouse position, keystrokes) — every consumer **re-renders** when the value changes
-- Anything only two nearby components need — **lift state** instead
+- Normal API/server data
+- UI-related state
+- Data shared only inside a small component tree
 
 Context is a good fit for **auth, theme, locale, and settings**: one source of truth, needed in many distant places.
-
-<!--
-If they put "current post" in context, every page fights over the same slot and cache invalidation becomes guesswork. Next slides sketch reducer + context, then we switch to server data.
--->
 
 ---
 
@@ -474,7 +565,7 @@ If they put "current post" in context, every page fights over the same slot and 
 
 For a **wizard or multi-step form**, `useState` turns into a pile of setters. Pair **`useReducer`** with context: the reducer owns the transitions (`next`, `back`, `setEmail`); context delivers `state` and `dispatch` without drilling.
 
-**Read later:** [Scaling Up with Reducer and Context](https://react.dev/learn/scaling-up-with-reducer-and-context)
+**Reference:** [Scaling Up with Reducer and Context](https://react.dev/learn/scaling-up-with-reducer-and-context)
 
 ---
 
@@ -523,7 +614,7 @@ function reducer(state: State, action: Action): State {
 
 ## `WizardProvider` and `useWizard`
 
-`useReducer` lives in the provider. Context publishes `{ state, dispatch }` instead of `{ user, setUser }`. `useWizard` is `useContext`, then the same throw if the component sits outside the provider.
+`useReducer` lives in the provider. Context publishes `{ state, dispatch }` instead of `{ user, setUser }`. `useWizard` calls `useContext`, then throws if the component sits outside the provider.
 
 ```tsx
 import { createContext, useContext, useReducer, type Dispatch, type ReactNode } from "react";
@@ -614,9 +705,8 @@ Initial state is { step: 0, email: "" }, passed to useReducer in WizardProvider.
 
 Last week: in the App Router, a page is a **Server Component** unless you opt out. It can `await fetch` or Prisma **during render**. Next 15 `fetch` is uncached until you opt in.
 
-Prisma (week 1 tooling) is how **this course’s app** talks to the database. That is server data access. It is not a client cache.
 
-If the HTML can include the data, **start there**. You do not need TanStack Query to show a list of posts on first paint.
+If the HTML can include the data, **start there**. You do not need additional state management to show a list of posts on first paint.
 
 ```tsx
 export default async function PostsPage() {
@@ -637,9 +727,8 @@ export default async function PostsPage() {
 
 Server Components do not help when:
 
-- A **client island** must refetch after a click, poll, or pagination
-- **Several client components** need the same remote data without extra props
-- You are on **React Native** — there is no Server Component
+- A **client island** must refetch after a click, poll, paginate, or talk to an external API.
+- You are on **React Native** — there is no Server Component.
 
 Then you want a **client cache of server state**: load once, share the result, refetch when it might be stale, update after a mutation.
 
@@ -693,7 +782,7 @@ TanStack Query keeps the query next to the UI and treats **freshness** as a firs
 
 ## Three pieces
 
-To use it productively you need:
+To use it productively, you need:
 
 1. A **`QueryClientProvider`** at the root (setup, once)
 2. **`useQuery`** — read / cache
@@ -714,7 +803,7 @@ Query functions are plain **async functions that throw** on failure. Same shape 
 
 ## Provider
 
-`QueryClient` is the cache. The provider makes it available to hooks. In Next, this file is a **client** component so the provider can use context.
+`QueryClient` is the query client and cache. The provider makes it available to hooks. In Next, this file is a **client** component so the provider can use context.
 
 ```tsx
 "use client";
@@ -729,8 +818,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
   );
 }
 ```
-
-Wrap the app in `layout.tsx`. Do not create the client at module scope in Next — SSR would share it across requests. Look at `demos/next_tanstack_query/app/providers.tsx` for the safe version: one client in the browser, a new one per server request.
 
 ---
 
@@ -756,6 +843,8 @@ async function fetchTodos(): Promise<Todo[]> {
   return res.json();
 }
 ```
+
+The query function is just a normal async function, typically making an API request.
 
 No `try/catch` in the component. If it throws, `useQuery` surfaces `isError` and `error`.
 
@@ -814,7 +903,7 @@ Convention we will stick to:
 
 Keys must be **stable and descriptive**. Prefer arrays over concatenated strings (`"todo" + id`).
 
-**Read later:** [Query Keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys)
+**Reference:** [Query Keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys)
 
 ---
 
@@ -876,7 +965,7 @@ const mutation = useMutation({
 </button>
 ```
 
-You do not `setTodos` from the response. You **mark the cache stale**. Query refetches; the list matches the server.
+You do not `setTodos` from the response. You **mark the cache stale**. The query refetches; the list matches the server.
 
 That is cache invalidation in four lines.
 
@@ -886,7 +975,7 @@ Optimistic updates are the extra-credit version: update the cache before the res
 
 ---
 
-## Optional: prefetch on the server
+## Optional _advanced_: prefetch on the server
 
 If you **already** chose TanStack Query **and** you want the first HTML to include that cache, prefetch in a Server Component and **dehydrate** the client.
 
@@ -895,77 +984,7 @@ If you **already** chose TanStack Query **and** you want the first HTML to inclu
 
 This is **not** the default Next data path. Server Component `fetch` still wins when the page can just render the data. Use this when client components will keep calling `useQuery` after paint.
 
-**Read later:** [Advanced Server Rendering](https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr)
-
----
-
-<style scoped>
-  section {
-    font-size: 18px;
-  }
-  pre {
-    font-size: 14px;
-  }
-</style>
-
-## Prefetch + `HydrationBoundary`
-
-```tsx
-// app/page.tsx — Server Component
-export default async function Page() {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ["posts"],
-    queryFn: fetchPosts,
-  });
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Posts />
-    </HydrationBoundary>
-  );
-}
-```
-
-`Posts` is a client component that calls `useQuery({ queryKey: ["posts"], ... })`. The cache is already warm: no loading flash, no extra waterfall for that query.
-
-`QueryClientProvider` stays in a `"use client"` provider. Keep the query client **out of** Server Components except for this prefetch.
-
----
-
-<!-- class: invert -->
-
-# Demo: prefetch in Next
-
-`demos/next_tanstack_query`
-
----
-
-
-<!-- class: lead -->
-
-<style scoped>
-  section {
-    font-size: 22px;
-  }
-</style>
-
-## What to look at
-
-```bash
-cd demos/next_tanstack_query
-npm install
-npm run dev
-```
-
-- `app/providers.tsx` — provider (client)
-- `app/page.tsx` — Server Component **prefetches** `["posts"]`
-- `app/posts.tsx` — client `useQuery` with the **same key**
-- `app/posts/[id]/page.tsx` — same pattern for `["posts", id]`
-
-Read the comments. View source on `/` — the post titles should already be in the HTML.
-
-The query functions **throw** on failure. Keys are arrays with a shared prefix.
+**Reference:** [Advanced Server Rendering](https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr)
 
 ---
 
@@ -977,8 +996,6 @@ The query functions **throw** on failure. Keys are arrays with a shared prefix.
 
 ## When not to use TanStack Query
 
-In **this** Next app, skip it when:
-
 - A Server Component can `await` Prisma / `fetch` and pass props into a client island
 - A **Server Action** can handle the form (week 3)
 - The data is local UI state
@@ -988,10 +1005,6 @@ Use it when:
 - The client must refetch, poll, paginate, or share a remote cache
 - You want mutation → invalidate → UI matches the server
 - You are on **React Native** next week
-
-<!--
-Infinite queries / optimistic updates: docs, not this hour.
--->
 
 ---
 
@@ -1045,9 +1058,11 @@ const counterSlice = createSlice({
 const store = configureStore({
   reducer: { counter: counterSlice.reducer },
 });
+
+type RootState = ReturnType<typeof store.getState>;
 ```
 
-`createSlice` and `configureStore` come from `@reduxjs/toolkit`.
+`createSlice` and `configureStore` come from `@reduxjs/toolkit`. `RootState` is the shape the store already inferred.
 
 ---
 
@@ -1074,9 +1089,7 @@ function App() {
 }
 
 function Counter() {
-  const value = useSelector(
-    (s: { counter: { value: number } }) => s.counter.value,
-  );
+  const value = useSelector((s: RootState) => s.counter.value);
   const dispatch = useDispatch();
   return (
     <button onClick={() => dispatch(counterSlice.actions.increment())}>
@@ -1087,53 +1100,6 @@ function Counter() {
 ```
 
 `Provider`, `useSelector`, and `useDispatch` come from `react-redux`.
-
-<!--
-Sketch, not a demo. RootState is usually ReturnType<typeof store.getState>. Immer is why increment can assign state.value. Ask if they see the parallel to WizardProvider.
-Read later: https://redux-toolkit.js.org/tutorials/quick-start
--->
-
----
-
-<!-- class: invert -->
-
-## Next week and this week’s demo
-
----
-
-<style scoped>
-  section {
-    font-size: 24px;
-  }
-</style>
-
-## React Native: the client owns the session
-
-On the phone there is **no** Server Component. There is a JS bundle and HTTP.
-
-The decision table shrinks:
-
-- UI → `useState` / context
-- Server data → **TanStack Query** (or equivalent)
-- Big client-only world → a store
-
-This lecture is setup for that, not a detour.
-
----
-
-<style scoped>
-  section {
-    font-size: 24px;
-  }
-</style>
-
-## Hackathon audit (30 seconds)
-
-Before you demo, pick **three** pieces of state in your project.
-
-For each one: which **row of the table** is it?
-
-If you fetched a list in `useEffect` into `useState`, that is the pattern Query (or a Server Component) is meant to replace. You do not have to rewrite it today. You should be able to **say** what you would change.
 
 ---
 
@@ -1164,52 +1130,12 @@ If you fetched a list in `useEffect` into `useState`, that is the pattern Query 
 ---
 
 <style scoped>
-  section {
-    font-size: 22px;
+  h2 {
+    color: #fff;
+    text-shadow: 0 2px 10px #000, 0 0 4px #000;
   }
 </style>
 
-## Check your understanding
+![bg contain](./assets/what_kind_of_bear.gif)
 
-1. A product page has a **like** button. What is server state? What is UI state?
-2. After `POST /todos`, why **invalidate** `["todos"]` instead of `setTodos` from the response?
-3. Why is **context** the wrong place for “the current article”?
-
-<!--
-1. Whether this user liked it, and the like count, are server. The optimistic bounce / spinner is UI. The product itself is server data — fetch it in a Server Component; the button is a client island.
-2. The cache (and any other component using ["todos"]) must match the server. Invalidation refetches; splicing the array yourself drifts the moment another client or another query exists.
-3. Articles are per-route server data. Context makes a global slot every page fights over, and you lose the query-key / cache story. Pass props or useQuery(["posts", id]).
--->
-
----
-
-<style scoped>
-  section {
-    font-size: 22px;
-  }
-</style>
-
-## Reading
-
-Do these after class, not instead of the demos. Same list: `/homework/week_04.md`.
-
-- [Passing Data Deeply with Context](https://react.dev/learn/passing-data-deeply-with-context)
-- [Scaling Up with Reducer and Context](https://react.dev/learn/scaling-up-with-reducer-and-context)
-- [Query Keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys)
-- [Mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations)
-- [Advanced Server Rendering](https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr) (optional; prefetch demo)
-
----
-
-## Summary
-
-- Ask **where the data lives** before you pick a library
-- Lift state until drilling hurts; then **context** for auth/theme, not for page data
-- In Next, **Server Components fetch first**; TanStack Query is a **client cache** of server state
-- Query keys are arrays; **invalidate the prefix** after mutations
-- Next week on native, that client cache becomes the default
-
-### Questions
-
-- Which row of the table is least clear?
-- Anything in your hackathon you now want to recategorize?
+## Questions?
