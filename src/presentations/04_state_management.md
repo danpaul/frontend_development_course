@@ -584,6 +584,7 @@ One function owns every transition. `step` and `email` change only here.
 
 ```tsx
 type State = { step: number; email: string };
+// discriminated union, action type
 type Action =
   | { type: "next" }
   | { type: "back" }
@@ -1080,6 +1081,8 @@ type RootState = ReturnType<typeof store.getState>;
 `Provider` is the context. `useSelector` reads a slice. `useDispatch` sends an action. Nothing in between receives the counter as a prop.
 
 ```tsx
+import { Provider, useDispatch, useSelector } from "react-redux";
+
 function App() {
   return (
     <Provider store={store}>
